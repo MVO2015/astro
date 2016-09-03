@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="ai.css">
+    <link rel="stylesheet" href="zodiac.css">
+    <title></title>
+</head>
+<style>
+
+</style>
+<body>
+<h1>Astronomical Clock</h1>
+        <svg id="wall" viewbox="-400, -400, 800, 800">
+            <g>
+                <circle id="orbis" r="" cx="" cy="" stroke="blue"></circle>
+                <line id="orbisAxonX" y1="0" y2="0" stroke="grey"></line>
+                <line id="orbisAxonY" x1="0" x2="0" stroke="grey"></line>
+                <line id="axonX" y1="0" y2="0"></line>
+                <line id="axonY" x1="0" x2="0"></line>
+                <circle id="cancriTropicus" r="" cx="0" cy="0" fill="none" stroke="red"></circle>
+                <circle id="equator"  r="" cx="0"cy="0" fill="none" stroke="violet"></circle>
+                <circle id="capricorniTropicus" r="" cx="0" cy="0" fill="none" stroke="cyan"></circle>
+            </g>
+        </svg>
+<div id="zodiac">
+    <div id="aries" class="zodiac-symbol"><i class="ai aries"></i></div>
+    <div id="taurus" class="zodiac-symbol"><i class="ai taurus"></i></div>
+    <div id="gemini" class="zodiac-symbol"><i class="ai gemini"></i></div>
+    <div id="cancer" class="zodiac-symbol"><i class="ai cancer"></i></div>
+    <div id="leo" class="zodiac-symbol"><i class="ai leo"></i></div>
+    <div id="virgo" class="zodiac-symbol"><i class="ai virgo"></i></div>
+    <div id="libra" class="zodiac-symbol"><i class="ai libra"></i></div>
+    <div id="scorpio" class="zodiac-symbol"><i class="ai scorpio"></i></div>
+    <div id="sagittarius" class="zodiac-symbol"><i class="ai sagittarius"></i></div>
+    <div id="capricorn" class="zodiac-symbol"><i class="ai capricorn"></i></div>
+    <div id="aquarius" class="zodiac-symbol"><i class="ai aquarius"></i></div>
+    <div id="pisces" class="zodiac-symbol"><i class="ai pisces"></i></div>
+</div>
+<p id="text"></p>
+</body>
+<script>
+    var wall = {width: 400, height: 400, border: "solid red 1px"};
+    var center = {left: 200, top:200};
+    function getScale()
+    {
+        return 190;
+    }
+
+    var orbis = {
+        r: 0.5,
+        disp_r: null,
+        init: function () {
+            this.disp_r = getScale() * this.r;
+        }
+    };
+
+    var orbisAxonX = {
+        element: function() {
+            return document.getElementById("orbisAxonX");
+        },
+        r: 0.5,
+        center: {x: 0, y: this.r}
+    };
+
+    var axonX = {
+        element: function() {
+            return document.getElementById("axonX")
+        },
+        size: 1,
+        x1: null,
+        x2: null,
+        init: function() {
+            this.x1 = -getScale() * this.size;
+            this.x2 = getScale() * this.size;
+            var element = this.element();
+            element.setAttribute("x1", this.x1.toString());
+            element.setAttribute("x2", this.x2.toString());
+        }
+    };
+
+    var axonY = {
+        element: function() {
+            return document.getElementById("axonY")
+        },
+        size: 1,
+        y1: null,
+        y2: null,
+        init: function() {
+            this.y1 = -getScale() * this.size;
+            this.y2 = getScale() * this.size;
+            var element = this.element();
+            element.setAttribute("y1", this.y1.toString());
+            element.setAttribute("y2", this.y2.toString());
+        }
+    };
+
+    var cancriTropicus = {
+        element: function() {
+            return document.getElementById("cancriTropicus")
+        },
+        size: 0.8,
+        r: null,
+        init: function() {
+            this.r = (getScale() * this.size);
+            var element = this.element();
+            element.setAttribute("r", this.r.toString());
+        }
+    };
+
+    var capricorniTropicus = {
+        element: function () {
+            return document.getElementById("capricorniTropicus")
+        },
+        size: 0.4,
+        r: null,
+        init: function () {
+            this.r = (getScale() * this.size);
+            var element = this.element();
+            element.setAttribute("r", this.r.toString());
+        }
+    };
+
+    var equator = {
+        element: function () {
+            return document.getElementById("equator")
+        },
+        size: 0.6,
+        r: null,
+        init: function () {
+            this.r = (getScale() * this.size);
+            var element = this.element();
+            element.setAttribute("r", this.r.toString());
+        }
+    };
+
+
+//    document.getElementById("wall").setAttribute(
+//            "style", "width:" + wall.width + "; height:" + wall.height + "; border:" + wall.border
+//    );
+
+    axonX.init();
+    axonY.init();
+    axonX.element().setAttribute("style", "stroke: grey");
+    axonY.element().setAttribute("style", "stroke: grey");
+    cancriTropicus.init();
+    equator.init();
+    capricorniTropicus.init();
+    document.getElementById("text").innerHTML = "Text:" + cancriTropicus.r;
+
+</script>
+</html>

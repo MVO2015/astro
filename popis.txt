@@ -1,0 +1,34 @@
+Astronomical Clock
+Orloj
+
+Sluneční čas:
+Pohyb slunce - denní (otáčení Země kolem své osy)
+	24 hod. ciferník
+Pohyb slunce - roční (náklon zemské osy)
+	Výška nad obzorem
+		obratník raka
+			letní slunovrat
+		rovník
+			rovnodennost
+		obratník kozoroha
+			zimní slunovrat
+
+Poloha orloje (zemská šířka), konstrukce horizontu http://www.orloj.eu/cs/astrolabium_parvum.htm
+	východ slunce
+	západ slunce
+	noc	http://dml.cz/bitstream/handle/10338.dmlcz/143452/PokrokyMFA_58-2013-3_1.pdf
+			
+Hvězdný čas (otáčení Země kolem slunce)
+	Ciferník 12 + 12			
+	Pohyb slunečních znamení (zvířetník)
+		roční období
+			jaro
+			léto
+			podzim
+			zima
+			
+Pohyb měsíce
+	???
+	Fáze měsíce
+			nov
+			úplněk
