@@ -13,14 +13,16 @@
 <h1>Astronomical Clock</h1>
         <svg id="wall" viewbox="-400, -400, 800, 800">
             <g>
-                <circle id="orbis" r="" cx="" cy="" stroke="blue"></circle>
-                <line id="orbisAxonX" y1="0" y2="0" stroke="grey"></line>
-                <line id="orbisAxonY" x1="0" x2="0" stroke="grey"></line>
-                <line id="axonX" y1="0" y2="0"></line>
-                <line id="axonY" x1="0" x2="0"></line>
-                <circle id="cancriTropicus" r="" cx="0" cy="0" fill="none" stroke="red"></circle>
-                <circle id="equator"  r="" cx="0"cy="0" fill="none" stroke="violet"></circle>
-                <circle id="capricorniTropicus" r="" cx="0" cy="0" fill="none" stroke="cyan"></circle>
+                <circle id="orbis" r="0" cx="0" cy="0" stroke="blue" fill="none"></circle>
+                <line id="orbisAxonX" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+                <line id="orbisAxonY" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"></line>
+                <line id="planum" x1="0" y1="0" x2="0" y2="0"  stroke="grey"></line>
+                <line id="equatorProjection" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+                <line id="axonX" x1="0" y1="0" x2="0" y2="0" ></line>
+                <line id="axonY" x1="0" y1="0" x2="0" y2="0" ></line>
+                <circle id="cancriTropicus" r="0" cx="0" cy="0" fill="none" stroke="red"></circle>
+                <circle id="equator"  r="0" cx="0"cy="0" fill="none" stroke="violet"></circle>
+                <circle id="capricorniTropicus" r="0" cx="0" cy="0" fill="none" stroke="cyan"></circle>
             </g>
         </svg>
 <div id="zodiac">
@@ -42,26 +44,74 @@
 <script>
     var wall = {width: 400, height: 400, border: "solid red 1px"};
     var center = {left: 200, top:200};
-    function getScale()
+    function scale(x)
     {
-        return 190;
+        return (100 * x).toString();
     }
 
     var orbis = {
+        id: "orbis",
         r: 0.5,
-        disp_r: null,
-        init: function () {
-            this.disp_r = getScale() * this.r;
+        cx: 0,
+        cy: null,
+        init: function() {
+            this.cy = this.r
+        }
+    };
+    var orbisAxonX = {
+        id: "orbisAxonX",
+        x1: null,
+        y1: null,
+        x2: null,
+        y2: null,
+        overlap: 0.1,
+        init: function() {
+            this.x1 = -orbis.r - this.overlap;
+            this.y1 = orbis.r;
+            this.x2 = orbis.r + this.overlap;
+            this.y2 = orbis.r;
+        }
+    };
+    var orbisAxonY = {
+        id: "orbisAxonY",
+        x1: 0,
+        y1: null,
+        x2: 0,
+        y2: null,
+        overlap: 0.1,
+        init: function() {
+            this.y1 = - this.overlap;
+            this.y2 = 2 * orbis.r + this.overlap;
         }
     };
 
-    var orbisAxonX = {
-        element: function() {
-            return document.getElementById("orbisAxonX");
-        },
-        r: 0.5,
-        center: {x: 0, y: this.r}
+    var planum = {
+        id: "planum",
+        x1: null,
+        y1: 0,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.x1 = -2 * orbis.r;
+            this.x2 =  2 * orbis.r;
+        }
     };
+
+    var equatorProjection = {
+        id: "equatorProjection",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        overlap: 0.1,
+        init: function () {
+            this.x1 = -this.overlap;
+            this.y1 = 2 * orbis.r + this.overlap;
+            this.x2 = projection(0) + this.overlap;
+            this.y2 = -this.overlap;
+        }
+    };
+
 
     var axonX = {
         element: function() {
@@ -139,14 +189,38 @@
 //            "style", "width:" + wall.width + "; height:" + wall.height + "; border:" + wall.border
 //    );
 
-    axonX.init();
-    axonY.init();
-    axonX.element().setAttribute("style", "stroke: grey");
-    axonY.element().setAttribute("style", "stroke: grey");
-    cancriTropicus.init();
-    equator.init();
-    capricorniTropicus.init();
-    document.getElementById("text").innerHTML = "Text:" + cancriTropicus.r;
+    orbis.init();
+    orbisAxonX.init();
+    orbisAxonY.init();
+    planum.init();
+    equatorProjection.init();
+
+    function projection(alpha) {
+        return (2 * orbis.r * Math.tan((45 + alpha/2) * Math.PI/180));
+    }
+
+    function drawCircle(obj) {
+        var element = document.getElementById(obj.id);
+        element.setAttribute("r", scale(obj.r));
+        element.setAttribute("cx", scale(obj.cx));
+        element.setAttribute("cy", scale(obj.cy));
+    }
+
+    function drawLine(line) {
+        var element = document.getElementById(line.id);
+        element.setAttribute("x1", scale(line.x1));
+        element.setAttribute("y1", scale(line.y1));
+        element.setAttribute("x2", scale(line.x2));
+        element.setAttribute("y2", scale(line.y2));
+    }
+
+
+    drawLine(orbisAxonX);
+    drawLine(orbisAxonY);
+    drawCircle(orbis);
+    drawLine(planum);
+    drawLine(equatorProjection)
+
 
 </script>
 </html>
