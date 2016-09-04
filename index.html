@@ -11,18 +11,42 @@
 </style>
 <body>
 <h1>Astronomical Clock</h1>
-        <svg id="wall" viewbox="-400, -400, 800, 800">
-            <g>
-                <circle id="orbis" r="0" cx="0" cy="0" stroke="blue" fill="none"></circle>
-                <line id="orbisAxonX" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
-                <line id="orbisAxonY" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"></line>
-                <line id="planum" x1="0" y1="0" x2="0" y2="0"  stroke="grey"></line>
-                <line id="equatorProjection" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
-                <line id="axonX" x1="0" y1="0" x2="0" y2="0" ></line>
-                <line id="axonY" x1="0" y1="0" x2="0" y2="0" ></line>
-                <circle id="cancriTropicus" r="0" cx="0" cy="0" fill="none" stroke="red"></circle>
-                <circle id="equator"  r="0" cx="0"cy="0" fill="none" stroke="violet"></circle>
-                <circle id="capricorniTropicus" r="0" cx="0" cy="0" fill="none" stroke="cyan"></circle>
+        <svg id="wall" viewbox="-500, -500, 1000, 1000">
+
+            <defs>
+                <clipPath id="clipPathCancriTropicus">
+                    <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"/>
+                </clipPath>
+            </defs>
+            <g transform="rotate(180) scale(-1, 1)">
+                <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill="green" stroke="green" fill-opacity="0.2"/>
+                <circle id="equator" display="none" r="0" cx="0"cy="0" fill="violet" stroke="violet" fill-opacity="0.2"/>
+                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="orange" stroke="orange" fill-opacity="0.2"/>
+                <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="beige" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
+                <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="0.2"/>
+                <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
+                <line id="orbisEquator" display="none" x1="0" y1="0" x2="0" y2="0" stroke="violet" stroke-width="2"/>
+                <line id="orbisCancriTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="green" stroke-width="2"/>
+                <line id="orbisCapricorniTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="2"/>
+                <line id="orbisLatitudo" display="none" x1="0" y1="0" x2="0" y2="0" stroke="red" stroke-width="2"/>
+                <line id="orbisOpacus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="2"/>
+                <line id="orbisAxonX" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="orbisAxonY" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"/>
+                <circle id="orbisCenter" display="none" r="0" cx="0" cy="0" fill="lightgrey"/>
+                <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet"/>
+
+                <line id="planum" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="grey"/>
+                <line id="equatorProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="cancriTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="capricorniTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="latitudoProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="latitudoProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="opacusProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="opacusProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                <line id="axonX" display="none" x1="0" y1="0" x2="0" y2="0" />
+                <line id="axonY" display="none" x1="0" y1="0" x2="0" y2="0" />
+
+
             </g>
         </svg>
 <div id="zodiac">
@@ -42,12 +66,26 @@
 <p id="text"></p>
 </body>
 <script>
-    var wall = {width: 400, height: 400, border: "solid red 1px"};
+//    var wall = {width: 400, height: 400, border: "solid red 1px"};
     var center = {left: 200, top:200};
-    function scale(x)
+    var orbisDecl = deg2rad(23.5);
+    var latitudos = deg2rad(50);
+    var horizontis = Math.PI / 2 - latitudos;
+    var opacus = deg2rad(18);
+
+    function scale(num)
     {
-        return (100 * x).toString();
+        return (100 * num).toString();
     }
+
+    var orbisCenter = {
+        id: "orbisCenter",
+        x: 0,
+        y: null,
+        init: function () {
+            this.y = orbis.r;
+        }
+    };
 
     var orbis = {
         id: "orbis",
@@ -58,6 +96,7 @@
             this.cy = this.r
         }
     };
+
     var orbisAxonX = {
         id: "orbisAxonX",
         x1: null,
@@ -85,15 +124,105 @@
         }
     };
 
+    var orbisEquator = {
+        id: "orbisEquator",
+        x1: null,
+        y1: null,
+        x2: null,
+        y2: null,
+        init: function () {
+            this.x1 = -orbis.r;
+            this.y1 = orbis.r;
+            this.x2 = orbis.r;
+            this.y2 = orbis.r;
+        }
+    };
+
+    var clickMePoint = {
+        id: "clickMePoint",
+        x: 0,
+        y: 0,
+        init: function () {
+        }
+    };
+
+    var orbisCancriTropicus = {
+        id: "orbisCancriTropicus",
+        x1: null,
+        y1: null,
+        x2: null,
+        y2: null,
+        init: function () {
+            var orbisX = Math.cos(orbisDecl) * orbis.r;
+            var orbisY = Math.sin(orbisDecl) * orbis.r;
+            this.x1 = orbisCenter.x - orbisX;
+            this.y1 = orbisCenter.y + orbisY;
+            this.x2 = orbisCenter.x + orbisX;
+            this.y2 = this.y1;
+        }
+    };
+
+    var orbisCapricorniTropicus = {
+        id: "orbisCapricorniTropicus",
+        x1: null,
+        y1: null,
+        x2: null,
+        y2: null,
+        init: function () {
+            var orbisX = Math.cos(orbisDecl) * orbis.r;
+            var orbisY = - Math.sin(orbisDecl) * orbis.r;
+            this.x1 = orbisCenter.x - orbisX;
+            this.y1 = orbisCenter.y + orbisY;
+            this.x2 = orbisCenter.x + orbisX;
+            this.y2 = this.y1;
+        }
+    };
+
+    var orbisLatitudo = {
+        id: "orbisLatitudo",
+        x1: null,
+        y1: null,
+        x2: null,
+        y2: null,
+        init: function () {
+            var orbisX = Math.cos(-horizontis) * orbis.r;
+            var orbisY = Math.sin(-horizontis) * orbis.r;
+            this.x1 = orbisCenter.x - orbisX;
+            this.y1 = orbisCenter.y + orbisY;
+            this.x2 = orbisCenter.x + orbisX;
+            this.y2 = orbisCenter.y - orbisY;
+        }
+    };
+
+    var orbisOpacus = {
+        id: "orbisOpacus",
+        x1: null,
+        y1: null,
+        x2: null,
+        y2: null,
+        init: function () {
+            var orbisX1 = Math.cos(oppositeAngle(horizontis + opacus)) * orbis.r;
+            var orbisY1 = Math.sin(oppositeAngle(horizontis + opacus)) * orbis.r;
+            var orbisX2 = Math.cos(horizontis - opacus) * orbis.r;
+            var orbisY2 = Math.sin(horizontis - opacus) * orbis.r;
+            this.x1 = orbisCenter.x + orbisX1;
+            this.y1 = orbisCenter.y + orbisY1;
+            this.x2 = orbisCenter.x + orbisX2;
+            this.y2 = orbisCenter.y + orbisY2;
+        }
+    };
+
     var planum = {
         id: "planum",
         x1: null,
         y1: 0,
         x2: null,
         y2: 0,
+        overlap: 0.1,
         init: function () {
-            this.x1 = -2 * orbis.r;
-            this.x2 =  2 * orbis.r;
+            var planumX = projection(orbisDecl) + this.overlap;
+            this.x1 = planumX;
+            this.x2 = -planumX;
         }
     };
 
@@ -105,98 +234,196 @@
         y2: 0,
         overlap: 0.1,
         init: function () {
-            this.x1 = -this.overlap;
+            this.x1 = this.overlap;
             this.y1 = 2 * orbis.r + this.overlap;
-            this.x2 = projection(0) + this.overlap;
-            this.y2 = -this.overlap;
-        }
-    };
-
-
-    var axonX = {
-        element: function() {
-            return document.getElementById("axonX")
-        },
-        size: 1,
-        x1: null,
-        x2: null,
-        init: function() {
-            this.x1 = -getScale() * this.size;
-            this.x2 = getScale() * this.size;
-            var element = this.element();
-            element.setAttribute("x1", this.x1.toString());
-            element.setAttribute("x2", this.x2.toString());
-        }
-    };
-
-    var axonY = {
-        element: function() {
-            return document.getElementById("axonY")
-        },
-        size: 1,
-        y1: null,
-        y2: null,
-        init: function() {
-            this.y1 = -getScale() * this.size;
-            this.y2 = getScale() * this.size;
-            var element = this.element();
-            element.setAttribute("y1", this.y1.toString());
-            element.setAttribute("y2", this.y2.toString());
-        }
-    };
-
-    var cancriTropicus = {
-        element: function() {
-            return document.getElementById("cancriTropicus")
-        },
-        size: 0.8,
-        r: null,
-        init: function() {
-            this.r = (getScale() * this.size);
-            var element = this.element();
-            element.setAttribute("r", this.r.toString());
-        }
-    };
-
-    var capricorniTropicus = {
-        element: function () {
-            return document.getElementById("capricorniTropicus")
-        },
-        size: 0.4,
-        r: null,
-        init: function () {
-            this.r = (getScale() * this.size);
-            var element = this.element();
-            element.setAttribute("r", this.r.toString());
+            this.x2 = - projection(0) - this.overlap;
+            this.y2 = - this.overlap;
         }
     };
 
     var equator = {
-        element: function () {
-            return document.getElementById("equator")
-        },
-        size: 0.6,
+        id: "equator",
         r: null,
+        cx: 0,
+        cy: 0,
         init: function () {
-            this.r = (getScale() * this.size);
-            var element = this.element();
-            element.setAttribute("r", this.r.toString());
+            this.r = projection(0);
+        }
+
+    };
+
+    var cancriTropicusProjection = {
+        id: "cancriTropicusProjection",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.y1 = 2 * orbis.r;
+            this.x2 = - projection(orbisDecl);
         }
     };
 
+    var cancriTropicus = {
+        id: "cancriTropicus",
+        r: null,
+        cx: 0,
+        cy: 0,
+        init: function () {
+            this.r = projection(orbisDecl);
+        }
+    };
+
+    var clipCircleCancriTropicus = {
+        id: "clipCircleCancriTropicus",
+        r: null,
+        cx: 0,
+        cy: 0,
+        init: function () {
+            this.r = projection(orbisDecl);
+        }
+    }
+
+    var capricorniTropicusProjection = {
+        id: "capricorniTropicusProjection",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.y1 = 2 * orbis.r;
+            this.x2 = - projection(-orbisDecl);
+        }
+    };
+
+    var capricorniTropicus = {
+        id: "capricorniTropicus",
+        r: null,
+        cx: 0,
+        cy: 0,
+        init: function () {
+            this.r = projection(-orbisDecl);
+        }
+    };
+
+    var latitudoProjectionA = {
+        id: "latitudoProjectionA",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.y1 = 2 * orbis.r;
+            this.x2 = projection(horizontis);
+        }
+    };
+
+    var latitudoProjectionB = {
+        id: "latitudoProjectionB",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.y1 = 2 * orbis.r;
+            this.x2 = projection(oppositeAngle(horizontis));
+        }
+    };
+
+    var latitudoHorizontis = {
+        id: "latitudoHorizontis",
+        r: null,
+        cx: null,
+        cy: 0,
+        init: function () {
+            var x1 = projection(horizontis);
+            var x2 = projection(oppositeAngle(horizontis));
+            this.cx = (x1 + x2) / 2 ;
+            this.r = Math.abs(x2 - x1) / 2;
+        }
+    };
+
+    var opacusProjectionA = {
+        id: "opacusProjectionA",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.y1 = 2 * orbis.r;
+            this.x2 = projection(horizontis - opacus);
+        }
+    };
+
+    var opacusProjectionB = {
+        id: "opacusProjectionB",
+        x1: 0,
+        y1: null,
+        x2: null,
+        y2: 0,
+        init: function () {
+            this.y1 = 2 * orbis.r;
+            this.x2 = projection(oppositeAngle(horizontis + opacus));
+        }
+    };
+
+    var opacusHorizontis = {
+        id: "opacusHorizontis",
+        r: null,
+        cx: null,
+        cy: 0,
+        init: function () {
+            var x1 = projection(horizontis - opacus);
+            var x2 = projection(oppositeAngle(horizontis + opacus));
+            this.cx = (x1 + x2) / 2 ;
+            this.r = Math.abs(x2 - x1) / 2;
+        }
+    };
 
 //    document.getElementById("wall").setAttribute(
 //            "style", "width:" + wall.width + "; height:" + wall.height + "; border:" + wall.border
 //    );
 
+    orbisCenter.init();
     orbis.init();
     orbisAxonX.init();
     orbisAxonY.init();
     planum.init();
+    orbisEquator.init();
+    orbisCancriTropicus.init();
+    orbisCapricorniTropicus.init();
+    orbisLatitudo.init();
+    orbisOpacus.init();
     equatorProjection.init();
+    cancriTropicusProjection.init();
+    capricorniTropicusProjection.init();
+    equator.init();
+    cancriTropicus.init();
+    clipCircleCancriTropicus.init();
+    capricorniTropicus.init();
+    latitudoProjectionA.init();
+    latitudoProjectionB.init();
+    latitudoHorizontis.init();
+    opacusProjectionA.init();
+    opacusProjectionB.init();
+    opacusHorizontis.init();
+    clickMePoint.init();
+
+
+    function deg2rad(deg) {
+        return deg * Math.PI / 180;
+    }
+
+    function oppositeAngle(rad) {
+        return Math.PI + rad;
+    }
 
     function projection(alpha) {
-        return (2 * orbis.r * Math.tan((45 + alpha/2) * Math.PI/180));
+        return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
+    }
+
+    function drawPoint(point) {
+        drawCircle({id: point.id, r: 0.05, cx: point.x, cy: point.y});
     }
 
     function drawCircle(obj) {
@@ -204,6 +431,7 @@
         element.setAttribute("r", scale(obj.r));
         element.setAttribute("cx", scale(obj.cx));
         element.setAttribute("cy", scale(obj.cy));
+        element.setAttribute("display", "inline");
     }
 
     function drawLine(line) {
@@ -212,14 +440,53 @@
         element.setAttribute("y1", scale(line.y1));
         element.setAttribute("x2", scale(line.x2));
         element.setAttribute("y2", scale(line.y2));
+        element.setAttribute("display", "inline");
+    }
+
+    function moveClickMe(x, y, onclick, color) {
+        var element = document.getElementById("clickMePoint");
+        element.setAttribute("onclick", onclick);
+        element.setAttribute("fill", color);
+        drawCircle({id: "clickMePoint", r: 0.05, cx: x, cy: y});
+    }
+
+    function clickOrbisCenter() {
+        drawLine(orbisAxonX);
+        drawLine(orbisAxonY);
+        drawCircle(orbis);
+        drawLine(planum);
+        moveClickMe(orbis.r, orbis.r, "clickOrbis()", "blue");
+    }
+
+    function clickOrbis() {
+        drawLine(orbisEquator);
+        moveClickMe(-orbis.r, orbis.r, "clickOrbisEquatorPoint()", "violet");
+    }
+
+    function clickOrbisEquatorPoint() {
+        drawLine(equatorProjection);
+        drawCircle(equator);
+        drawLine(orbisCancriTropicus);
+        drawLine(orbisCapricorniTropicus);
+        drawLine(orbisLatitudo);
+        drawLine(orbisOpacus);
+        drawLine(cancriTropicusProjection);
+        drawCircle(cancriTropicus);
+        drawLine(capricorniTropicusProjection);
+        drawCircle(capricorniTropicus);
+        drawLine(latitudoProjectionA);
+        drawLine(latitudoProjectionB);
+        drawCircle(latitudoHorizontis);
+        drawLine(opacusProjectionA);
+        drawLine(opacusProjectionB);
+        drawCircle(opacusHorizontis);
     }
 
 
-    drawLine(orbisAxonX);
-    drawLine(orbisAxonY);
-    drawCircle(orbis);
-    drawLine(planum);
-    drawLine(equatorProjection)
+    drawCircle(clipCircleCancriTropicus);
+    drawPoint(orbisCenter);
+    moveClickMe(0, orbis.r, "clickOrbisCenter()");
+
 
 
 </script>
