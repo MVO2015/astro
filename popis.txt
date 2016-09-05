@@ -28,7 +28,7 @@ Hvězdný čas (otáčení Země kolem slunce)
 			zima
 			
 Pohyb měsíce
-	???
+	??? - perioda 28?
 	Fáze měsíce
 			nov
 			úplněk
