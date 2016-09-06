@@ -1,0 +1,20 @@
+#clickMeFlash {
+    fill: none;
+    stroke: red;
+    stroke-width: 4;
+    animation-name: flash1;
+    animation-iteration-count: 4;
+    animation-duration: 0.5s;
+}
+
+@keyframes flash1 {
+    0% {stroke-width: 0;}
+    50% {stroke-width: 4;}
+    100% {stroke-width: 0;}
+}
+
+@keyframes flash2 {
+    0% {stroke-width: 0;}
+    50% {stroke-width: 4;}
+    100% {stroke-width: 0;}
+}
