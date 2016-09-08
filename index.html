@@ -13,50 +13,122 @@
 <body>
 <h1>Astronomical Clock</h1>
         <svg id="wall" viewbox="-500, -500, 1000, 1000">
-
             <defs>
                 <clipPath id="clipPathCancriTropicus">
-                    <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"/>
+                    <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"></circle>
                 </clipPath>
             </defs>
-            <g transform="rotate(180) scale(-1, 1)">
+            <g id="clockFace" transform="rotate(180) scale(-1, 1)">
                 <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill="green" stroke="green" fill-opacity="0.2"/>
                 <circle id="equator" display="none" r="0" cx="0"cy="0" fill="violet" stroke="violet" fill-opacity="0.2"/>
                 <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="orange" stroke="orange" fill-opacity="0.2"/>
                 <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="beige" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
                 <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="0.2"/>
                 <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
-                <line id="orbisEquator" display="none" x1="0" y1="0" x2="0" y2="0" stroke="violet" stroke-width="2"/>
-                <line id="orbisCancriTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="green" stroke-width="2"/>
-                <line id="orbisCapricorniTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="2"/>
-                <line id="orbisLatitudo" display="none" x1="0" y1="0" x2="0" y2="0" stroke="red" stroke-width="2"/>
-                <line id="orbisOpacus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="2"/>
-                <line id="orbisAxonX" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="orbisAxonY" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"/>
-                <circle id="orbisCenter" display="none" r="0" cx="0" cy="0" fill="lightgrey"/>
-                <line id="planum" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="grey"/>
-                <line id="equatorProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="cancriTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="capricorniTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="latitudoProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="latitudoProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="opacusProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="opacusProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-                <line id="axonX" display="none" x1="0" y1="0" x2="0" y2="0" />
-                <line id="axonY" display="none" x1="0" y1="0" x2="0" y2="0" />
-                <circle id="clickMeFlash" display="inline" r="10" cx="0" cy="0"/>
-                <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet">
+                <g id="numbers" transform="rotate(-90) scale(-1, 1)" display="none">
+                    <g id="position0">
+                        <text id="number0" x="-10" y="0">XII</text>
+                    </g>
+                    <g id="position1">
+                        <text id="number1" x="-10" y="0">I</text>
+                    </g>
+                    <g id="position2">
+                        <text id="number2" x="-10" y="0">II</text>
+                    </g>
+                    <g id="position3">
+                        <text id="number3" x="-10" y="0">III</text>
+                    </g>
+                    <g id="position4">
+                        <text id="number4" x="-10" y="0">IV</text>
+                    </g>
+                    <g id="position5">
+                        <text id="number5" x="-10" y="0">V</text>
+                    </g>
+                    <g id="position6">
+                        <text id="number6" x="-10" y="0">VI</text>
+                    </g>
+                    <g id="position7">
+                        <text id="number7" x="-10" y="0">VII</text>
+                    </g>
+                    <g id="position8">
+                        <text id="number8" x="-10" y="0">VIII</text>
+                    </g>
+                    <g id="position9">
+                        <text id="number9" x="-10" y="0">IX</text>
+                    </g>
+                    <g id="position10">
+                        <text id="number10" x="-10" y="0">X</text>
+                    </g>
+                    <g id="position11">
+                        <text id="number11" x="-10" y="0">XI</text>
+                    </g>
+                    <g id="position12">
+                        <text id="number12" x="-10" y="0">XII</text>
+                    </g>
+                    <g id="position13">
+                        <text id="number13" x="-10" y="0">I</text>
+                    </g>
+                    <g id="position14">
+                        <text id="number14" x="-10" y="0">II</text>
+                    </g>
+                    <g id="position15">
+                        <text id="number15" x="-10" y="0">III</text>
+                    </g>
+                    <g id="position16">
+                        <text id="number16" x="-10" y="0">IV</text>
+                    </g>
+                    <g id="position17">
+                        <text id="number17" x="-10" y="0">V</text>
+                    </g>
+                    <g id="position18">
+                        <text id="number18" x="-10" y="0">VI</text>
+                    </g>
+                    <g id="position19">
+                        <text id="number19" x="-10" y="0">VII</text>
+                    </g>
+                    <g id="position20">
+                        <text id="number20" x="-10" y="0">VIII</text>
+                    </g>
+                    <g id="position21">
+                        <text id="number21" x="-10" y="0">IX</text>
+                    </g>
+                    <g id="position22">
+                        <text id="number22" x="-10" y="0">X</text>
+                    </g>
+                    <g id="position23">
+                        <text id="number23" x="-10" y="0">XI</text>
+                    </g>
+                    <line id="sunTime" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="3"></line>
+                    <g id="sunPosition">
+                        <text id="sunSymbol" x="-8" y="5">&#9788;</text>
+                    </g>
 
-                    </circle>
-                <animate
-                        xlink:href="#clickMePoint"
-                    dur="1s"
-                    fill="freeze"
-                    path="M0 0 a 50 50 0 1 0 1 z"
-                               id="bvbcv"
-                               />
-                </animate>
+                </g>
 
+                <g id="design" opacity="1">
+                    <line id="orbisEquator" display="none" x1="0" y1="0" x2="0" y2="0" stroke="violet" stroke-width="2"/>
+                    <line id="orbisCancriTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="green" stroke-width="2"/>
+                    <line id="orbisCapricorniTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="2"/>
+                    <line id="orbisLatitudo" display="none" x1="0" y1="0" x2="0" y2="0" stroke="red" stroke-width="2"/>
+                    <line id="orbisOpacus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="2"/>
+                    <line id="orbisAxonX" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="orbisAxonY" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"/>
+                    <circle id="orbisCenter" display="none" r="0" cx="0" cy="0" fill="lightgrey"/>
+                    <line id="planum" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="grey"/>
+                    <line id="equatorProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="cancriTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="capricorniTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="latitudoProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="latitudoProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="opacusProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="opacusProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
+                    <line id="axonX" display="none" x1="0" y1="0" x2="0" y2="0" />
+                    <line id="axonY" display="none" x1="0" y1="0" x2="0" y2="0" />
+                </g>
+                <g id="clickMe" display="inline">
+                    <circle id="clickMeFlash" display="inline" r="10" cx="0" cy="0"/>
+                    <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet"/>
+                </g>
             </g>
         </svg>
 <div id="zodiac">
@@ -408,6 +480,52 @@
         }
     };
 
+    var sunTime = {
+        id: "sunTime",
+        x1: 0,
+        y1: 0,
+        x2: null,
+        y2: null,
+        r: null,
+        angle: 0,
+        init: function() {
+            this.r = scale(cancriTropicus.r);
+            this.x2 = 0;
+            this.y2 = scale(cancriTropicus.r * 0.95);
+            var element = document.getElementById(this.id);
+            element.setAttribute("y2", this.y2.toString());
+        },
+        show: function(angleDeg) {
+            var element = document.getElementById(this.id);
+            element.setAttribute("transform", "rotate(" + angleDeg + ")");
+            element.setAttribute("display", "inline");
+        },
+        showTime: function() {
+            var d = new Date();
+            this.show(dateToSunTimeAngle(d));
+        }
+    };
+
+    var sunSymbol = {
+        id: "sunSymbol",
+        angle: 0,
+        r: null,
+        x: null,
+        y: null,
+        showSun: function(angleDeg) {
+            this.r = scale(cancriTropicus.r);
+            var angleRad = deg2rad(angleDeg + 90);
+            this.x = Math.cos(angleRad) * this.r;
+            this.y = Math.sin(angleRad) * this.r;
+            var element = document.getElementById(this.id);
+            element.setAttribute("transform", "rotate(" + angleDeg + ")");
+            element.setAttribute("display", "inline");
+            var sun = document.getElementById("sunPosition");
+            sun.setAttribute("transform", "translate(" + this.x + " " + this.y + ")");
+            sun.setAttribute("display", "inline");
+        }
+    };
+
 //    document.getElementById("wall").setAttribute(
 //            "style", "width:" + wall.width + "; height:" + wall.height + "; border:" + wall.border
 //    );
@@ -436,6 +554,7 @@
     opacusProjectionB.init();
     opacusHorizontis.init();
     clickMePoint.init();
+    sunTime.init();
 
 
     function deg2rad(deg) {
@@ -448,6 +567,10 @@
 
     function projection(alpha) {
         return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
+    }
+
+    function dateToSunTimeAngle(date) {
+        return (date.getMinutes() + date.getHours() * 60) / 4
     }
 
     function drawPoint(point) {
@@ -486,12 +609,18 @@
         drawCircle({id: "clickMeFlash", r: 0.1, cx: x, cy: y});
     }
 
+
+    function hideClickMe() {
+        document.getElementById("clickMe").setAttribute("display", "none");
+    }
+
     function clickOrbisCenter() {
         drawLine(orbisAxonX);
         drawLine(orbisAxonY);
         drawCircle(orbis);
         drawLine(planum);
         moveClickMe(orbis.r, orbis.r, "clickOrbis()", "blue");
+        drawClockNumbers();
     }
 
     function clickOrbis() {
@@ -576,13 +705,88 @@
 
     function clickOpacusHorizontis() {
         drawCircle(opacusHorizontis);
+        clockFaceAnimationTimer = setInterval(animateClockFace, 33);    // start animation
+        hideClickMe();
     }
 
+    function animateClockFace() {
+        var element = document.getElementById("clockFace");
+        var rotation = element.getAttribute("transform").match(/\d+/)[0];       // get number from string
+        if (rotation < 270) {
+            rotation++;
+            element.setAttribute("transform", "rotate(" + rotation + ") scale(-1, 1)");
+        }
+        else {
+            clearInterval(clockFaceAnimationTimer);     // stop this animation
+            hideDesignAnimationTimer = setInterval(animateHideDesign, 100);    // start next animation
+        }
+    }
+
+    function animateHideDesign() {
+        var element = document.getElementById("design");
+        var opacity = element.getAttribute("opacity");
+        if (opacity > 0) {
+            opacity -= 0.05;
+            element.setAttribute("opacity", opacity);
+        }
+        else {
+            clearInterval(hideDesignAnimationTimer);     // stop this animation
+            moveOrbisAnimationTimer = setInterval(animateMoveOrbis, 50);    // start next animation
+        }
+    }
+
+    function animateMoveOrbis() {
+        var element = document.getElementById("orbis");
+        var cy = element.getAttribute("cy");
+        if (cy > 0) {
+            cy -= scale(0.02 * orbis.r);      // step ralative to the perimeter
+            element.setAttribute("cy", cy);
+        }
+        else {
+            clearInterval(moveOrbisAnimationTimer);     // stop this animation
+        }
+    }
+
+    function drawClockNumbers() {
+        var r = scale(cancriTropicus.r);
+        for (var i = 0; i < 24; i++) {
+            var textElement = document.getElementById("number" + i.toString());
+            var positionElement =  document.getElementById("position" + + i.toString());
+            var angle = i * 15;
+            var angleRad = deg2rad(angle - 90);
+            var x = Math.cos(angleRad) * r;
+            var y = Math.sin(angleRad) * r;
+            positionElement.setAttribute("transform", "translate(" + x + " " + y + ")");
+            textElement.setAttribute("transform", "rotate(" + angle + " 0,0)");
+        }
+        document.getElementById("numbers").setAttribute("display", "inline");
+        sunTime.showTime();
+        sunSymbol.showSun(dateToSunTimeAngle(new Date()));
+    }
+
+    function goSunAround() {
+        var goSunAroundTimer;
+        sunTime.angle = 0;
+        goSunAroundTimer = setInterval(goSunAroundAnimation, 50);
+        function goSunAroundAnimation() {
+            var angle = sunTime.angle;
+            if (angle <= 360) {
+                sunTime.show(angle);
+                sunSymbol.showSun(angle);
+                sunTime.angle++;
+            } else {
+                clearInterval(goSunAroundTimer);
+            }
+        }
+    };
+
+
+    var clockFaceAnimationTimer;
+    var hideDesignAnimationTimer;
+    var moveOrbisAnimationTimer;
     drawCircle(clipCircleCancriTropicus);
     drawPoint(orbisCenter);
     moveClickMe(0, orbis.r, "clickOrbisCenter()");
-
-
 
 </script>
 </html>
