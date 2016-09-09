@@ -25,7 +25,11 @@
                 <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="beige" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
                 <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="0.2"/>
                 <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
-                <circle id="zodiacum" display="none" r="0" cx="0" cy="0" stroke="cyan" stroke-width="2" fill="none"></circle>
+                <g id="zodiacum">
+                    <circle id="zodiacumCircle" display="none" r="0" cx="0" cy="0" stroke="cyan" stroke-width="2" fill="cyan" fill-opacity="0.2"></circle>
+                    <line id ="zodiacumEquinox" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="cyan" stroke-width="2"></line>
+                    <line id ="zodiacumSolstice" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="cyan" stroke-width="2"></line>
+                </g>
                 <g id="numbers" transform="rotate(-90) scale(-1, 1)" display="none">
                     <g id="position0">
                         <text id="number0" x="-10" y="0">XII</text>
@@ -527,8 +531,8 @@
         }
     };
 
-    var zodiacum = {
-        id: "zodiacum",
+    var zodiacumCircle = {
+        id: "zodiacumCircle",
         r: null,
         cx: null,
         cy: null,
@@ -536,7 +540,31 @@
             this.r = (cancriTropicus.r + capricorniTropicus.r) / 2;
             this.cy = capricorniTropicus.r - this.r;
         }
-    }
+    };
+
+    var zodiacumEquinox = {
+        id:"zodiacumEquinox",
+        x1: null,
+        y1: 0,
+        x2: null,
+        y2: 0,
+        init: function() {
+            this.x1 = -equator.r;
+            this.x2 = equator.r;
+        }
+    };
+
+    var zodiacumSolstice = {
+        id:"zodiacumSolstice",
+        x1: 0,
+        y1: null,
+        x2: 0,
+        y2: null,
+        init: function() {
+            this.y1 = capricorniTropicus.r;
+            this.y2 = - cancriTropicus.r;
+        }
+    };
 
 //    document.getElementById("wall").setAttribute(
 //            "style", "width:" + wall.width + "; height:" + wall.height + "; border:" + wall.border
@@ -567,7 +595,9 @@
     opacusHorizontis.init();
     clickMePoint.init();
     sunTime.init();
-    zodiacum.init();
+    zodiacumCircle.init();
+    zodiacumEquinox.init();
+    zodiacumSolstice.init();
 
 
     function deg2rad(deg) {
@@ -775,7 +805,7 @@
         document.getElementById("numbers").setAttribute("display", "inline");
         sunTime.showTime();
         sunSymbol.showSun(dateToSunTimeAngle(new Date()));
-        drawCircle(zodiacum);
+        drawZodiacum(computeZodiacumAngleDeg(getTodayDate()));
     }
 
     function goSunAround() {
@@ -794,10 +824,58 @@
         }
     }
 
+    function drawZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equinox, 90 ... winter solstice)
+        var zodiacumGroup = document.getElementById("zodiacum");
+        zodiacumGroup.setAttribute("transform", "rotate(" + angleDeg + ")");
+        drawCircle(zodiacumCircle);
+        drawLine(zodiacumEquinox);
+        drawLine(zodiacumSolstice);
+    }
+
+    function computeZodiacumAngleDeg(date) {
+        var minutesYear = 60 * 24 * 365.25;
+        var equinoxDate = new Date(2016,9,22,16,20,41);    // autumn equinox
+        var eh = equinoxDate.getHours();
+        var em = equinoxDate.getMinutes();
+        var equinoxTimeAngle = eh * 15 + em / 4;
+        var value = - (((date.getTime()-equinoxDate.getTime()) / 60000 / 4 * 366 / 365 + equinoxTimeAngle) % 360);
+        return value;
+    }
+
+    function getTodayDate() {
+        var today= new Date();
+        var s= today.getSeconds();
+        var mi = today.getMinutes();
+        var h = today.getHours();
+        var d = today.getDate();
+        var m = today.getMonth() + 1; //January is 0!
+        var y = today.getFullYear();
+        return new Date(y, m, d, h, mi, s);
+    }
+
+    function goZodiacumAround() {
+        var goZodiacumAroundTimer;
+        animationTime = new Date(2016, 1, 21, 12, 0, 0);         // GLOBAL VARIABLE
+        days = 0;
+        goZodiacumAroundTimer = setInterval(goZodiacumAroundAnimation, 50);
+        function goZodiacumAroundAnimation() {
+            var month = animationTime.getMonth();
+            if (days <= 365) {
+                drawZodiacum(computeZodiacumAngleDeg(animationTime));
+                days++;
+                var date = animationTime.getDate() + 1;
+                animationTime.setDate(date);
+            } else {
+                clearInterval(goZodiacumAroundTimer);
+            }
+        }
+    }
+
 
     var clockFaceAnimationTimer;
     var hideDesignAnimationTimer;
     var moveOrbisAnimationTimer;
+    var goZodiacumAroundTimer;
     drawCircle(clipCircleCancriTropicus);
     drawPoint(orbisCenter);
     moveClickMe(0, orbis.r, "clickOrbisCenter()");
