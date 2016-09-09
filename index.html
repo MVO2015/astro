@@ -25,6 +25,7 @@
                 <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="beige" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
                 <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="0.2"/>
                 <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
+                <circle id="zodiacum" display="none" r="0" cx="0" cy="0" stroke="cyan" stroke-width="2" fill="none"></circle>
                 <g id="numbers" transform="rotate(-90) scale(-1, 1)" display="none">
                     <g id="position0">
                         <text id="number0" x="-10" y="0">XII</text>
@@ -526,6 +527,17 @@
         }
     };
 
+    var zodiacum = {
+        id: "zodiacum",
+        r: null,
+        cx: null,
+        cy: null,
+        init: function() {
+            this.r = (cancriTropicus.r + capricorniTropicus.r) / 2;
+            this.cy = capricorniTropicus.r - this.r;
+        }
+    }
+
 //    document.getElementById("wall").setAttribute(
 //            "style", "width:" + wall.width + "; height:" + wall.height + "; border:" + wall.border
 //    );
@@ -555,6 +567,7 @@
     opacusHorizontis.init();
     clickMePoint.init();
     sunTime.init();
+    zodiacum.init();
 
 
     function deg2rad(deg) {
@@ -762,6 +775,7 @@
         document.getElementById("numbers").setAttribute("display", "inline");
         sunTime.showTime();
         sunSymbol.showSun(dateToSunTimeAngle(new Date()));
+        drawCircle(zodiacum);
     }
 
     function goSunAround() {
@@ -778,7 +792,7 @@
                 clearInterval(goSunAroundTimer);
             }
         }
-    };
+    }
 
 
     var clockFaceAnimationTimer;
