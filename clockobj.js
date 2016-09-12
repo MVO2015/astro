@@ -205,6 +205,10 @@ var cancriTropicus = {
     cy: 0,
     init: function () {
         this.r = projection(orbisDecl);
+        var element = document.getElementById("gradientCancriTropicus");
+        element.setAttribute("r", scale(this.r));
+        element.setAttribute("cx", scale(this.cx));
+        element.setAttribute("cy", scale(this.cy));
     }
 };
 
@@ -380,18 +384,8 @@ var zodiacumCircle = {
     r: null,
     cx: 0,
     cy: 0,
-    init: function() {
-        this.r = (cancriTropicus.r + capricorniTropicus.r) / 2;
-        this.cx = capricorniTropicus.r - this.r;
-    }
-};
-
-var zodiacum2 = {
-    id: "zodiacum2",
-    r: null,
-    cx: 0,
-    cy: null,
     init: function(angleDeg) {
+        angleDeg = (typeof angleDeg !== 'undefined') ?  angleDeg : 0;
         var angleRad = deg2rad(angleDeg);
         this.r = (cancriTropicus.r + capricorniTropicus.r) / 2;
         this.cy = (capricorniTropicus.r - this.r) * Math.sin(angleRad);

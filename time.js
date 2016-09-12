@@ -21,4 +21,6 @@ function deg2sun(angleDeg) {
     return (angleDeg + 270) % 360;
 }
 
-
+function dateToSunTimeAngle(date) {
+    return (date.getMinutes() + date.getHours() * 60) / 4
+}

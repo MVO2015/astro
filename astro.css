@@ -18,3 +18,7 @@
     50% {stroke-width: 4;}
     100% {stroke-width: 0;}
 }
+
+.cifernik {
+    fill: yellow;
+}

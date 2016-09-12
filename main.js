@@ -31,14 +31,9 @@ sunTime.init();
 zodiacumCircle.init();
 zodiacumEquinox.init();
 zodiacumSolstice.init();
-zodiacum2.init(0);
 
 function projection(alpha) {
     return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
-}
-
-function dateToSunTimeAngle(date) {
-    return (date.getMinutes() + date.getHours() * 60) / 4
 }
 
 function drawPoint(point) {
@@ -215,7 +210,7 @@ function animateMoveOrbis() {
 }
 
 function drawClockNumbers() {
-    var r = scale(cancriTropicus.r) * 1.1;
+    var r = scale(cancriTropicus.r) * 0.9;
     for (var i = 0; i < 24; i++) {
         var textElement = document.getElementById("number" + i.toString());
         var positionElement =  document.getElementById("position" + + i.toString());
@@ -227,14 +222,6 @@ function drawClockNumbers() {
         textElement.setAttribute("transform", "rotate(" + angle + " 0,0)");
     }
     document.getElementById("numbers").setAttribute("display", "inline");
-    sunTime.showTime();
-    // sunSymbol.showSun(dateToSunTimeAngle(new Date()));
-    // drawZodiacum(computeZodiacumAngleDeg(getTodayDate()));
-    // drawZodiacum2(computeZodiacumAngleDeg(getTodayDate()));
-    drawZodiacum(computeZodiacumAngleDeg(getTodayDate()));
-    drawZodiacum2(computeZodiacumAngleDeg(getTodayDate()));
-    computeSunPosition(0);
-    drawClockAxisSystem();
 }
 
 function goSunAround() {
@@ -261,22 +248,35 @@ function drawZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equ
     drawLine(zodiacumSolstice);
 }
 
-function drawZodiacum2(angleDeg) {
-    zodiacum2.init(angleDeg);
-    drawCircle(zodiacum2);
-}
-
 function computeSunPosition(sunTimeAngleDeg) {
-    var phi = deg2rad(sunTimeAngleDeg);
+    var normalizedAngle = normalizeAngleDeg(sunTimeAngleDeg);
+    var m = zodiacumCircle.cx;
+    var n = zodiacumCircle.cy;
+    var r = zodiacumCircle.r;
+    var xySystem = true;
+    if (!isEasyForTangents(normalizedAngle)) {
+        normalizedAngle = normalizeAngleDeg(normalizedAngle - 90);
+        m = [n, n=-m][0];    // m = n, n = -m
+        xySystem = false;
+    }
+    var phi = deg2rad(normalizedAngle);
     var tgPhi = Math.tan(phi);
-    var m = zodiacum2.cx;
-    var n = zodiacum2.cy;
-    var r = zodiacum2.r;
     var a = 1 + Math.pow(tgPhi, 2);
-    var b = 2 * (-m + n * tgPhi);
+    var b = -2 * (m + n * tgPhi);
     var c = m * m + n * n - r * r;
-    var x = quadraticEquation(a, b, c).x1;
-    var y = tgPhi * x;
+    var x = 0;
+    if (normalizedAngle <= 45 && normalizedAngle > -45) {
+        x = quadraticEquation(a, b, c).x1;
+    }
+    if (normalizedAngle > 135 || normalizedAngle <= -135) {
+        x = quadraticEquation(a, b, c).x2;
+    }
+    y = tgPhi * x;
+    if (!xySystem) {
+        //noinspection JSSuspiciousNameCombination
+        x = [-y, y = x][0];    // x = - y, y = x
+    }
+    //console.log("m: "+m+"\nn: "+n+"\nr: "+r+"\nx: "+x+"\ny: "+y+"\n"+"phi: "+normalizedAngle+"\ntg phi:"+tgPhi +"\nxySystem: "+xySystem+"\n");
     sunSymbol.showAt(scale(x), scale(y));
 }
 
@@ -316,8 +316,17 @@ var clockFaceAnimationTimer;
 var hideDesignAnimationTimer;
 var moveOrbisAnimationTimer;
 var goZodiacumAroundTimer;
-// drawCircle(clipCircleCancriTropicus);
+drawCircle(clipCircleCancriTropicus);
 // drawPoint(orbisCenter);
 // moveClickMe(0, orbis.r, "clickOrbisCenter()");
+drawCircle(equator);
+drawCircle(cancriTropicus);
+drawCircle(capricorniTropicus);
+drawCircle(latitudoHorizontis);
+drawCircle(opacusHorizontis);
 drawClockNumbers();
 clockFaceAnimationTimer = setInterval(animateClockFace, 10);    // start animation
+drawZodiacum(computeZodiacumAngleDeg(getTodayDate()));
+zodiacumCircle.init(computeZodiacumAngleDeg(getTodayDate()));
+computeSunPosition(sun2deg(dateToSunTimeAngle(getTodayDate())));
+sunTime.showTime();

@@ -15,22 +15,26 @@
                 <clipPath id="clipPathCancriTropicus">
                     <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"></circle>
                 </clipPath>
+                <radialGradient id="gradientCancriTropicus" gradientUnits="userSpaceOnUse"
+                                cx="0" cy="0" r="0">
+                  <stop offset="50%" stop-color="cyan" />
+                  <stop offset="100%" stop-color="#37F" />
+                </radialGradient>
             </defs>
             <g id="clockFace" transform="rotate(180) scale(-1, 1)">
-                <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill="green" stroke="green" fill-opacity="0.2"/>
-                <circle id="equator" display="none" r="0" cx="0"cy="0" fill="violet" stroke="violet" fill-opacity="0.2"/>
-                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="orange" stroke="orange" fill-opacity="0.2"/>
+                <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
+                <circle id="equator" display="none" r="0" cx="0"cy="0" fill="violet" stroke="yellow" fill-opacity="1"/>
+                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="orange" stroke="yellow" fill-opacity="1"/>
                 <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="beige" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
-                <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="0.2"/>
+                <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="1"/>
                 <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
 
-                <g id="numbers" transform="rotate(-90) scale(-1, 1)" display="none">
+                <g id="numbers" transform="rotate(-90) scale(-1, 1)" display="none" fill="#880" stroke="yellow">
                     <g id="zodiacum">
                         <circle id="zodiacumCircle" display="none" r="0" cx="0" cy="0" stroke="cyan" stroke-width="2" fill="cyan" fill-opacity="0.2"></circle>
                         <line id ="zodiacumEquinox" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="cyan" stroke-width="2"></line>
                         <line id ="zodiacumSolstice" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="cyan" stroke-width="2"></line>
                     </g>
-                    <circle id="zodiacum2" display="none" r="0" cx="0" cy="0" stroke="brown" stroke-width="2" fill="brown" fill-opacity="0.1"></circle>
                     <g id="position0">
                         <text id="number0" x="-10" y="0">XII</text>
                     </g>
@@ -105,9 +109,9 @@
                     </g>
                     <line id="sunTime" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="3"></line>
                     <g id="sunPosition">
-                        <text id="sunSymbol" x="-8" y="5">&#9788;</text>
+                        <text id="sunSymbol" x="-8" y="5" stroke="#CC0" fill="#EE0" >&#9728;</text>
                     </g>
-                    <g id="clockAxisSystem">
+                    <g id="clockAxisSystem" display="none">
                         <line x1="-150" y1="0" x2="150" y2="0" stroke="black" stroke-width="1" stroke-opacity="0.5"></line>
                         <line x1="0" y1="-150" x2="0" y2="150" stroke="black" stroke-width="1" stroke-opacity="0.5"></line>
                         <text y="0" x="150" opacity="0.5">x (150,0)</text>
