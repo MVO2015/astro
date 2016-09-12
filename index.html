@@ -10,7 +10,7 @@
 </style>
 <body>
 <h1>Astronomical Clock</h1>
-        <svg id="wall" viewbox="-500, -500, 1000, 1000">
+        <svg id="wall" viewbox="-500, -160, 1000, 320">
             <defs>
                 <clipPath id="clipPathCancriTropicus">
                     <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"></circle>
@@ -21,6 +21,7 @@
                   <stop offset="100%" stop-color="#37F" />
                 </radialGradient>
             </defs>
+            <rect height="320px" width="1000px" fill="#002" x="-160Px" y="-160Px" ></rect>
             <g id="clockFace" transform="rotate(180) scale(-1, 1)">
                 <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
                 <circle id="equator" display="none" r="0" cx="0"cy="0" fill="violet" stroke="yellow" fill-opacity="1"/>
@@ -149,8 +150,8 @@
 
 <p id="text"></p>
 </body>
-<script src="math.js"></script>;
-<script src="time.js"></script>;
-<script src="clockobj.js"></script>;
+<script src="math.js"></script>
+<script src="time.js"></script>
+<script src="clockobj.js"></script>
 <script src ="main.js"></script>
 </html>

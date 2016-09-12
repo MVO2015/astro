@@ -19,6 +19,7 @@
     100% {stroke-width: 0;}
 }
 
-.cifernik {
-    fill: yellow;
+h1 {
+    text-align: center;
+    background-color: #002;
 }
