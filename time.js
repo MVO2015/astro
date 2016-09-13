@@ -1,5 +1,8 @@
 function getTodayDate() {
     var today= new Date();
+    if (today.dst()) {  // if daylight saving time is on, subtract 1 hour (to get real sun time)
+        today.addHours(-1);
+    }
     var s= today.getSeconds();
     var mi = today.getMinutes();
     var h = today.getHours();
@@ -24,3 +27,48 @@ function deg2sun(angleDeg) {
 function dateToSunTimeAngle(date) {
     return (date.getMinutes() + date.getHours() * 60) / 4
 }
+
+// http://stackoverflow.com/questions/11887934/check-if-daylight-saving-time-is-in-effect-and-if-it-is-for-how-many-hours
+
+Date.prototype.stdTimezoneOffset = function() {
+    var jan = new Date(this.getFullYear(), 0, 1);
+    var jul = new Date(this.getFullYear(), 6, 1);
+    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+};
+
+Date.prototype.dst = function() {
+    return this.getTimezoneOffset() < this.stdTimezoneOffset();
+};
+
+Date.prototype.addHours = function(h) {
+   this.setTime(this.getTime() + (h*60*60*1000));
+   return this;
+}
+
+var daylightSavingTimeSwitch = {
+    id: "dstSwitch",
+    status: false,
+    clickable: false,
+    init: function() {
+        this.status = getTodayDate().dst();
+    },
+    on: function() {
+        this.status = true;
+    },
+    off: function() {
+        this.status = false;
+    },
+    setClickability: function(clickable) {
+        this.clickable = clickable;
+    },
+    draw: function() {
+        var dstSwitch = document.getElementById(this.id);
+        dstSwitch.setAttribute("class", this.clickable ? "clickable" : "unclickable");
+        var off = "display: none";
+        var on = "display: inline";
+        var dstOff = document.getElementById("dstOff");
+        dstOff.setAttribute("style", this.status ? off : on);
+        var dstOn = document.getElementById("dstOn");
+        dstOn.setAttribute("style", this.status ? on : off);
+    }
+};

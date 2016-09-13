@@ -27,10 +27,11 @@ opacusProjectionA.init();
 opacusProjectionB.init();
 opacusHorizontis.init();
 clickMePoint.init();
-sunTime.init();
 zodiacumCircle.init();
 zodiacumEquinox.init();
 zodiacumSolstice.init();
+sunTime.init();
+daylightSavingTimeSwitch.init();
 
 function projection(alpha) {
     return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
@@ -221,7 +222,7 @@ function drawClockNumbers() {
         positionElement.setAttribute("transform", "translate(" + x + " " + y + ")");
         textElement.setAttribute("transform", "rotate(" + angle + " 0,0)");
     }
-    document.getElementById("numbers").setAttribute("display", "inline");
+    displayInlineById("clock");
 }
 
 function goSunAround() {
@@ -250,9 +251,9 @@ function drawZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equ
 
 function computeSunPosition(sunTimeAngleDeg) {
     var normalizedAngle = normalizeAngleDeg(sunTimeAngleDeg);
-    var m = zodiacumCircle.cx;
-    var n = zodiacumCircle.cy;
-    var r = zodiacumCircle.r;
+    var m = zodiacum.cx;
+    var n = zodiacum.cy;
+    var r = zodiacum.r;
     var xySystem = true;
     if (!isEasyForTangents(normalizedAngle)) {
         normalizedAngle = normalizeAngleDeg(normalizedAngle - 90);
@@ -312,10 +313,87 @@ function drawClockAxisSystem() {
     e.setAttribute("display", "inline");
 }
 
+function displayInlineById(id) {
+    var element = document.getElementById(id);
+    element.setAttribute("display", "inline");
+}
+
+function rotateSvgById(id, angleDeg) {
+    var element = document.getElementById(id);
+    element.setAttribute("transform", "rotate(" + angleDeg + ")");
+}
+
+function drawDigitalTime() {
+    var d = getTodayDate();
+    var time = document.getElementById("time");
+    time.innerText = d.toString();
+    daylightSavingTimeSwitch.clickable = d.dst();
+    daylightSavingTimeSwitch.draw();
+}
+
+function drawAstronomicalTime() {
+    var d = getTodayDate();
+    var zodiacumAngleDeg = computeZodiacumAngleDeg(d);
+    drawZodiacum(zodiacumAngleDeg);
+    zodiacum.compute(zodiacumAngleDeg);
+    computeSunPosition(sun2deg(dateToSunTimeAngle(d)));
+    sunTime.showByTime(d);
+}
+
+function daylightSavingTimeOn() {
+    daylightSavingTimeOnTimer = setInterval(animateDaylightSavingTimeOn, 33);
+    daylightSavingTimeSwitch.on();
+}
+
+function daylightSavingTimeOff() {
+    daylightSavingTimeOffTimer = setInterval(animateDaylightSavingTimeOff, 33);
+    daylightSavingTimeSwitch.off();
+}
+
+function animateDaylightSavingTimeOn() {
+    var clockFace = document.getElementById("clockFace");
+    var clockFaceRotation = clockFace.getAttribute("transform").match(/\d+/)[0];       // get number from string
+    if (clockFaceRotation < 285) {
+        clockFaceRotation++;
+        clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
+    }
+    else {
+        var numbers = document.getElementById("numbers");
+        var numbersRotation = numbers.getAttribute("transform").match(/-?\d+/)[0];       // get number from string
+        if (numbersRotation > -15) {
+            numbersRotation--;
+            rotateSvgById("numbers", numbersRotation);
+        } else {
+            clearInterval(daylightSavingTimeOnTimer);     // stop this animation
+        }
+    }
+}
+
+function animateDaylightSavingTimeOff() {
+    var clockFace = document.getElementById("clockFace");
+    var clockFaceRotation = clockFace.getAttribute("transform").match(/\d+/)[0];       // get number from string
+    if (clockFaceRotation > 270) {
+        clockFaceRotation--;
+        clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
+    }
+    else {
+        var numbers = document.getElementById("numbers");
+        var numbersRotation = numbers.getAttribute("transform").match(/-?\d+/)[0];       // get number from string
+        if (numbersRotation < 0) {
+            numbersRotation++;
+            rotateSvgById("numbers", numbersRotation);
+        } else {
+            clearInterval(daylightSavingTimeOffTimer);     // stop this animation
+        }
+    }
+}
+
 var clockFaceAnimationTimer;
 var hideDesignAnimationTimer;
 var moveOrbisAnimationTimer;
 var goZodiacumAroundTimer;
+var daylightSavingTimeOnTimer;
+var daylightSavingTimeOffTimer;
 drawCircle(clipCircleCancriTropicus);
 // drawPoint(orbisCenter);
 // moveClickMe(0, orbis.r, "clickOrbisCenter()");
@@ -325,8 +403,11 @@ drawCircle(capricorniTropicus);
 drawCircle(latitudoHorizontis);
 drawCircle(opacusHorizontis);
 drawClockNumbers();
+
 clockFaceAnimationTimer = setInterval(animateClockFace, 10);    // start animation
-drawZodiacum(computeZodiacumAngleDeg(getTodayDate()));
-zodiacumCircle.init(computeZodiacumAngleDeg(getTodayDate()));
-computeSunPosition(sun2deg(dateToSunTimeAngle(getTodayDate())));
-sunTime.showTime();
+
+if (daylightSavingTimeSwitch.status) {
+    daylightSavingTimeOn();
+}
+var clockUpdateTimer = setInterval(drawDigitalTime, 100);
+var astronomicalClockUpdateTimer = setInterval(drawAstronomicalTime, 1000);

@@ -347,8 +347,7 @@ var sunTime = {
         element.setAttribute("transform", "rotate(" + angleDeg + ")");
         element.setAttribute("display", "inline");
     },
-    showTime: function() {
-        var d = new Date();
+    showByTime: function(d) {
         this.show(dateToSunTimeAngle(d));
     }
 };
@@ -379,12 +378,11 @@ var sunSymbol = {
     }
 };
 
-var zodiacumCircle = {
-    id: "zodiacumCircle",
+var zodiacum = {
     r: null,
     cx: 0,
     cy: 0,
-    init: function(angleDeg) {
+    compute: function(angleDeg) {
         angleDeg = (typeof angleDeg !== 'undefined') ?  angleDeg : 0;
         var angleRad = deg2rad(angleDeg);
         this.r = (cancriTropicus.r + capricorniTropicus.r) / 2;
@@ -392,6 +390,19 @@ var zodiacumCircle = {
         this.cx = (capricorniTropicus.r - this.r) * Math.cos(angleRad);
     }
 };
+
+var zodiacumCircle = {
+    id: "zodiacumCircle",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function() {
+        zodiacum.compute(0);
+        this.r = zodiacum.r;
+        this.cx = zodiacum.cx;
+        this.cy = zodiacum.cy;
+    }
+}
 
 var zodiacumEquinox = {
     id:"zodiacumEquinox",

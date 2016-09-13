@@ -19,7 +19,30 @@
     100% {stroke-width: 0;}
 }
 
+body {
+    color: white;
+    background-color: #004;
+    font-family: sans-serif;
+}
+
 h1 {
     text-align: center;
-    background-color: #002;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+        0 0 20px #3FF;
+}
+
+p {
+    text-align: center;
+}
+
+.clickable {
+    color: white;
+}
+
+.unclickable {
+    color: #777;
 }
