@@ -15,25 +15,36 @@
                 <clipPath id="clipPathCancriTropicus">
                     <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"></circle>
                 </clipPath>
-                <radialGradient id="gradientCancriTropicus" gradientUnits="userSpaceOnUse"
-                                cx="0" cy="0" r="0">
+                <radialGradient id="gradientCancriTropicus" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
                   <stop offset="50%" stop-color="cyan" />
                   <stop offset="100%" stop-color="#37F" />
+                </radialGradient>
+                <radialGradient id="gradientEquator" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
+                  <stop offset="80%" stop-color="#FAF" />
+                  <stop offset="100%" stop-color="violet" />
+                </radialGradient>
+                <radialGradient id="gradientCapricorniTropicus" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
+                  <stop offset="80%" stop-color="#FF4" />
+                  <stop offset="100%" stop-color="#740" />
+                </radialGradient>
+                <radialGradient id="gradientLatitudoHorizontis" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
+                  <stop offset="80%" stop-color="#A73" />
+                  <stop offset="100%" stop-color="beige" />
                 </radialGradient>
             </defs>
             <g id="clockFace" transform="rotate(180) scale(-1, 1)">
                 <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
-                <circle id="equator" display="none" r="0" cx="0"cy="0" fill="violet" stroke="yellow" fill-opacity="1"/>
-                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="orange" stroke="yellow" fill-opacity="1"/>
-                <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="beige" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
+                <circle id="equator" display="none" r="0" cx="0"cy="0" stroke="yellow" fill-opacity="1" fill="url(#gradientEquator)"/>
+                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="url(#gradientCapricorniTropicus)" stroke="yellow" fill-opacity="1"/>
+                <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
                 <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="1"/>
                 <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
 
                 <g id="clock" transform="rotate(-90) scale(-1, 1)" display="none" fill="#880" stroke="yellow">
                     <g id="zodiacum">
-                        <circle id="zodiacumCircle" display="none" r="0" cx="0" cy="0" stroke="cyan" stroke-width="2" fill="cyan" fill-opacity="0.2"></circle>
-                        <line id ="zodiacumEquinox" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="cyan" stroke-width="2"></line>
-                        <line id ="zodiacumSolstice" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="cyan" stroke-width="2"></line>
+                        <circle id="zodiacumCircle" display="none" r="0" cx="0" cy="0" stroke="orange" stroke-width="2" fill="orange" fill-opacity="0.2"></circle>
+                        <line id ="zodiacumEquinox" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="black" stroke-width="2"></line>
+                        <line id ="zodiacumSolstice" display = "none" x1="0" y1="0" x2="0" y2="0"  stroke="black" stroke-width="2"></line>
                     </g>
                     <g id="numbers" transform="rotate(0)">
                         <g id="position0">
@@ -160,5 +171,7 @@
 <script src="math.js"></script>
 <script src="time.js"></script>
 <script src="clockobj.js"></script>
+<script src ="graphics.js"></script>
 <script src ="main.js"></script>
+
 </html>

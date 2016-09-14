@@ -205,10 +205,6 @@ var cancriTropicus = {
     cy: 0,
     init: function () {
         this.r = projection(orbisDecl);
-        var element = document.getElementById("gradientCancriTropicus");
-        element.setAttribute("r", scale(this.r));
-        element.setAttribute("cx", scale(this.cx));
-        element.setAttribute("cy", scale(this.cy));
     }
 };
 

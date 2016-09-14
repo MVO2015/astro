@@ -37,27 +37,6 @@ function projection(alpha) {
     return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
 }
 
-function drawPoint(point) {
-    drawCircle({id: point.id, r: 0.05, cx: point.x, cy: point.y});
-}
-
-function drawCircle(obj) {
-    var element = document.getElementById(obj.id);
-    element.setAttribute("r", scale(obj.r));
-    element.setAttribute("cx", scale(obj.cx));
-    element.setAttribute("cy", scale(obj.cy));
-    element.setAttribute("display", "inline");
-}
-
-function drawLine(line) {
-    var element = document.getElementById(line.id);
-    element.setAttribute("x1", scale(line.x1));
-    element.setAttribute("y1", scale(line.y1));
-    element.setAttribute("x2", scale(line.x2));
-    element.setAttribute("y2", scale(line.y2));
-    element.setAttribute("display", "inline");
-}
-
 function moveClickMe(x, y, onclick, color) {
     var element = document.getElementById("clickMePoint");
     element.setAttribute("onclick", onclick);
@@ -397,10 +376,10 @@ var daylightSavingTimeOffTimer;
 drawCircle(clipCircleCancriTropicus);
 // drawPoint(orbisCenter);
 // moveClickMe(0, orbis.r, "clickOrbisCenter()");
-drawCircle(equator);
-drawCircle(cancriTropicus);
-drawCircle(capricorniTropicus);
-drawCircle(latitudoHorizontis);
+drawCircleWithGradient(equator);
+drawCircleWithGradient(cancriTropicus);
+drawCircleWithGradient(capricorniTropicus);
+drawCircleWithGradient(latitudoHorizontis);
 drawCircle(opacusHorizontis);
 drawClockNumbers();
 
