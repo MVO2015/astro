@@ -1,46 +1,11 @@
-function scale(num)
-{
-    return (100 * num).toString();
-}
-
-orbisCenter.init();
-orbis.init();
-orbisAxonX.init();
-orbisAxonY.init();
-planum.init();
-orbisEquator.init();
-equatorProjection.init();
-orbisCancriTropicus.init();
-orbisCapricorniTropicus.init();
-orbisLatitudo.init();
-orbisOpacus.init();
-cancriTropicusProjection.init();
-capricorniTropicusProjection.init();
-equator.init();
-cancriTropicus.init();
-clipCircleCancriTropicus.init();
-capricorniTropicus.init();
-latitudoProjectionA.init();
-latitudoProjectionB.init();
-latitudoHorizontis.init();
-opacusProjectionA.init();
-opacusProjectionB.init();
-opacusHorizontis.init();
-clickMePoint.init();
-zodiacumCircle.init();
-zodiacumEquinox.init();
-zodiacumSolstice.init();
-sunTime.init();
+constructAstronomicalClock();
 daylightSavingTimeSwitch.init();
-
-function projection(alpha) {
-    return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
-}
 
 function moveClickMe(x, y, onclick, color) {
     var element = document.getElementById("clickMePoint");
     element.setAttribute("onclick", onclick);
     element.setAttribute("fill", color);
+    element.setAttribute("display", "inline");
     drawCircle({id: "clickMePoint", r: 0.05, cx: x, cy: y});
     var flash = document.getElementById("clickMeFlash");
     var animationName = window.getComputedStyle(flash,null).getPropertyValue("animation-name");
@@ -57,99 +22,99 @@ function hideClickMe() {
     document.getElementById("clickMe").setAttribute("display", "none");
 }
 
-function clickOrbisCenter() {
-    drawLine(orbisAxonX);
-    drawLine(orbisAxonY);
-    drawCircle(orbis);
-    drawLine(planum);
-    moveClickMe(orbis.r, orbis.r, "clickOrbis()", "blue");
-}
-
-function clickOrbis() {
-    drawLine(orbisEquator);
-    moveClickMe(-orbis.r, orbis.r, "clickOrbisEquatorPoint()", "violet");
-}
-
-function clickOrbisEquatorPoint() {
-    drawLine(equatorProjection);
-    moveClickMe(equatorProjection.x, equatorProjection.y, "clickEquatorProjection()", "lightgrey");
-}
-
-function clickEquatorProjection() {
-    drawCircle(equator);
-    moveClickMe(orbisCancriTropicus.x2, orbisCancriTropicus.y2, "clickOrbisCancriTropicus()", "green");
-}
-
-function clickOrbisCancriTropicus() {
-    drawLine(orbisCancriTropicus);
-    moveClickMe(orbisCancriTropicus.x1, orbisCancriTropicus.y1, "clickCancriTropicusProjectionPoint()", "green");
-}
-
-function clickCancriTropicusProjectionPoint() {
-    drawLine(cancriTropicusProjection);
-    moveClickMe(cancriTropicusProjection.x, cancriTropicusProjection.y, "clickCancriTropicusProjection()", "green");
-}
-
-function clickCancriTropicusProjection() {
-    drawCircle(cancriTropicus);
-    moveClickMe(orbisCapricorniTropicus.x2, orbisCapricorniTropicus.y2, "clickOrbisCapricorniTropicus()", "orange");
-}
-
-function clickOrbisCapricorniTropicus() {
-    drawLine(orbisCapricorniTropicus);
-    moveClickMe(orbisCapricorniTropicus.x1, orbisCapricorniTropicus.y1, "clickOrbisCapricorniTropicusPoint()", "orange");
-}
-
-function clickOrbisCapricorniTropicusPoint() {
-    drawLine(capricorniTropicusProjection);
-    moveClickMe(capricorniTropicusProjection.x, capricorniTropicusProjection.y, "clickCapricorniTropicusProjection()", "orange");
-}
-
-function clickCapricorniTropicusProjection() {
-    drawCircle(capricorniTropicus);
-    moveClickMe(orbisLatitudo.x1, orbisLatitudo.y1, "clickOrbisLatitudo()", "red");
-}
-
-function clickOrbisLatitudo() {
-    drawLine(orbisLatitudo);
-    moveClickMe(orbisLatitudo.x2, orbisLatitudo.y2, "clickOrbisLatitudoPointA()", "red");
-}
-
-function clickOrbisLatitudoPointA() {
-    drawLine(latitudoProjectionA);
-    moveClickMe(orbisLatitudo.x1, orbisLatitudo.y1, "clickOrbisLatitudoPointB()", "red");
-}
-
-function clickOrbisLatitudoPointB() {
-    drawLine(latitudoProjectionB);
-    moveClickMe(latitudoProjectionB.x, latitudoProjectionB.y, "clickLatitudoHorizontis()", "red");
-}
-
-function clickLatitudoHorizontis() {
-    drawCircle(latitudoHorizontis);
-    moveClickMe(orbisOpacus.x2, orbisOpacus.y2, "clickOrbisOpacus()", "black");
-}
-
-function clickOrbisOpacus() {
-    drawLine(orbisOpacus);
-    moveClickMe(orbisOpacus.x1, orbisOpacus.y1, "clickOrbisOpacusPointA()", "black");
-}
-
-function clickOrbisOpacusPointA() {
-    drawLine(opacusProjectionA);
-    moveClickMe(orbisOpacus.x2, orbisOpacus.y2, "clickOrbisOpacusPointB()", "black");
-}
-
-function clickOrbisOpacusPointB() {
-    drawLine(opacusProjectionB);
-    moveClickMe(opacusProjectionB.x, opacusProjectionB.y, "clickOpacusHorizontis()", "black");
-}
-
-function clickOpacusHorizontis() {
-    drawCircle(opacusHorizontis);
-    clockFaceAnimationTimer = setInterval(animateClockFace, 33);    // start animation
-    hideClickMe();
-}
+// function clickOrbisCenter() {
+//     drawLine(orbisAxonX);
+//     drawLine(orbisAxonY);
+//     drawCircle(orbis);
+//     drawLine(planum);
+//     moveClickMe(orbis.r, orbis.r, "clickOrbis()", "blue");
+// }
+//
+// function clickOrbis() {
+//     drawLine(orbisEquator);
+//     moveClickMe(-orbis.r, orbis.r, "clickOrbisEquatorPoint()", "violet");
+// }
+//
+// function clickOrbisEquatorPoint() {
+//     drawLine(equatorProjection);
+//     moveClickMe(equatorProjection.x, equatorProjection.y, "clickEquatorProjection()", "lightgrey");
+// }
+//
+// function clickEquatorProjection() {
+//     drawCircle(equator);
+//     moveClickMe(orbisCancriTropicus.x2, orbisCancriTropicus.y2, "clickOrbisCancriTropicus()", "green");
+// }
+//
+// function clickOrbisCancriTropicus() {
+//     drawLine(orbisCancriTropicus);
+//     moveClickMe(orbisCancriTropicus.x1, orbisCancriTropicus.y1, "clickCancriTropicusProjectionPoint()", "green");
+// }
+//
+// function clickCancriTropicusProjectionPoint() {
+//     drawLine(cancriTropicusProjection);
+//     moveClickMe(cancriTropicusProjection.x, cancriTropicusProjection.y, "clickCancriTropicusProjection()", "green");
+// }
+//
+// function clickCancriTropicusProjection() {
+//     drawCircle(cancriTropicus);
+//     moveClickMe(orbisCapricorniTropicus.x2, orbisCapricorniTropicus.y2, "clickOrbisCapricorniTropicus()", "orange");
+// }
+//
+// function clickOrbisCapricorniTropicus() {
+//     drawLine(orbisCapricorniTropicus);
+//     moveClickMe(orbisCapricorniTropicus.x1, orbisCapricorniTropicus.y1, "clickOrbisCapricorniTropicusPoint()", "orange");
+// }
+//
+// function clickOrbisCapricorniTropicusPoint() {
+//     drawLine(capricorniTropicusProjection);
+//     moveClickMe(capricorniTropicusProjection.x, capricorniTropicusProjection.y, "clickCapricorniTropicusProjection()", "orange");
+// }
+//
+// function clickCapricorniTropicusProjection() {
+//     drawCircle(capricorniTropicus);
+//     moveClickMe(orbisLatitudo.x1, orbisLatitudo.y1, "clickOrbisLatitudo()", "red");
+// }
+//
+// function clickOrbisLatitudo() {
+//     drawLine(orbisLatitudo);
+//     moveClickMe(orbisLatitudo.x2, orbisLatitudo.y2, "clickOrbisLatitudoPointA()", "red");
+// }
+//
+// function clickOrbisLatitudoPointA() {
+//     drawLine(latitudoProjectionA);
+//     moveClickMe(orbisLatitudo.x1, orbisLatitudo.y1, "clickOrbisLatitudoPointB()", "red");
+// }
+//
+// function clickOrbisLatitudoPointB() {
+//     drawLine(latitudoProjectionB);
+//     moveClickMe(latitudoProjectionB.x, latitudoProjectionB.y, "clickLatitudoHorizontis()", "red");
+// }
+//
+// function clickLatitudoHorizontis() {
+//     drawCircle(latitudoHorizontis);
+//     moveClickMe(orbisOpacus.x2, orbisOpacus.y2, "clickOrbisOpacus()", "black");
+// }
+//
+// function clickOrbisOpacus() {
+//     drawLine(orbisOpacus);
+//     moveClickMe(orbisOpacus.x1, orbisOpacus.y1, "clickOrbisOpacusPointA()", "black");
+// }
+//
+// function clickOrbisOpacusPointA() {
+//     drawLine(opacusProjectionA);
+//     moveClickMe(orbisOpacus.x2, orbisOpacus.y2, "clickOrbisOpacusPointB()", "black");
+// }
+//
+// function clickOrbisOpacusPointB() {
+//     drawLine(opacusProjectionB);
+//     moveClickMe(opacusProjectionB.x, opacusProjectionB.y, "clickOpacusHorizontis()", "black");
+// }
+//
+// function clickOpacusHorizontis() {
+//     drawCircle(opacusHorizontis);
+//     clockFaceAnimationTimer = setInterval(animateClockFace, 33);    // start animation
+//     hideClickMe();
+// }
 
 function animateClockFace() {
     var element = document.getElementById("clockFace");
