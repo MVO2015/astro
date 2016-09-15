@@ -46,3 +46,7 @@ p {
 .unclickable {
     color: #777;
 }
+
+.author {
+    font-family: serif;
+}

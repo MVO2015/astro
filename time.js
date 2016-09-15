@@ -43,14 +43,20 @@ Date.prototype.dst = function() {
 Date.prototype.addHours = function(h) {
    this.setTime(this.getTime() + (h*60*60*1000));
    return this;
-}
+};
 
 var daylightSavingTimeSwitch = {
     id: "dstSwitch",
     status: false,
     clickable: false,
     init: function() {
-        this.status = getTodayDate().dst();
+        var dst = getTodayDate().dst();
+        this.status = dst;
+        if (dst) {
+            this.activate()
+        } else {
+            this.suspend()
+        }
     },
     on: function() {
         this.status = true;
@@ -58,8 +64,17 @@ var daylightSavingTimeSwitch = {
     off: function() {
         this.status = false;
     },
-    setClickability: function(clickable) {
-        this.clickable = clickable;
+    activate: function() {
+        this.clickable = true;
+        var dstSwitchOn = document.getElementById("dstOn");
+        dstSwitchOn.setAttribute("onclick", "daylightSavingTimeOff()");
+        this.draw();
+    },
+    suspend: function() {
+        this.clickable = false;
+        var dstSwitchOff = document.getElementById("dstOff");
+        dstSwitchOff.setAttribute("onclick", "");
+        this.draw();
     },
     draw: function() {
         var dstSwitch = document.getElementById(this.id);

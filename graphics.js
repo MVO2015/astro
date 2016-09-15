@@ -9,7 +9,7 @@ function drawPoint(point) {
 function drawCircle(obj) {
     var element = document.getElementById(obj.id);
     setCircleElementAttributes(element, obj.cx, obj.cy, obj.r);
-    element.setAttribute("display", "inline");
+    displayInlineByElement(element);
 }
 
 function drawLine(line) {
@@ -18,7 +18,7 @@ function drawLine(line) {
     element.setAttribute("y1", scale(line.y1));
     element.setAttribute("x2", scale(line.x2));
     element.setAttribute("y2", scale(line.y2));
-    element.setAttribute("display", "inline");
+    displayInlineByElement(element);
 }
 
 function setCircleElementAttributes(circleElement, cx, cy,r) {
@@ -37,3 +37,58 @@ function drawCircleWithGradient(obj) {
     setGradientAttributes(gradientId, obj.cx, obj.cy, obj.r);
     drawCircle(obj);
 }
+
+function displayInlineById(id) {
+    var element = document.getElementById(id);
+    displayInlineByElement(element);
+}
+
+function displayInlineByElement(element) {
+    element.setAttribute("display", "inline");
+}
+
+function rotateSvgById(id, angleDeg) {
+    var element = document.getElementById(id);
+    element.setAttribute("transform", "rotate(" + angleDeg + ")");
+}
+
+function drawClockAxisSystem() {
+    var e = document.getElementById("clockAxisSystem");
+    e.setAttribute("display", "inline");
+}
+
+function drawClockNumbers() {
+    var r = scale(cancriTropicus.r) * 0.9;
+    for (var i = 0; i < 24; i++) {
+        var textElement = document.getElementById("number" + i.toString());
+        var positionElement =  document.getElementById("position" + + i.toString());
+        var angle = i * 15;
+        var angleRad = deg2rad(deg2sun(angle));
+        var x = Math.cos(angleRad) * r;
+        var y = Math.sin(angleRad) * r;
+        positionElement.setAttribute("transform", "translate(" + x + " " + y + ")");
+        textElement.setAttribute("transform", "rotate(" + angle + " 0,0)");
+    }
+    displayInlineById("clock");
+}
+
+function drawZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equinox, 90 ... winter solstice)
+    var zodiacumGroup = document.getElementById("zodiacum");
+    zodiacumGroup.setAttribute("transform", "rotate(" + angleDeg + ")");
+    drawCircle(zodiacumCircle);
+    drawLine(zodiacumEquinox);
+    drawLine(zodiacumSolstice);
+}
+
+function drawAstronomicalClock() {
+    drawCircle(clipCircleCancriTropicus);
+    // drawPoint(orbisCenter);
+    // moveClickMe(0, orbis.r, "clickOrbisCenter()");
+    drawCircleWithGradient(equator);
+    drawCircleWithGradient(cancriTropicus);
+    drawCircleWithGradient(capricorniTropicus);
+    drawCircleWithGradient(latitudoHorizontis);
+    drawCircle(opacusHorizontis);
+    drawClockNumbers();
+}
+

@@ -1,6 +1,6 @@
 var orbisDeclination = deg2rad(23.5);
-var latitudos = deg2rad(50);
-var horizontis = Math.PI / 2 - latitudos;
+var latitudo = deg2rad(50);
+var horizontis = Math.PI / 2 - latitudo;
 var opacus = deg2rad(18);
 var orbisDiameter = 1;
 
@@ -24,7 +24,6 @@ var orbis = {
     }
 };
 
-// not used at this time
 var orbisAxonX = {
     id: "orbisAxonX",
     x1: null,
@@ -40,7 +39,6 @@ var orbisAxonX = {
     }
 };
 
-// not used at this time
 var orbisAxonY = {
     id: "orbisAxonY",
     x1: 0,
@@ -54,7 +52,6 @@ var orbisAxonY = {
     }
 };
 
-// not used at this time
 var orbisEquator = {
     id: "orbisEquator",
     x1: null,
@@ -78,7 +75,6 @@ var clickMePoint = {
     }
 };
 
-// not used at this time
 var orbisCancriTropicus = {
     id: "orbisCancriTropicus",
     x1: null,
@@ -95,7 +91,6 @@ var orbisCancriTropicus = {
     }
 };
 
-// not used at this time
 var orbisCapricorniTropicus = {
     id: "orbisCapricorniTropicus",
     x1: null,
@@ -112,7 +107,6 @@ var orbisCapricorniTropicus = {
     }
 };
 
-// not used at this time
 var orbisLatitudo = {
     id: "orbisLatitudo",
     x1: null,
@@ -129,7 +123,6 @@ var orbisLatitudo = {
     }
 };
 
-// not used at this time
 var orbisOpacus = {
     id: "orbisOpacus",
     x1: null,
@@ -148,7 +141,6 @@ var orbisOpacus = {
     }
 };
 
-// not used at this time
 var planum = {
     id: "planum",
     x1: null,
@@ -163,7 +155,6 @@ var planum = {
     }
 };
 
-// not used at this time
 var equatorProjection = {
     id: "equatorProjection",
     x1: 0,
@@ -183,7 +174,6 @@ var equatorProjection = {
     }
 };
 
-// not used at this time
 var equator = {
     id: "equator",
     r: null,
@@ -195,7 +185,6 @@ var equator = {
 
 };
 
-// not used at this time
 var cancriTropicusProjection = {
     id: "cancriTropicusProjection",
     x1: 0,
