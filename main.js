@@ -32,7 +32,7 @@ function computeSunPosition(sunTimeAngleDeg) {
 
 function computeZodiacumAngleDeg(date) {
     var minutesYear = 60 * 24 * 365.25;
-    var equinoxDate = new Date(2016,9,22,16,20,41);    // autumn equinox
+    var equinoxDate = new Date(2016,8,22,16,20,41);    // autumn equinox
     var eh = equinoxDate.getHours();
     var em = equinoxDate.getMinutes();
     var equinoxTimeAngle = eh * 15 + em / 4;

@@ -7,7 +7,7 @@ function getTodayDate() {
     var mi = today.getMinutes();
     var h = today.getHours();
     var d = today.getDate();
-    var m = today.getMonth() + 1; //January is 0!
+    var m = today.getMonth();
     var y = today.getFullYear();
     return new Date(y, m, d, h, mi, s);
 }
