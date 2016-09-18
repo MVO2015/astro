@@ -1,15 +1,14 @@
 function getTodayDate() {
     var today= new Date();
-    if (today.dst()) {  // if daylight saving time is on, subtract 1 hour (to get real sun time)
+    if (today.dst()) {
         today.addHours(-1);
     }
-    var s= today.getSeconds();
-    var mi = today.getMinutes();
-    var h = today.getHours();
-    var d = today.getDate();
-    var m = today.getMonth();
-    var y = today.getFullYear();
-    return new Date(y, m, d, h, mi, s);
+    //return new Date(2016,8,12,17,24);
+    // return new Date(2016,8,1,11,03);
+    // return new Date(2016,8,26,14,35);
+    // return new Date(2016,8,16,17,24);
+
+    return today;
 }
 
 // Convert angle of sun time to normal angle.

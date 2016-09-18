@@ -6,6 +6,15 @@ function oppositeAngle(rad) {
     return Math.PI + rad;
 }
 
+function polar2Cartesian(centerX, centerY, radius, angleDeg) {
+    var angleRad = deg2rad(angleDeg);
+
+    return {
+        x: centerX + (radius * Math.cos(angleRad)),
+        y: centerY + (radius * Math.sin(angleRad))
+    };
+}
+
 function quadraticEquation(a, b, c) {
     var d = quadraticDiscriminant(a, b, c);
     if (d >= 0) {

@@ -1,5 +1,5 @@
-function computeSunPosition(sunTimeAngleDeg) {
-    var normalizedAngle = normalizeAngleDeg(sunTimeAngleDeg);
+function computePositionOnEclipse(angleDeg, zodiacum) {
+    var normalizedAngle = normalizeAngleDeg(angleDeg);
     var m = zodiacum.cx;
     var n = zodiacum.cy;
     var r = zodiacum.r;
@@ -27,22 +27,35 @@ function computeSunPosition(sunTimeAngleDeg) {
         x = [-y, y = x][0];    // x = - y, y = x
     }
     //console.log("m: "+m+"\nn: "+n+"\nr: "+r+"\nx: "+x+"\ny: "+y+"\n"+"phi: "+normalizedAngle+"\ntg phi:"+tgPhi +"\nxySystem: "+xySystem+"\n");
-    sunSymbol.showAt(scale(x), scale(y));
+    return {x: scale(x), y: scale(y)}
 }
 
 function computeZodiacumAngleDeg(date) {
-    var minutesYear = 60 * 24 * 365.25;
     var equinoxDate = new Date(2016,8,22,16,20,41);    // autumn equinox
     var eh = equinoxDate.getHours();
     var em = equinoxDate.getMinutes();
     var equinoxTimeAngle = eh * 15 + em / 4;
-    return ((date.getTime()-equinoxDate.getTime()) / 60000 / 4 * 366 / 365 + equinoxTimeAngle) % 360;
+    return ((date.getTime() - equinoxDate.getTime()) / 60000 / 4 * 366 / 365 + equinoxTimeAngle) % 360;
+}
+
+function computeMoonAngleDeg(date) {
+    var synodicMoon = 29.530588853;     // days
+    var daySpeed = (synodicMoon - 1) / synodicMoon;
+    var aNewMoonDate = new Date(2016, 8, 1, 11, 3, 0);
+    var timeDifference = date.getTime() - aNewMoonDate.getTime();
+    var timeDiffMins = timeDifference / 60000;
+    var timeDiffHours = timeDiffMins / 60;
+    var timeDiffDays = timeDiffHours / 24;
+    return (timeDiffDays * daySpeed * 360 + dateToSunTimeAngle(aNewMoonDate)) % 360;
 }
 
 function showDigitalTime() {
     var d = getTodayDate();
+    if (daylightSavingTimeSwitch.status) {
+        d.addHours(1);
+    }
     var time = document.getElementById("time");
-    time.innerText = d.toString();
+    time.innerText = d.toLocaleString();
     daylightSavingTimeSwitch.draw();
 }
 
@@ -53,10 +66,17 @@ function showAstronomicalTodayTime() {
 
 function showAstronomicalTime(d) {
     var zodiacumAngleDeg = computeZodiacumAngleDeg(d);
+    var sunAngleDeg = sun2deg(dateToSunTimeAngle(d));
+    var moonAngleDeg = sun2deg(computeMoonAngleDeg(d));
     drawZodiacum(zodiacumAngleDeg);
     zodiacum.compute(zodiacumAngleDeg);
-    computeSunPosition(sun2deg(dateToSunTimeAngle(d)));
-    sunTime.showByTime(d);
+    var sun = computePositionOnEclipse(sunAngleDeg, zodiacum);
+    sunHandle.showByTime(d);
+    sunSymbol.showAt(sun.x, sun.y);
+    var moon = computePositionOnEclipse(moonAngleDeg, zodiacum);
+    moonHandle.show(moonAngleDeg);
+    moonShape.compute(sunAngleDeg, moonAngleDeg);
+    moonSymbol.showAt(moon.x, moon.y, moonAngleDeg + 90);
 }
 
 function daylightSavingTimeOn() {
