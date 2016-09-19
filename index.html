@@ -14,6 +14,9 @@
     <div class="container" align="center">
         <svg id="wall" viewbox="-160, -160, 320, 320" width="100%" height="100%">
             <defs>
+                <filter id="blur-filter" x="-2" y="-2" width="20" height="20">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+                </filter>
                 <clipPath id="clipPathCancriTropicus">
                     <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"></circle>
                 </clipPath>
@@ -33,13 +36,24 @@
                   <stop offset="80%" stop-color="#A73" />
                   <stop offset="100%" stop-color="beige" />
                 </radialGradient>
+                <radialGradient id="gradientSunSymbol" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="5">
+                    <stop offset="10%" stop-color="yellow">
+
+                    </stop>
+                    <stop offset="0%" stop-color="orange">
+                        <animate id="anim1" attributeName="offset" from="10%" to="100%" dur="5s" begin="0s; anim2.end"
+                                 fill="freeze"></animate>
+                        <animate id="anim2" attributeName="offset" from="100%" to="10%" dur="5s" begin="anim1.end"
+                                 fill="freeze"></animate>
+                    </stop>
+                </radialGradient>
             </defs>
             <g id="clockFace" transform="rotate(270) scale(-1, 1)">
                 <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
                 <circle id="equator" display="none" r="0" cx="0"cy="0" stroke="yellow" fill-opacity="1" fill="url(#gradientEquator)"/>
-                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="url(#gradientCapricorniTropicus)" stroke="yellow" fill-opacity="1"/>
                 <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
                 <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="black" stroke="black" fill-opacity="1"/>
+                <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="url(#gradientCapricorniTropicus)" stroke="yellow" fill-opacity="1"/>
                 <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
 
                 <g id="clock" transform="rotate(-90) scale(-1, 1)" display="none" fill="#880" stroke="yellow">
@@ -122,9 +136,24 @@
                             <text id="number23" x="-10" y="0">XI</text>
                         </g>
                     </g>
-                    <line id="sunTime" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="5" stroke-opacity="0.5"></line>
+                    <line id="sunHandle" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="5" stroke-opacity="0.7"></line>
+                    <line id="moonHandle" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="4" stroke-opacity="0.7"></line>
                     <g id="sunPosition">
-                        <text id="sunSymbol" x="-8" y="5" stroke="#CC0" fill="#EE0" >&#9728;</text>
+                        <!--<text id="sunSymbol" x="-10" y="5" stroke="#CC0" fill="#EE0" font-size="20">&#9728;</text>-->
+                        <circle id="sunSymbol" cx="0" cy="0" r="7" fill="url(#gradientSunSymbol)" filter="url(#blur-filter)">
+                        </circle>
+                    </g>
+                    <g id="moonPosition">
+                        <g id="moonPhase">
+                            <path id="moonWhite" cx="0" cy="0" r="0" stroke="white" fill="white" fill-opacity="1" >
+                            </path>
+                            <path id="moonBlack" cx="0" cy="0" r="0" stroke="black" fill="black" fill-opacity="1" >
+                            </path>
+                            <circle id="moonDark" cx="0" cy="0" r="6" stroke="none" fill="black" fill-opacity="1"
+                                style="transform: rotateY(90deg)" display="none"></circle>
+                            <circle id="moonLight" cx="0" cy="0" r="6" stroke="none" fill="white" fill-opacity="1"
+                                    style="transform: rotateY(90deg)" display="none"></circle>
+                        </g>
                     </g>
                     <g id="clockAxisSystem" display="none">
                         <line x1="-150" y1="0" x2="150" y2="0" stroke="black" stroke-width="1" stroke-opacity="0.5"></line>

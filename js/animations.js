@@ -10,7 +10,7 @@ var astronomicalClockUpdateTimer;
 //var goZodiacumAroundTimer;
 
 function startDigitalClock() {
-    clockUpdateTimer = setInterval(showDigitalTime, 100);
+    clockUpdateTimer = setInterval(showDigitalTime, 1000);
 }
 
 function startAstronomicalClock() {

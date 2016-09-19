@@ -47,6 +47,15 @@ function displayInlineByElement(element) {
     element.setAttribute("display", "inline");
 }
 
+function displayNoneById(id) {
+    var element = document.getElementById(id);
+    displayNoneByElement(element);
+}
+
+function displayNoneByElement(element) {
+    element.setAttribute("display", "none");
+}
+
 function rotateSvgById(id, angleDeg) {
     var element = document.getElementById(id);
     element.setAttribute("transform", "rotate(" + angleDeg + ")");
@@ -90,5 +99,18 @@ function drawAstronomicalClock() {
     drawCircleWithGradient(latitudoHorizontis);
     drawCircle(opacusHorizontis);
     drawClockNumbers();
+}
+
+
+function describeArc(x, y, radius, startAngle, endAngle){
+
+    var start = polar2Cartesian(x, y, radius, endAngle);
+    var end = polar2Cartesian(x, y, radius, startAngle);
+    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+    var d = [
+        "M", parseFloat(start.x.toFixed(8)), parseFloat(start.y.toFixed(8)),
+        "A", radius, radius, 0, largeArcFlag, 0, parseFloat(end.x.toFixed(8)), parseFloat(end.y.toFixed(8))
+    ].join(" ");
+    return d;
 }
 

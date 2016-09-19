@@ -327,25 +327,25 @@ var opacusHorizontis = {
     }
 };
 
-var sunTime = {
-    id: "sunTime",
+var sunHandle = {
+    id: "sunHandle",
     x1: 0,
     y1: 0,
     x2: null,
     y2: null,
     r: null,
     angle: 0,
-    compute: function(cancriTropicusRadius) {
+    init: function(cancriTropicusRadius) {
         this.r = scale(cancriTropicusRadius);
         this.x2 = 0;
         this.y2 = scale(cancriTropicusRadius * 0.95);
-        var element = document.getElementById(this.id);
-        element.setAttribute("y2", this.y2.toString());
+        var handle = document.getElementById(this.id);
+        handle.setAttribute("y2", this.y2.toString());
     },
     show: function(angleDeg) {
-        var element = document.getElementById(this.id);
-        element.setAttribute("transform", "rotate(" + angleDeg + ")");
-        element.setAttribute("display", "inline");
+        var handle = document.getElementById(this.id);
+        handle.setAttribute("transform", "rotate(" + angleDeg + ")");
+        displayInlineByElement(handle)
     },
     showByTime: function(d) {
         this.show(dateToSunTimeAngle(d));
@@ -358,23 +358,59 @@ var sunSymbol = {
     r: null,
     x: null,
     y: null,
-    showSun: function(angleDeg) {
-        this.r = scale(cancriTropicus.r);
-        var angleRad = deg2rad(angleDeg + 90);
-        this.x = Math.cos(angleRad) * this.r;
-        this.y = Math.sin(angleRad) * this.r;
-        var element = document.getElementById(this.id);
-        element.setAttribute("transform", "rotate(" + angleDeg + ")");
-        element.setAttribute("display", "inline");
-        var sun = document.getElementById("sunPosition");
-        sun.setAttribute("transform", "translate(" + this.x + " " + this.y + ")");
-        sun.setAttribute("display", "inline");
-    },
+    // showSun: function(angleDeg) {
+    //     this.r = scale(cancriTropicus.r);
+    //     var angleRad = deg2rad(angleDeg + 90);
+    //     this.x = Math.cos(angleRad) * this.r;
+    //     this.y = Math.sin(angleRad) * this.r;
+    //     var element = document.getElementById(this.id);
+    //     element.setAttribute("transform", "rotate(" + angleDeg + ")");
+    //     element.setAttribute("display", "inline");
+    //     var sun = document.getElementById("sunPosition");
+    //     sun.setAttribute("transform", "translate(" + this.x + " " + this.y + ")");
+    //     sun.setAttribute("display", "inline");
+    // },
 
     showAt: function(xPx, yPx) {
         var sun = document.getElementById("sunPosition");
         sun.setAttribute("transform", "translate(" + xPx + " " + yPx + ")");
-        sun.setAttribute("display", "inline");
+        displayInlineByElement(sun);
+    }
+};
+
+var moonHandle = {
+    id: "moonHandle",
+    x1: 0,
+    y1: 0,
+    x2: null,
+    y2: null,
+    r: null,
+    angle: 0,
+    init: function(cancriTropicusRadius) {
+        this.r = scale(cancriTropicusRadius);
+        this.y2 = 0;
+        this.x2 = scale(cancriTropicusRadius * 0.95);
+        var handle = document.getElementById(this.id);
+        handle.setAttribute("x2", this.x2.toString());
+    },
+    show: function(angleDeg) {
+        var handle = document.getElementById(this.id);
+        handle.setAttribute("transform", "rotate(" + angleDeg + ")");
+        displayInlineByElement(handle)
+    }
+};
+
+var moonSymbol = {
+    id: "moonSymbol",
+    angle: 0,
+    r: null,
+    x: null,
+    y: null,
+
+    showAt: function(xPx, yPx, rotationDeg) {
+        var moon = document.getElementById("moonPosition");
+        moon.setAttribute("transform", "translate(" + xPx + " " + yPx + ") rotate(" + rotationDeg  + ")");
+        displayInlineByElement(moon);
     }
 };
 
@@ -428,6 +464,42 @@ var zodiacumSolstice = {
     }
 };
 
+var moonShape = {
+    r: 6,
+    init: function() {
+        var dw = describeArc(0, 0, this.r, -90, 90);
+        var moonWhite = document.getElementById("moonWhite");
+        moonWhite.setAttribute("d", dw);
+        moonWhite.setAttribute("r", this.r.toString());
+
+        var db = describeArc(0, 0, this.r, 90, -90);
+        var moonBlack = document.getElementById("moonBlack");
+        moonBlack.setAttribute("d", db);
+        moonBlack.setAttribute("r", this.r.toString());
+    },
+    compute: function(sunAngleDeg, moonAngleDeg) {
+        var moonAge = normalizeAngleDeg(sunAngleDeg - moonAngleDeg);
+        if (moonAge < 0) {  // swap B&W background of moon symbol
+            var moonPhase = document.getElementById("moonPhase");
+            moonPhase.setAttribute("style", "transform: rotate(180deg)");
+        }
+        // make light and dark part of the moon
+        if (Math.abs(moonAge) < 90) {
+            var darkness = moonAge;
+            var moonDark = document.getElementById("moonDark");
+            moonDark.setAttribute("style", "transform: rotateY(" + darkness + "deg)");
+            displayInlineByElement(moonDark);
+            displayNoneById("moonLight");
+        } else {
+            var moonLight = document.getElementById("moonLight");
+            var lightness = 180 - Math.abs(moonAge);
+            moonLight.setAttribute("style", "transform: rotateY(" + lightness + "deg)");
+            displayInlineByElement(moonLight);
+            displayNoneById("moonDark");
+        }
+    }
+};
+
 function scale(num)
 {
     return (100 * num).toString();
@@ -465,5 +537,7 @@ function constructAstronomicalClock() {
     zodiacumCircle.init();
     zodiacumEquinox.compute(equator.r);
     zodiacumSolstice.compute(cancriTropicus.r, capricorniTropicus.r);
-    sunTime.compute(cancriTropicus.r);
+    sunHandle.init(cancriTropicus.r);
+    moonHandle.init(cancriTropicus.r);
+    moonShape.init();
 }
