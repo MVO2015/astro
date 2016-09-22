@@ -81,12 +81,37 @@ function drawClockNumbers() {
     displayInlineById("clock");
 }
 
-function drawZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equinox, 90 ... winter solstice)
+function rotateZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equinox, 90 ... winter solstice)
     var zodiacumGroup = document.getElementById("zodiacum");
     zodiacumGroup.setAttribute("transform", "rotate(" + angleDeg + ")");
-    drawCircle(zodiacumCircle);
+}
+
+function drawZodiacum() {
+    drawCircle(maskCircleZodiacumOuter);
+    drawCircle(holeCircleZodiacumInner);
+    drawCircle(zodiacumOuterCircle);
+    drawCircle(zodiacumInnerCircle);
     drawLine(zodiacumEquinox);
     drawLine(zodiacumSolstice);
+
+    var cx = scale(zodiacumOuterCircle.cx);
+    var cy = scale(zodiacumOuterCircle.cy);
+    var r = scale(zodiacumOuterCircle.r);
+    var radius2 = scale(zodiacumInnerCircle.r);
+    var pieces = zodiacumPieces;
+    for (var i = 0; i < 12; i++) {
+        var leftOuter = zodiacumPieces.top[i];
+        var leftInner = zodiacumPieces.bottom[i];
+        var arcZ = document.getElementById("arcZ" + i.toString());
+        var leftBar = ["M", leftOuter.x, leftOuter.y, "L", leftInner.x, leftInner.y].join(' ');
+        var dz = [leftBar].join(' ');
+
+        var color = Math.floor(255 / 12 * i);
+        arcZ.setAttribute("d", dz);
+        arcZ.setAttribute("stroke", "rgb(200, 200," + color  + ")");
+        arcZ.setAttribute("stroke-width", "2");
+        arcZ.setAttribute("fill", "none");
+    }
 }
 
 function drawAstronomicalClock() {
@@ -99,18 +124,21 @@ function drawAstronomicalClock() {
     drawCircleWithGradient(latitudoHorizontis);
     drawCircle(opacusHorizontis);
     drawClockNumbers();
+    drawZodiacum();
 }
 
 
-function describeArc(x, y, radius, startAngle, endAngle){
-
+function describeArc(x, y, radius, startAngle, endAngle) {
     var start = polar2Cartesian(x, y, radius, endAngle);
     var end = polar2Cartesian(x, y, radius, startAngle);
     var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-    var d = [
+    return describeArcByCartesian(start, radius, largeArcFlag, end);
+}
+
+function describeArcByCartesian(start, radius, largeArcFlag, end) {
+    return [
         "M", parseFloat(start.x.toFixed(8)), parseFloat(start.y.toFixed(8)),
         "A", radius, radius, 0, largeArcFlag, 0, parseFloat(end.x.toFixed(8)), parseFloat(end.y.toFixed(8))
     ].join(" ");
-    return d;
 }
 

@@ -427,8 +427,8 @@ var zodiacum = {
     }
 };
 
-var zodiacumCircle = {
-    id: "zodiacumCircle",
+var zodiacumOuterCircle = {
+    id: "zodiacumOuterCircle",
     r: null,
     cx: null,
     cy: null,
@@ -437,6 +437,61 @@ var zodiacumCircle = {
         this.r = zodiacum.r;
         this.cx = zodiacum.cx;
         this.cy = zodiacum.cy;
+    }
+};
+
+var zodiacumInnerCircle = {
+    id: "zodiacumInnerCircle",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(zodiacumOuterCircle) {
+        this.r = zodiacumOuterCircle.r * 0.8;
+        this.cx = zodiacumOuterCircle.cx;
+        this.cy = zodiacumOuterCircle.cy;
+    }
+};
+
+var holeCircleZodiacumInner = {
+    id: "holeCircleZodiacumInner",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(zodiacumInnerCircle) {
+        this.r = zodiacumInnerCircle.r;
+        this.cx = zodiacumInnerCircle.cx;
+        this.cy = zodiacumInnerCircle.cy;
+    }
+};
+
+var maskCircleZodiacumOuter = {
+    id: "maskCircleZodiacumOuter",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(zodiacumOuterCircle) {
+        this.r = zodiacumOuterCircle.r;
+        this.cx = zodiacumOuterCircle.cx;
+        this.cy = zodiacumOuterCircle.cy;
+    }
+};
+
+var zodiacumPieces = {
+    top: null,
+    bottom: null,
+    init: function (zodiacumOuterCircle, zodiacumInnerCircle) {
+        var cx = scale(zodiacumOuterCircle.cx);
+        var cy = scale(zodiacumOuterCircle.cy);
+        var r1 = scale(zodiacumOuterCircle.r);
+        var r2 = scale(zodiacumInnerCircle.r);
+        this.top = [];
+        this.bottom = [];
+
+        for (var i = 0; i < 12; i++) {
+            var angleDeg = - i * 30;
+            this.top[i] = polar2Cartesian(cx, cy, r1, angleDeg - 90);
+            this.bottom[i] = polar2Cartesian(cx, cy, r2, angleDeg - 90);
+        }
     }
 };
 
@@ -502,7 +557,7 @@ var moonShape = {
 
 function scale(num)
 {
-    return (100 * num).toString();
+    return (100 * num);
 }
 
 function projection(alpha) {
@@ -534,9 +589,13 @@ function constructAstronomicalClock() {
     // opacusProjectionB.init();
     opacusHorizontis.compute(horizontis, opacus);
     //clickMePoint.init();
-    zodiacumCircle.init();
+    zodiacumOuterCircle.init();
+    zodiacumInnerCircle.init(zodiacumOuterCircle);
+    holeCircleZodiacumInner.init(zodiacumInnerCircle);
+    maskCircleZodiacumOuter.init(zodiacumOuterCircle);
     zodiacumEquinox.compute(equator.r);
     zodiacumSolstice.compute(cancriTropicus.r, capricorniTropicus.r);
+    zodiacumPieces.init(zodiacumOuterCircle, zodiacumInnerCircle);
     sunHandle.init(cancriTropicus.r);
     moonHandle.init(cancriTropicus.r);
     moonShape.init();

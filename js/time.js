@@ -3,10 +3,12 @@ function getTodayDate() {
     if (today.dst()) {
         today.addHours(-1);
     }
-    //return new Date(2016,8,12,17,24);
-    // return new Date(2016,8,1,11,03);
-    // return new Date(2016,8,26,14,35);
-    // return new Date(2016,8,16,17,24);
+    // return new Date(Date.UTC(2016,2,20,5,31));
+    // return new Date(2016,8,22,11,03);
+    // return new Date(2017,2,20,14,35);
+    // return new Date(2017,5,21,17,24);
+    // return new Date(2017,2,21,14,35);
+    // return new Date(2017,8,22,17,24);
 
     return today;
 }

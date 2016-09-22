@@ -31,11 +31,13 @@ function computePositionOnEclipse(angleDeg, zodiacum) {
 }
 
 function computeZodiacumAngleDeg(date) {
-    var equinoxDate = new Date(2016,8,22,16,20,41);    // autumn equinox
+    var equinoxDate = new Date(2016,8,22,10,22);    // autumn equinox
+    // var equinoxDate = new Date(2016,2,20,5,31);    // spring equinox
     var eh = equinoxDate.getHours();
     var em = equinoxDate.getMinutes();
     var equinoxTimeAngle = eh * 15 + em / 4;
-    return ((date.getTime() - equinoxDate.getTime()) / 60000 / 4 * 366 / 365 + equinoxTimeAngle) % 360;
+    var timeDiffDays = (date.getTime() - equinoxDate.getTime()) / 60000 / 60 /24;
+    return (timeDiffDays * 360 * 366.25 / 365.25 + equinoxTimeAngle) % 360;
 }
 
 function computeMoonAngleDeg(date) {
@@ -68,7 +70,7 @@ function showAstronomicalTime(d) {
     var zodiacumAngleDeg = computeZodiacumAngleDeg(d);
     var sunAngleDeg = sun2deg(dateToSunTimeAngle(d));
     var moonAngleDeg = sun2deg(computeMoonAngleDeg(d));
-    drawZodiacum(zodiacumAngleDeg);
+    rotateZodiacum(zodiacumAngleDeg);
     zodiacum.compute(zodiacumAngleDeg);
     var sun = computePositionOnEclipse(sunAngleDeg, zodiacum);
     sunHandle.showByTime(d);
