@@ -2,13 +2,31 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+function scalePoint(point) {
+    return {x: scale(point.x), y: scale(point.y)}
+}
+function setXYById(id, x, y) {
+    var element = document.getElementById(id);
+    element.setAttribute("x" , x);
+    element.setAttribute("y" , y);
+}
+function setTranslateById(id, translate) {
+    var element = document.getElementById(id);
+    element.setAttribute("style", ["transform: translate(", translate.x, "px,", translate.y,"px)"].join(""));
+}
+
+function setRotateById(id, rotation) {
+    var element = document.getElementById(id);
+    element.setAttribute("transform", ["rotate(", rotation, " 0,0)"].join("")    );
+}
+
 function drawPoint(point) {
     drawCircle({id: point.id, r: 0.05, cx: point.x, cy: point.y});
 }
 
 function drawCircle(obj) {
     var element = document.getElementById(obj.id);
-    setCircleElementAttributes(element, obj.cx, obj.cy, obj.r);
+    setCircleAttributes(element, obj.cx, obj.cy, obj.r);
     displayInlineByElement(element);
 }
 
@@ -21,7 +39,12 @@ function drawLine(line) {
     displayInlineByElement(element);
 }
 
-function setCircleElementAttributes(circleElement, cx, cy,r) {
+function setCircleAttributesById(circleId, cx, cy, r) {
+    var circleElement = document.getElementById(circleId);
+    setCircleAttributes(circleElement, cx, cy, r);
+}
+
+function setCircleAttributes(circleElement, cx, cy, r) {
     circleElement.setAttribute("r", scale(r));
     circleElement.setAttribute("cx", scale(cx));
     circleElement.setAttribute("cy", scale(cy));
@@ -29,7 +52,7 @@ function setCircleElementAttributes(circleElement, cx, cy,r) {
 
 function setGradientAttributes(gradientId, cx, cy, r) {
     var gradientElement = document.getElementById(gradientId);
-    setCircleElementAttributes(gradientElement, cx, cy, r);
+    setCircleAttributes(gradientElement, cx, cy, r);
 }
 
 function drawCircleWithGradient(obj) {
@@ -100,15 +123,17 @@ function drawZodiacum() {
     var radius2 = scale(zodiacumInnerCircle.r);
     var pieces = zodiacumPieces;
     for (var i = 0; i < 12; i++) {
-        var leftOuter = zodiacumPieces.top[i];
-        var leftInner = zodiacumPieces.bottom[i];
+        var leftOuter = scalePoint(zodiacumOuterPoints.point[i]);
+        var leftInner = scalePoint(zodiacumInnerPoints.point[i]);
+        var centerPoint = scalePoint(zodiacumCenterPoints.point[i]);
+        setTranslateById("positionSign" + i, centerPoint);
+        setRotateById("sign" + i, -i * 30 - 10);
+        // setXYById("sign" + i, -5, -5);
         var arcZ = document.getElementById("arcZ" + i.toString());
         var leftBar = ["M", leftOuter.x, leftOuter.y, "L", leftInner.x, leftInner.y].join(' ');
         var dz = [leftBar].join(' ');
-
-        var color = Math.floor(255 / 12 * i);
         arcZ.setAttribute("d", dz);
-        arcZ.setAttribute("stroke", "rgb(200, 200," + color  + ")");
+        arcZ.setAttribute("stroke", "orange");
         arcZ.setAttribute("stroke-width", "2");
         arcZ.setAttribute("fill", "none");
     }

@@ -1,4 +1,5 @@
-var orbisDeclination = deg2rad(23.5);
+var orbisDeclinationDeg = 23.5;
+var orbisDeclination = deg2rad(orbisDeclinationDeg);
 var latitudo = deg2rad(50);
 var horizontis = Math.PI / 2 - latitudo;
 var opacus = deg2rad(18);
@@ -418,12 +419,28 @@ var zodiacum = {
     r: null,
     cx: 0,
     cy: 0,
+    c0: {x: null, y: null}, // center X, Y coordinates while angle = 0
+    e0: {x: null, y: null}, // eclipse pole X, Y coordinates while angle = 0
+
+    init: function() {
+        this.compute(0);
+        this.c0 = {x: this.cx, y: this.cy};
+        this.e0 = this.eclipsePoleConstruction();
+    },
     compute: function(angleDeg) {
         angleDeg = (typeof angleDeg !== 'undefined') ?  angleDeg : 0;
         var angleRad = deg2rad(angleDeg);
         this.r = (cancriTropicus.r + capricorniTropicus.r) / 2;
-        this.cy = (capricorniTropicus.r - this.r) * Math.sin(angleRad);
-        this.cx = (capricorniTropicus.r - this.r) * Math.cos(angleRad);
+        var centerRotationRadius = capricorniTropicus.r - this.r;
+        this.cy = centerRotationRadius * Math.sin(angleRad);
+        this.cx = centerRotationRadius * Math.cos(angleRad);
+    },
+    eclipsePoleConstruction: function () {
+        var pointOnEquator1 = polar2Cartesian(0, 0, equator.r, 90 + orbisDeclinationDeg);
+        var pointOnEquator2 = {x:0, y: -equator.r};
+        var lineGeneralEquationConstants = generalEquationConstantsOfLine(pointOnEquator1, pointOnEquator2);
+        var x = intersectionOfLineAndXaxis(lineGeneralEquationConstants);
+        return {x: x, y: 0};
     }
 };
 
@@ -447,6 +464,18 @@ var zodiacumInnerCircle = {
     cy: null,
     init: function(zodiacumOuterCircle) {
         this.r = zodiacumOuterCircle.r * 0.8;
+        this.cx = zodiacumOuterCircle.cx;
+        this.cy = zodiacumOuterCircle.cy;
+    }
+};
+
+var zodiacumCentralCircle = {
+    id: "zodiacumInnerCircle",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(zodiacumInnerCircle, zodiacumOuterCircle) {
+        this.r = (zodiacumOuterCircle.r + zodiacumInnerCircle.r) / 2;
         this.cx = zodiacumOuterCircle.cx;
         this.cy = zodiacumOuterCircle.cy;
     }
@@ -492,6 +521,101 @@ var zodiacumPieces = {
             this.top[i] = polar2Cartesian(cx, cy, r1, angleDeg - 90);
             this.bottom[i] = polar2Cartesian(cx, cy, r2, angleDeg - 90);
         }
+    }
+};
+
+// Points on equator for construction of Zodiac
+var equatorPoints = {
+    point: null,
+    init: function (equator) {
+        this.point = [];
+        for (var i = 0; i < 12; i++) {
+            var angleDeg = - i * 30;
+            this.point[i] = polar2Cartesian(equator.cx, equator.cy, equator.r, angleDeg - 90);
+        }
+    }
+};
+
+// Points on equator for construction of Zodiac - rotation 15 deg
+var equatorPointsRotated = {
+    point: null,
+    init: function (equator) {
+        this.point = [];
+        for (var i = 0; i < 12; i++) {
+            var angleDeg = - i * 30 - 15;
+            this.point[i] = polar2Cartesian(equator.cx, equator.cy, equator.r, angleDeg - 90);
+        }
+    }
+};
+
+var zodiacumOuterPoints = {
+    point: null,
+    eclipsePole: {x: null, y: 0},
+    cx: null,
+    cy: null,
+    r: null,
+    init: function(zodiacum, equatorPoints) {
+        // which root of quadratic equation we select for solution for given index (angle)
+        var root = [1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1];
+        this.eclipsePole = zodiacum.e0;
+        this.cx = zodiacum.cx;
+        this.cy = zodiacum.cy;
+        this.r = zodiacum.r;
+        this.point = [];
+        for (var i = 0; i < 12; i++) {
+            var twoPoints = this.computeProjection(equatorPoints.point[i]);
+            this.point[i] = (root[i] == 1) ? twoPoints.p1 : twoPoints.p2;
+        }
+    },
+    computeProjection: function (point) {
+        return intersectionOfCircleAndLine(zodiacum, this.eclipsePole, point)
+    }
+};
+
+var zodiacumInnerPoints = {
+    point: null,
+    centralPoint: {x: 0, y: 0},
+    cx: null,
+    cy: null,
+    r: null,
+    init: function(zodiacumInnerCircle, equatorPoints) {
+        // which root of quadratic equation we select for solution for given index (angle)
+        var root = [1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1];
+        this.cx = zodiacumInnerCircle.cx;
+        this.cy = zodiacumInnerCircle.cy;
+        this.r = zodiacumInnerCircle.r;
+        this.point = [];
+        for (var i = 0; i < 12; i++) {
+            var twoPoints = this.computeProjection(equatorPoints.point[i]);
+            this.point[i] = (root[i] == 1) ? twoPoints.p1 : twoPoints.p2;
+        }
+    },
+    computeProjection: function (point) {
+        return intersectionOfCircleAndLine(zodiacumInnerCircle, this.centralPoint, point)
+    }
+};
+
+var zodiacumCenterPoints = {
+    point: null,
+    centralPoint: {x: 0, y: 0},
+    cx: null,
+    cy: null,
+    r: null,
+    init: function(zodiacumCentralCircle, equatorPointsRotated) {
+        // which root of quadratic equation we select for solution for given index (angle)
+        var root = [2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1];
+        this.eclipsePole = zodiacum.e0;
+        this.cx = zodiacumCentralCircle.cx;
+        this.cy = zodiacumCentralCircle.cy;
+        this.r = zodiacumCentralCircle.r;
+        this.point = [];
+        for (var i = 0; i < 12; i++) {
+            var twoPoints = this.computeProjection(equatorPointsRotated.point[i]);
+            this.point[i] = (root[i] == 1) ? twoPoints.p1 : twoPoints.p2;
+        }
+    },
+    computeProjection: function (point) {
+        return intersectionOfCircleAndLine(zodiacumCentralCircle, this.centralPoint, point)
     }
 };
 
@@ -589,8 +713,10 @@ function constructAstronomicalClock() {
     // opacusProjectionB.init();
     opacusHorizontis.compute(horizontis, opacus);
     //clickMePoint.init();
+    zodiacum.init();
     zodiacumOuterCircle.init();
-    zodiacumInnerCircle.init(zodiacumOuterCircle);
+    zodiacumInnerCircle.init(zodiacumOuterCircle);7
+    zodiacumCentralCircle.init(zodiacumInnerCircle, zodiacumOuterCircle);
     holeCircleZodiacumInner.init(zodiacumInnerCircle);
     maskCircleZodiacumOuter.init(zodiacumOuterCircle);
     zodiacumEquinox.compute(equator.r);
@@ -599,4 +725,9 @@ function constructAstronomicalClock() {
     sunHandle.init(cancriTropicus.r);
     moonHandle.init(cancriTropicus.r);
     moonShape.init();
+    equatorPoints.init(equator);
+    equatorPointsRotated.init(equator);
+    zodiacumOuterPoints.init(zodiacum, equatorPoints);
+    zodiacumCenterPoints.init(zodiacumCentralCircle, equatorPointsRotated);
+    zodiacumInnerPoints.init(zodiacumInnerCircle, equatorPoints);
 }
