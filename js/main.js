@@ -37,7 +37,7 @@ function computeZodiacumAngleDeg(date) {
     var em = equinoxDate.getMinutes();
     var equinoxTimeAngle = eh * 15 + em / 4;
     var timeDiffDays = (date.getTime() - equinoxDate.getTime()) / 60000 / 60 /24;
-    return (timeDiffDays * 360 * 366.25 / 365.25 + equinoxTimeAngle) % 360;
+    return (timeDiffDays * 360 * 366.25 / 365.25 * 1.000015 + equinoxTimeAngle) % 360;   // 1.00005
 }
 
 function computeMoonAngleDeg(date) {
@@ -52,7 +52,7 @@ function computeMoonAngleDeg(date) {
 }
 
 function showDigitalTime() {
-    var d = getTodayDate();
+    var d = new Date(astronomicalClockTime);
     if (daylightSavingTimeSwitch.status) {
         d.addHours(1);
     }
@@ -62,8 +62,8 @@ function showDigitalTime() {
 }
 
 function showAstronomicalTodayTime() {
-    var d = getTodayDate();
-    showAstronomicalTime(d);
+    astronomicalClockTime = getTodayDate();
+    showAstronomicalTime(astronomicalClockTime);
 }
 
 function showAstronomicalTime(d) {
@@ -79,6 +79,7 @@ function showAstronomicalTime(d) {
     moonHandle.show(moonAngleDeg);
     moonShape.compute(sunAngleDeg, moonAngleDeg);
     moonSymbol.showAt(moon.x, moon.y, moonAngleDeg + 90);
+    showDigitalTime();
 }
 
 function daylightSavingTimeOn() {
@@ -99,7 +100,62 @@ if (daylightSavingTimeSwitch.status) {
     daylightSavingTimeOff();
 }
 
-startDigitalClock();
+var astronomicalClockTime;
+
+showAstronomicalTodayTime();
+displayInlineById("zodiacum");
+displayInlineById("moonPhase");
+displayInlineById("sunSymbol");
+addListener("zodiacum", zodiacWheel);
+addListener("time", sunWheel);
 startAstronomicalClock();
 //animateDayAround();
 //animateYearAround();
+
+function addListener(id, wheelFunction) {
+    // Zodiacum (year cycle)
+    var element = document.getElementById(id);
+    if (element.addEventListener)
+    {
+        // IE9, Chrome, Safari, Opera
+        element.addEventListener("mousewheel", wheelFunction, false);
+        // Firefox
+        element.addEventListener("DOMMouseScroll", wheelFunction, false);
+    }
+// IE 6/7/8
+    else
+    {
+        element.attachEvent("onmousewheel", wheelFunction);
+    }
+
+    // Sun (day cycle)
+
+}
+
+
+function zodiacWheel(e)
+{
+    // cross-browser wheel delta
+    var e = window.event || e; // old IE support
+    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+    stopAstronomicalClock();
+    astronomicalClockTime = astronomicalClockTime.addHours(delta * 24);
+    showAstronomicalTime(astronomicalClockTime);
+}
+
+function sunWheel(e)
+{
+    // cross-browser wheel delta
+    var e = window.event || e; // old IE support
+    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+    stopAstronomicalClock();
+    astronomicalClockTime = astronomicalClockTime.addHours(delta / 10);
+    showAstronomicalTime(astronomicalClockTime);
+}
+
+function pressedEsc(event) {
+    var x = event.which || event.keyCode;
+    startAstronomicalClock();
+}

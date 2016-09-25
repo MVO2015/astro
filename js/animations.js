@@ -1,6 +1,5 @@
 var daylightSavingTimeOnTimer;
 var daylightSavingTimeOffTimer;
-var clockUpdateTimer;
 var astronomicalClockUpdateTimer;
 
 //var clockFaceAnimationTimer;
@@ -8,10 +7,6 @@ var astronomicalClockUpdateTimer;
 //var hideDesignAnimationTimer;
 //var moveOrbisAnimationTimer;
 //var goZodiacumAroundTimer;
-
-function startDigitalClock() {
-    clockUpdateTimer = setInterval(showDigitalTime, 1000);
-}
 
 function startAstronomicalClock() {
     astronomicalClockUpdateTimer = setInterval(showAstronomicalTodayTime, 1000);
@@ -22,18 +17,18 @@ function stopAstronomicalClock() {
 }
 
 function animateDaylightSavingTimeOn() {
-    var clockFace = document.getElementById("clockFace");
-    var clockFaceRotation = clockFace.getAttribute("transform").match(/\d+/)[0];       // get number from string
-    if (clockFaceRotation < 285) {  // animate whole clock
-        clockFaceRotation++;
-        clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
+    var numbers = document.getElementById("numbers");
+    var numbersRotation = numbers.getAttribute("transform").match(/-?\d+/)[0];       // get number from string
+    if (numbersRotation > -15) {    // animate numbers
+        numbersRotation--;
+        rotateSvgById("numbers", numbersRotation);
     }
     else {
-        var numbers = document.getElementById("numbers");
-        var numbersRotation = numbers.getAttribute("transform").match(/-?\d+/)[0];       // get number from string
-        if (numbersRotation > -15) {    // animate numbers
-            numbersRotation--;
-            rotateSvgById("numbers", numbersRotation);
+        var clockFace = document.getElementById("clockFace");
+        var clockFaceRotation = clockFace.getAttribute("transform").match(/\d+/)[0];       // get number from string
+        if (clockFaceRotation < 285) {  // animate whole clock
+            clockFaceRotation++;
+            clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
         } else {
             clearInterval(daylightSavingTimeOnTimer);     // stop this animation
         }
@@ -41,18 +36,18 @@ function animateDaylightSavingTimeOn() {
 }
 
 function animateDaylightSavingTimeOff() {
-    var clockFace = document.getElementById("clockFace");
-    var clockFaceRotation = clockFace.getAttribute("transform").match(/\d+/)[0];       // get number from string
-    if (clockFaceRotation > 270) {  // animate whole clock
-        clockFaceRotation--;
-        clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
+    var numbers = document.getElementById("numbers");
+    var numbersRotation = numbers.getAttribute("transform").match(/-?\d+/)[0];       // get number from string
+    if (numbersRotation < 0) {  // animate numbers
+        numbersRotation++;
+        rotateSvgById("numbers", numbersRotation);
     }
     else {
-        var numbers = document.getElementById("numbers");
-        var numbersRotation = numbers.getAttribute("transform").match(/-?\d+/)[0];       // get number from string
-        if (numbersRotation < 0) {  // animate numbers
-            numbersRotation++;
-            rotateSvgById("numbers", numbersRotation);
+        var clockFace = document.getElementById("clockFace");
+        var clockFaceRotation = clockFace.getAttribute("transform").match(/\d+/)[0];       // get number from string
+        if (clockFaceRotation > 270) {  // animate whole clock
+            clockFaceRotation--;
+            clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
         } else {
             clearInterval(daylightSavingTimeOffTimer);     // stop this animation
         }

@@ -8,7 +8,7 @@
 <style>
 
 </style>
-<body>
+<body onkeypress="pressedEsc(event)">
 <h1>Astronomical Clock</h1>
 <p class="author">By Martin Vondráček</p>
     <div class="container" align="center">
@@ -131,9 +131,9 @@
                             <text id="number23" x="-10" y="0">XI</text>
                         </g>
                     </g>
-                    <line id="sunHandle" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="5" stroke-opacity="0.7"></line>
-                    <line id="moonHandle" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="4" stroke-opacity="0.7"></line>
-                    <g id="zodiacum">
+                    <line id="sunHandle" stroke="orange" stroke-width="5" stroke-opacity="0.7" display="none"></line>
+                    <line id="moonHandle" stroke="black" stroke-width="4" stroke-opacity="0.7" display="none"></line>
+                    <g id="zodiacum" display="none">
                         <defs>
                             <mask id="holeZodiacumInner">
                                 <circle id="maskCircleZodiacumOuter" cx="0" cy="0" r="100" fill="White"></circle>
@@ -173,19 +173,20 @@
                     </g>
                     <g id="sunPosition">
                         <!--<text id="sunSymbol" x="-10" y="5" stroke="#CC0" fill="#EE0" font-size="20">&#9728;</text>-->
-                        <circle id="sunSymbol" cx="0" cy="0" r="7" fill="url(#gradientSunSymbol)" filter="url(#blur-filter)">
+                        <circle id="sunSymbol" cx="0" cy="0" r="7" fill="url(#gradientSunSymbol)"
+                                filter="url(#blur-filter)" display="none">
                         </circle>
                     </g>
                     <g id="moonPosition">
-                        <g id="moonPhase">
-                            <path id="moonWhite" cx="0" cy="0" r="0" stroke="white" fill="white" fill-opacity="1" >
+                        <g id="moonPhase" display="none">
+                            <path id="moonWhite" d="" stroke="white" fill="white" fill-opacity="1" >
                             </path>
-                            <path id="moonBlack" cx="0" cy="0" r="0" stroke="black" fill="black" fill-opacity="1" >
+                            <path id="moonBlack" d="" stroke="black" fill="black" fill-opacity="1" >
                             </path>
                             <circle id="moonDark" cx="0" cy="0" r="6" stroke="none" fill="black" fill-opacity="1"
-                                style="transform: rotateY(90deg)" display="none"></circle>
+                                style="transform: rotateY(90deg)"></circle>
                             <circle id="moonLight" cx="0" cy="0" r="6" stroke="none" fill="white" fill-opacity="1"
-                                    style="transform: rotateY(90deg)" display="none"></circle>
+                                    style="transform: rotateY(90deg)"></circle>
                         </g>
                     </g>
                     <g id="clockAxisSystem" display="none">
@@ -194,7 +195,6 @@
                         <text y="0" x="150" opacity="0.5">x (150,0)</text>
                         <text x="0" y="150" opacity="0.5">y (0,150)</text>
                     </g>
-
                 </g>
 
                 <g id="design" opacity="1">

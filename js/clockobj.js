@@ -1,9 +1,9 @@
-var orbisDeclinationDeg = 23.5;
-var orbisDeclination = deg2rad(orbisDeclinationDeg);
-var latitudo = deg2rad(50);
-var horizontis = Math.PI / 2 - latitudo;
-var opacus = deg2rad(18);
-var orbisDiameter = 1;
+var OrbisDeclinationDeg = 23.5;
+var orbisDeclination = deg2rad(OrbisDeclinationDeg);
+var Latitudo = deg2rad(50);
+var horizontis = Math.PI / 2 - Latitudo;
+var Opacus = deg2rad(18);
+var OrbisDiameter = 1;
 
 var orbisCenter = {
     id: "orbisCenter",
@@ -25,155 +25,6 @@ var orbis = {
     }
 };
 
-var orbisAxonX = {
-    id: "orbisAxonX",
-    x1: null,
-    y1: null,
-    x2: null,
-    y2: null,
-    overlap: 0.1,
-    init: function() {
-        this.x1 = -orbis.r - this.overlap;
-        this.y1 = orbis.r;
-        this.x2 = orbis.r + this.overlap;
-        this.y2 = orbis.r;
-    }
-};
-
-var orbisAxonY = {
-    id: "orbisAxonY",
-    x1: 0,
-    y1: null,
-    x2: 0,
-    y2: null,
-    overlap: 0.1,
-    init: function() {
-        this.y1 = - this.overlap;
-        this.y2 = 2 * orbis.r + this.overlap;
-    }
-};
-
-var orbisEquator = {
-    id: "orbisEquator",
-    x1: null,
-    y1: null,
-    x2: null,
-    y2: null,
-    compute: function (orbisDiameter) {
-        var radius = orbisDiameter / 2;
-        this.x1 = -radius;
-        this.y1 = radius;
-        this.x2 = radius;
-        this.y2 = radius;
-    }
-};
-
-var clickMePoint = {
-    id: "clickMePoint",
-    x: 0,
-    y: 0,
-    init: function () {
-    }
-};
-
-var orbisCancriTropicus = {
-    id: "orbisCancriTropicus",
-    x1: null,
-    y1: null,
-    x2: null,
-    y2: null,
-    compute: function (orbisCenter, orbisRadius, orbisDeclination) {
-        var orbisX = Math.cos(orbisDeclination) * orbisRadius;
-        var orbisY = Math.sin(orbisDeclination) * orbisRadius;
-        this.x1 = orbisCenter.x - orbisX;
-        this.y1 = orbisCenter.y + orbisY;
-        this.x2 = orbisCenter.x + orbisX;
-        this.y2 = this.y1;
-    }
-};
-
-var orbisCapricorniTropicus = {
-    id: "orbisCapricorniTropicus",
-    x1: null,
-    y1: null,
-    x2: null,
-    y2: null,
-    compute: function (orbisCenter, orbisRadius, orbisDeclination) {
-        var orbisX = Math.cos(orbisDeclination) * orbisRadius;
-        var orbisY = - Math.sin(orbisDeclination) * orbisRadius;
-        this.x1 = orbisCenter.x - orbisX;
-        this.y1 = orbisCenter.y + orbisY;
-        this.x2 = orbisCenter.x + orbisX;
-        this.y2 = this.y1;
-    }
-};
-
-var orbisLatitudo = {
-    id: "orbisLatitudo",
-    x1: null,
-    y1: null,
-    x2: null,
-    y2: null,
-    compute: function (orbisCenter, orbisRadius, horizontis) {
-        var orbisX = Math.cos(-horizontis) * orbisRadius;
-        var orbisY = Math.sin(-horizontis) * orbisRadius;
-        this.x1 = orbisCenter.x - orbisX;
-        this.y1 = orbisCenter.y + orbisY;
-        this.x2 = orbisCenter.x + orbisX;
-        this.y2 = orbisCenter.y - orbisY;
-    }
-};
-
-var orbisOpacus = {
-    id: "orbisOpacus",
-    x1: null,
-    y1: null,
-    x2: null,
-    y2: null,
-    init: function () {
-        var orbisX1 = Math.cos(oppositeAngle(horizontis + opacus)) * orbis.r;
-        var orbisY1 = Math.sin(oppositeAngle(horizontis + opacus)) * orbis.r;
-        var orbisX2 = Math.cos(horizontis - opacus) * orbis.r;
-        var orbisY2 = Math.sin(horizontis - opacus) * orbis.r;
-        this.x1 = orbisCenter.x + orbisX1;
-        this.y1 = orbisCenter.y + orbisY1;
-        this.x2 = orbisCenter.x + orbisX2;
-        this.y2 = orbisCenter.y + orbisY2;
-    }
-};
-
-var planum = {
-    id: "planum",
-    x1: null,
-    y1: 0,
-    x2: null,
-    y2: 0,
-    overlap: 0.1,
-    init: function () {
-        var planumX = projection(orbisDeclination) + this.overlap;
-        this.x1 = planumX;
-        this.x2 = -planumX;
-    }
-};
-
-var equatorProjection = {
-    id: "equatorProjection",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    overlap: 0.1,
-    x: null,
-    y: null,
-    init: function () {
-        this.x = - projection(0);
-        this.y = 0;
-        this.x1 = this.overlap;
-        this.y1 = 2 * orbis.r + this.overlap;
-        this.x2 = this.x - this.overlap;
-        this.y2 = this.y - this.overlap;
-    }
-};
 
 var equator = {
     id: "equator",
@@ -182,24 +33,6 @@ var equator = {
     cy: 0,
     compute: function () {
         this.r = projection(0);
-    }
-
-};
-
-var cancriTropicusProjection = {
-    id: "cancriTropicusProjection",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    x: null,
-    y: 0,
-    init: function () {
-        this.x = this.x2;
-        this.y = 0;
-        this.y1 = 2 * orbis.r;
-        this.x2 = - projection(orbisDeclination);
-        this.x = this.x2;
     }
 };
 
@@ -223,20 +56,6 @@ var clipCircleCancriTropicus = {
     }
 };
 
-var capricorniTropicusProjection = {
-    id: "capricorniTropicusProjection",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    x: null,
-    y: 0,
-    init: function () {
-        this.y1 =  2 * orbis.r;
-        this.x = - projection(-orbisDeclination);
-        this.x2 = this.x;
-    }
-};
 
 var capricorniTropicus = {
     id: "capricorniTropicus",
@@ -245,33 +64,6 @@ var capricorniTropicus = {
     cy: 0,
     compute: function (orbisDeclination) {
         this.r = projection(-orbisDeclination);
-    }
-};
-
-var latitudoProjectionA = {
-    id: "latitudoProjectionA",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    init: function () {
-        this.y1 = 2 * orbis.r;
-        this.x2 = projection(horizontis);
-    }
-};
-
-var latitudoProjectionB = {
-    id: "latitudoProjectionB",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    x: null,
-    y: 0,
-    init: function () {
-        this.y1 = 2 * orbis.r;
-        this.x = projection(oppositeAngle(horizontis));
-        this.x2 = this.x;
     }
 };
 
@@ -285,33 +77,6 @@ var latitudoHorizontis = {
         var x2 = projection(oppositeAngle(horizontis));
         this.cx = (x1 + x2) / 2 ;
         this.r = Math.abs(x2 - x1) / 2;
-    }
-};
-
-var opacusProjectionA = {
-    id: "opacusProjectionA",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    init: function () {
-        this.y1 = 2 * orbis.r;
-        this.x2 = projection(horizontis - opacus);
-    }
-};
-
-var opacusProjectionB = {
-    id: "opacusProjectionB",
-    x1: 0,
-    y1: null,
-    x2: null,
-    y2: 0,
-    x: null,
-    y: 0,
-    init: function () {
-        this.y1 = 2 * orbis.r;
-        this.x = projection(oppositeAngle(horizontis + opacus));
-        this.x2 = this.x;
     }
 };
 
@@ -359,18 +124,6 @@ var sunSymbol = {
     r: null,
     x: null,
     y: null,
-    // showSun: function(angleDeg) {
-    //     this.r = scale(cancriTropicus.r);
-    //     var angleRad = deg2rad(angleDeg + 90);
-    //     this.x = Math.cos(angleRad) * this.r;
-    //     this.y = Math.sin(angleRad) * this.r;
-    //     var element = document.getElementById(this.id);
-    //     element.setAttribute("transform", "rotate(" + angleDeg + ")");
-    //     element.setAttribute("display", "inline");
-    //     var sun = document.getElementById("sunPosition");
-    //     sun.setAttribute("transform", "translate(" + this.x + " " + this.y + ")");
-    //     sun.setAttribute("display", "inline");
-    // },
 
     showAt: function(xPx, yPx) {
         var sun = document.getElementById("sunPosition");
@@ -436,7 +189,7 @@ var zodiacum = {
         this.cx = centerRotationRadius * Math.cos(angleRad);
     },
     eclipsePoleConstruction: function () {
-        var pointOnEquator1 = polar2Cartesian(0, 0, equator.r, 90 + orbisDeclinationDeg);
+        var pointOnEquator1 = polar2Cartesian(0, 0, equator.r, 90 + OrbisDeclinationDeg);
         var pointOnEquator2 = {x:0, y: -equator.r};
         var lineGeneralEquationConstants = generalEquationConstantsOfLine(pointOnEquator1, pointOnEquator2);
         var x = intersectionOfLineAndXaxis(lineGeneralEquationConstants);
@@ -578,7 +331,7 @@ var zodiacumInnerPoints = {
     cx: null,
     cy: null,
     r: null,
-    init: function(zodiacumInnerCircle, equatorPoints) {
+    init: function(zodiacumInnerCircle, outerPoints) {
         // which root of quadratic equation we select for solution for given index (angle)
         var root = [1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1];
         this.cx = zodiacumInnerCircle.cx;
@@ -586,7 +339,8 @@ var zodiacumInnerPoints = {
         this.r = zodiacumInnerCircle.r;
         this.point = [];
         for (var i = 0; i < 12; i++) {
-            var twoPoints = this.computeProjection(equatorPoints.point[i]);
+            // var twoPoints = this.computeProjection(equatorPoints.point[i]);
+            var twoPoints = intersectionOfCircleAndLine(zodiacumInnerCircle, outerPoints.point[i], this.centralPoint);
             this.point[i] = (root[i] == 1) ? twoPoints.p1 : twoPoints.p2;
         }
     },
@@ -657,10 +411,14 @@ var moonShape = {
         moonBlack.setAttribute("r", this.r.toString());
     },
     compute: function(sunAngleDeg, moonAngleDeg) {
+        var sunAngleDeg = normalizeAngleDeg(sunAngleDeg);
+        var moonAngleDeg = normalizeAngleDeg(moonAngleDeg);
         var moonAge = normalizeAngleDeg(sunAngleDeg - moonAngleDeg);
+        var moonPhase = document.getElementById("moonPhase");
         if (moonAge < 0) {  // swap B&W background of moon symbol
-            var moonPhase = document.getElementById("moonPhase");
             moonPhase.setAttribute("style", "transform: rotate(180deg)");
+        } else {
+            moonPhase.setAttribute("style", "transform: rotate(0deg)");
         }
         // make light and dark part of the moon
         if (Math.abs(moonAge) < 90) {
@@ -689,12 +447,12 @@ function projection(alpha) {
 }
 
 function constructAstronomicalClock() {
-    orbisCenter.compute(orbisDiameter);
-    orbis.compute(orbisDiameter);
+    orbisCenter.compute(OrbisDiameter);
+    orbis.compute(OrbisDiameter);
     // orbisAxonX.init();
     // orbisAxonY.init();
     //planum.init();
-    //orbisEquator.compute(orbisDiameter);
+    //orbisEquator.compute(OrbisDiameter);
     //equatorProjection.init();
     // orbisCancriTropicus.compute(orbisCenter, orbis.r, orbisDeclination);
     // orbisCapricorniTropicus.compute(orbisCenter, orbis.r, orbisDeclination);
@@ -711,11 +469,11 @@ function constructAstronomicalClock() {
     latitudoHorizontis.init();
     // opacusProjectionA.init();
     // opacusProjectionB.init();
-    opacusHorizontis.compute(horizontis, opacus);
+    opacusHorizontis.compute(horizontis, Opacus);
     //clickMePoint.init();
     zodiacum.init();
     zodiacumOuterCircle.init();
-    zodiacumInnerCircle.init(zodiacumOuterCircle);7
+    zodiacumInnerCircle.init(zodiacumOuterCircle);
     zodiacumCentralCircle.init(zodiacumInnerCircle, zodiacumOuterCircle);
     holeCircleZodiacumInner.init(zodiacumInnerCircle);
     maskCircleZodiacumOuter.init(zodiacumOuterCircle);
@@ -729,5 +487,5 @@ function constructAstronomicalClock() {
     equatorPointsRotated.init(equator);
     zodiacumOuterPoints.init(zodiacum, equatorPoints);
     zodiacumCenterPoints.init(zodiacumCentralCircle, equatorPointsRotated);
-    zodiacumInnerPoints.init(zodiacumInnerCircle, equatorPoints);
+    zodiacumInnerPoints.init(zodiacumInnerCircle, zodiacumOuterPoints);
 }
