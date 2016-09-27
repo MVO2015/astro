@@ -26,7 +26,6 @@ function computePositionOnEclipse(angleDeg, zodiacum) {
         //noinspection JSSuspiciousNameCombination
         x = [-y, y = x][0];    // x = - y, y = x
     }
-    //console.log("m: "+m+"\nn: "+n+"\nr: "+r+"\nx: "+x+"\ny: "+y+"\n"+"phi: "+normalizedAngle+"\ntg phi:"+tgPhi +"\nxySystem: "+xySystem+"\n");
     return {x: scale(x), y: scale(y)}
 }
 
@@ -36,8 +35,10 @@ function computeZodiacumAngleDeg(date) {
     var eh = equinoxDate.getHours();
     var em = equinoxDate.getMinutes();
     var equinoxTimeAngle = eh * 15 + em / 4;
+    var timezoneAngle = astronomicalClockTime.timezone * 15;
     var timeDiffDays = (date.getTime() - equinoxDate.getTime()) / 60000 / 60 /24;
-    return (timeDiffDays * 360 * 366.25 / 365.25 * 1.000015 + equinoxTimeAngle) % 360;   // 1.00005
+    var angleCorrection = - 1.5 * Math.cos(timeDiffDays / 365.25 * 2 * Math.PI) + 1.5;
+    return (timeDiffDays * 360 * 366.25 / 365.25 + equinoxTimeAngle - timezoneAngle + angleCorrection) % 360;
 }
 
 function computeMoonAngleDeg(date) {
@@ -52,21 +53,24 @@ function computeMoonAngleDeg(date) {
 }
 
 function showDigitalTime() {
-    var d = new Date(astronomicalClockTime);
-    if (daylightSavingTimeSwitch.status) {
-        d.addHours(1);
+    var d = astronomicalClockTime.toDate();
+    if (astronomicalClockTime.dst() && !daylightSavingTimeSwitch.status) {
+        d = new Date(astronomicalClockTime.number - 3600000);
     }
-    var time = document.getElementById("time");
-    time.innerText = d.toLocaleString();
+    var timeElement = document.getElementById("time");
+    var timezone = astronomicalClockTime.timezone;
+    timeElement.innerText = d.toLocaleString() + " Timezone: " + ((timezone > 0) ? "+" : "-") + timezone +
+    " DST: " + (astronomicalClockTime.dst() ? "ON" : "OFF");
     daylightSavingTimeSwitch.draw();
 }
 
 function showAstronomicalTodayTime() {
-    astronomicalClockTime = getTodayDate();
-    showAstronomicalTime(astronomicalClockTime);
+    astronomicalClockTime.update();
+    showAstronomicalTime();
 }
 
-function showAstronomicalTime(d) {
+function showAstronomicalTime() {
+    var d = astronomicalClockTime.toDate();
     var zodiacumAngleDeg = computeZodiacumAngleDeg(d);
     var sunAngleDeg = sun2deg(dateToSunTimeAngle(d));
     var moonAngleDeg = sun2deg(computeMoonAngleDeg(d));
@@ -95,12 +99,11 @@ function daylightSavingTimeOff() {
 constructAstronomicalClock();
 drawAstronomicalClock();
 
+astronomicalClockTime.init();
 daylightSavingTimeSwitch.init();
 if (daylightSavingTimeSwitch.status) {
     daylightSavingTimeOff();
 }
-
-var astronomicalClockTime;
 
 showAstronomicalTodayTime();
 displayInlineById("zodiacum");
@@ -110,7 +113,7 @@ addListener("zodiacum", zodiacWheel);
 addListener("time", sunWheel);
 startAstronomicalClock();
 //animateDayAround();
-//animateYearAround();
+// animateYearAround();
 
 function addListener(id, wheelFunction) {
     // Zodiacum (year cycle)
@@ -127,9 +130,6 @@ function addListener(id, wheelFunction) {
     {
         element.attachEvent("onmousewheel", wheelFunction);
     }
-
-    // Sun (day cycle)
-
 }
 
 
@@ -140,8 +140,8 @@ function zodiacWheel(e)
     var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 
     stopAstronomicalClock();
-    astronomicalClockTime = astronomicalClockTime.addHours(delta * 24);
-    showAstronomicalTime(astronomicalClockTime);
+    astronomicalClockTime.addDays(- delta);
+    showAstronomicalTime();
 }
 
 function sunWheel(e)
@@ -151,8 +151,8 @@ function sunWheel(e)
     var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 
     stopAstronomicalClock();
-    astronomicalClockTime = astronomicalClockTime.addHours(delta / 10);
-    showAstronomicalTime(astronomicalClockTime);
+    astronomicalClockTime.addMinutes(-delta * 20);
+    showAstronomicalTime();
 }
 
 function pressedEsc(event) {

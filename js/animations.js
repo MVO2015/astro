@@ -54,19 +54,15 @@ function animateDaylightSavingTimeOff() {
     }
 }
 
-
 function animateYearAround() {
     stopAstronomicalClock();
     var yearAroundTimer;
     var days = 0;
-    var d = getTodayDate();
-    const HOUR = 1000 * 60 * 60;
     yearAroundTimer = setInterval(yearAroundAnimation, 50);
     function yearAroundAnimation() {
         if (days <= 365) {
-            showAstronomicalTime(d);
-            var t = d.getTime();
-            d.setTime(t + HOUR * 24);
+            showAstronomicalTime();
+            astronomicalClockTime.addDays(1);
             days++;
         } else {
             clearInterval(yearAroundTimer);
@@ -79,15 +75,13 @@ function animateDayAround() {
     stopAstronomicalClock();
     var dayAroundTimer;
     dayAroundTimer = setInterval(dayAroundAnimation, 50);
-    var d = getTodayDate();
-    var day = 0;
+    var minutes = 0;
     var minuteStep = 4;
     function dayAroundAnimation() {
-        if (day <= 1) {
-            showAstronomicalTime(d);
-            var t = d.getTime();
-            d.setTime(t + 1000 * 60 * minuteStep);
-            day += minuteStep / 60 / 24;
+        if (minutes < 1440) {
+            showAstronomicalTime();
+            astronomicalClockTime.addMinutes(minuteStep);
+            minutes += minuteStep;
         } else {
             clearInterval(dayAroundTimer);
             startAstronomicalClock();

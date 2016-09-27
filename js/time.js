@@ -1,16 +1,41 @@
-function getTodayDate() {
-    var today= new Date();
-    if (today.dst()) {
-        today.addHours(-1);
+var astronomicalClockTime = {
+    number: null,
+    timezone: null,
+    addDays: function (days) {
+        this.number += days * 24 * 3600000;
+    },
+    addHours: function (hours) {
+        this.number += hours * 3600000;
+    },
+    addMinutes: function (minutes) {
+        this.number += minutes * 60000;
+    },
+    update: function () {
+        this.number = new Date().getTime();
+    },
+    toDate: function () {
+        return new Date(this.number);
+    },
+    dst: function () {
+        var stdOffset = this.stdTimeOffset();
+        return this.toDate().getTimezoneOffset() < stdOffset;
+    },
+    init: function () {
+        this.update();
+        this.timezone = - this.stdTimeOffset() / 60;
+    },
+    stdTimeOffset: function () {
+        var jan = new Date(this.toDate().getFullYear(), 0, 1);
+        var jul = new Date(this.toDate().getFullYear(), 6, 1);
+        return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
     }
+};
+
     // return new Date(Date.UTC(2017,8,22,17,24));
     // return new Date(Date.UTC(2017,2,20,11,30));
     // return new Date(2017,2,20,11,30);
     // return new Date(2017,5,21,17,24);
     //  return new Date(2017,8,22,17,24);
-
-    return today;
-}
 
 // Convert angle of sun time to normal angle.
 // 0 ... Midnight (90 deg), 180 ... Noon (270 deg)
@@ -25,7 +50,7 @@ function deg2sun(angleDeg) {
 }
 
 function dateToSunTimeAngle(date) {
-    return (date.getMinutes() + date.getHours() * 60) / 4
+    return (date.getUTCMinutes() + (date.getUTCHours()  + astronomicalClockTime.timezone) * 60) / 4
 }
 
 // http://stackoverflow.com/questions/11887934/check-if-daylight-saving-time-is-in-effect-and-if-it-is-for-how-many-hours
@@ -50,9 +75,8 @@ var daylightSavingTimeSwitch = {
     status: false,
     clickable: false,
     init: function() {
-        var dst = getTodayDate().dst();
-        this.status = dst;
-        if (dst) {
+        this.status = astronomicalClockTime.dst();
+        if (this.status) {
             this.activate()
         } else {
             this.suspend()
