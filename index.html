@@ -5,9 +5,6 @@
     <link rel="stylesheet" href="css/astro.css">
     <title></title>
 </head>
-<style>
-
-</style>
 <body onkeypress="pressedEsc(event)">
 <h1>Astronomical Clock</h1>
 <p class="author">By Martin Vondráček</p>
@@ -130,6 +127,24 @@
                         <g id="position23">
                             <text id="number23" x="-10" y="0">XI</text>
                         </g>
+                        <g stroke="white" fill="white" fill-opacity="0.5" stroke-opacity="0.5" font-size="10px">
+                            <text id="info15" display="none">m</text>
+                            <text id="info14" display="none">o</text>
+                            <text id="info13" display="none">c</text>
+                            <text id="info12" display="none">.</text>
+                            <text id="info11" display="none">l</text>
+                            <text id="info10" display="none">i</text>
+                            <text id="info9" display="none">a</text>
+                            <text id="info8" display="none">m</text>
+                            <text id="info7" display="none">g</text>
+                            <text id="info6" display="none" x="-4px">@</text>
+                            <text id="info5" display="none">r</text>
+                            <text id="info4" display="none">d</text>
+                            <text id="info3" display="none">n</text>
+                            <text id="info2" display="none">o</text>
+                            <text id="info1" display="none" x="3px">v</text>
+                            <text id="info0" display="none">m</text>
+                        </g>
                     </g>
                     <line id="sunHandle" stroke="orange" stroke-width="5" stroke-opacity="0.7" display="none"></line>
                     <line id="moonHandle" stroke="black" stroke-width="4" stroke-opacity="0.7" display="none"></line>
@@ -228,8 +243,8 @@
 <p id="time"></p>
 <p>
     <span id="dstSwitch" class="clickable">
-        <span id="dstOn" style="display: none" onclick="daylightSavingTimeOff()">- Daylight saving time is on-</span>
-        <span id="dstOff" style="display: none" onclick="daylightSavingTimeOn()">- Daylight saving time is off-</span>
+        <span id="dstOn" style="display: none" onclick="daylightSavingTimeOff()">- Show sun time (click me!) -</span>
+        <span id="dstOff" style="display: none" onclick="daylightSavingTimeOn()">- Show daylight saving time (click me!)   -</span>
     </span>
 </p>
 </body>

@@ -149,6 +149,7 @@ function drawAstronomicalClock() {
     drawCircleWithGradient(latitudoHorizontis);
     drawCircle(opacusHorizontis);
     drawClockNumbers();
+    drawInfoText();
     drawZodiacum();
 }
 
@@ -165,5 +166,20 @@ function describeArcByCartesian(start, radius, largeArcFlag, end) {
         "M", parseFloat(start.x.toFixed(8)), parseFloat(start.y.toFixed(8)),
         "A", radius, radius, 0, largeArcFlag, 0, parseFloat(end.x.toFixed(8)), parseFloat(end.y.toFixed(8))
     ].join(" ");
+}
+
+function drawInfoText() {
+    var r = scale(equator.r) * 1.1;
+    for (var i = 0; i < 16; i++) {
+        var textElement = document.getElementById("info" + i.toString());
+        // var positionElement =  document.getElementById("position" + + i.toString());
+        var angle = i * 8 - 60;
+        var angleRad = deg2rad(deg2sun(angle));
+        var x = Math.cos(angleRad) * r;
+        var y = Math.sin(angleRad) * r;
+        // positionElement.setAttribute("transform", "translate(" + x + " " + y + ")");
+        textElement.setAttribute("transform", "translate(" + x + " " + y + ") rotate(" + angle + " 0,0)");
+        displayInlineById("info" + i.toString());
+    }
 }
 

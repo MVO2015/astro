@@ -101,13 +101,31 @@ var daylightSavingTimeSwitch = {
         this.draw();
     },
     draw: function() {
-        var dstSwitch = document.getElementById(this.id);
-        dstSwitch.setAttribute("class", this.clickable ? "clickable" : "unclickable");
+        var dstSwitchOff = document.getElementById("dstOff");
+        var dstSwitchOn = document.getElementById("dstOn");
+        dstSwitchOff.setAttribute("class", this.clickable ? "clickable" : "unclickable");
+        dstSwitchOn.setAttribute("class", this.clickable ? "clickable" : "unclickable");
         var off = "display: none";
         var on = "display: inline";
         var dstOff = document.getElementById("dstOff");
         dstOff.setAttribute("style", this.status ? off : on);
         var dstOn = document.getElementById("dstOn");
         dstOn.setAttribute("style", this.status ? on : off);
+    },
+    makeUnclickable: function () {
+        this.clickable = false;
+        var dstSwitchOff = document.getElementById("dstOff");
+        var dstSwitchOn = document.getElementById("dstOn");
+        dstSwitchOff.setAttribute("onclick", "");
+        dstSwitchOn.setAttribute("onclick", "");
+        this.draw();
+    },
+    makeClickable: function () {
+        this.clickable = true;
+        var dstSwitchOff = document.getElementById("dstOff");
+        var dstSwitchOn = document.getElementById("dstOn");
+        dstSwitchOff.setAttribute("onclick", "daylightSavingTimeOn()");
+        dstSwitchOn.setAttribute("onclick", "daylightSavingTimeOff()");
+        this.draw();
     }
 };

@@ -31,6 +31,7 @@ function animateDaylightSavingTimeOn() {
             clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
         } else {
             clearInterval(daylightSavingTimeOnTimer);     // stop this animation
+            daylightSavingTimeSwitch.makeClickable();
         }
     }
 }
@@ -50,6 +51,7 @@ function animateDaylightSavingTimeOff() {
             clockFace.setAttribute("transform", "rotate(" + clockFaceRotation + ") scale(-1, 1)");
         } else {
             clearInterval(daylightSavingTimeOffTimer);     // stop this animation
+            daylightSavingTimeSwitch.makeClickable();
         }
     }
 }

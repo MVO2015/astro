@@ -87,11 +87,13 @@ function showAstronomicalTime() {
 }
 
 function daylightSavingTimeOn() {
+    daylightSavingTimeSwitch.makeUnclickable();
     daylightSavingTimeOnTimer = setInterval(animateDaylightSavingTimeOn, 33);
     daylightSavingTimeSwitch.on();
 }
 
 function daylightSavingTimeOff() {
+    daylightSavingTimeSwitch.makeUnclickable();
     daylightSavingTimeOffTimer = setInterval(animateDaylightSavingTimeOff, 33);
     daylightSavingTimeSwitch.off();
 }
