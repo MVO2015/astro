@@ -79,6 +79,7 @@ function showAstronomicalTime() {
     var sun = computePositionOnEclipse(sunAngleDeg, zodiacum);
     sunHandle.showByTime(d);
     sunSymbol.showAt(sun.x, sun.y);
+    starSymbol.show();
     var moon = computePositionOnEclipse(moonAngleDeg, zodiacum);
     moonHandle.show(moonAngleDeg);
     moonShape.compute(sunAngleDeg, moonAngleDeg);

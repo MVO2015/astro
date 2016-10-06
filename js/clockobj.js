@@ -132,6 +132,21 @@ var sunSymbol = {
     }
 };
 
+var starSymbol = {
+    id: "starSymbol",
+    x: null,
+    y: null,
+    init: function (zodiacumEquinox) {
+        this.x = scale(zodiacumEquinox.x1);
+        this.y = scale(zodiacumEquinox.y1);
+    },
+    show: function() {
+        var star = document.getElementById("starPosition");
+        star.setAttribute("transform", "translate(" + this.x + " " + this.y + ")");
+        displayInlineByElement(star);
+    }
+};
+
 var moonHandle = {
     id: "moonHandle",
     x1: 0,
@@ -380,7 +395,7 @@ var zodiacumEquinox = {
     x2: 0,
     y2: null,
     compute: function(equatorRadius) {
-        this.y1 = -equatorRadius;
+        this.y1 = -equatorRadius * 1.2;
         this.y2 = equatorRadius;
     }
 };
@@ -480,6 +495,7 @@ function constructAstronomicalClock() {
     zodiacumEquinox.compute(equator.r);
     zodiacumSolstice.compute(cancriTropicus.r, capricorniTropicus.r);
     zodiacumPieces.init(zodiacumOuterCircle, zodiacumInnerCircle);
+    starSymbol.init(zodiacumEquinox);
     sunHandle.init(cancriTropicus.r);
     moonHandle.init(cancriTropicus.r);
     moonShape.init();
