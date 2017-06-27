@@ -141,10 +141,7 @@ function zodiacWheel(e)
     // cross-browser wheel delta
     var e = window.event || e; // old IE support
     var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-
-    stopAstronomicalClock();
-    astronomicalClockTime.addDays(- delta);
-    showAstronomicalTime();
+    apiAddDays(-delta);
 }
 
 function sunWheel(e)
@@ -152,13 +149,22 @@ function sunWheel(e)
     // cross-browser wheel delta
     var e = window.event || e; // old IE support
     var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-
-    stopAstronomicalClock();
-    astronomicalClockTime.addMinutes(-delta * 20);
-    showAstronomicalTime();
+    apiAddMinutes(- delta * 20)
 }
 
 function pressedEsc(event) {
     var x = event.which || event.keyCode;
     startAstronomicalClock();
+}
+
+function apiAddDays(days) {
+    stopAstronomicalClock();
+    astronomicalClockTime.addDays(days);
+    showAstronomicalTime();
+}
+
+function apiAddMinutes(minutes) {
+    stopAstronomicalClock();
+    astronomicalClockTime.addMinutes(minutes);
+    showAstronomicalTime();
 }
