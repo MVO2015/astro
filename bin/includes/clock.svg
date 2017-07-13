@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-<head lang="en">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/astro.css">
-    <title></title>
-</head>
-<body onkeypress="pressedEsc(event)">
-<h1>Astronomical Clock</h1>
-<p class="author">By Martin Vondráček</p>
-    <div class="container" align="center">
 <svg id="wall" viewbox="-160, -160, 320, 320" width="100%" height="100%">
     <defs>
         <filter id="blur-filter" x="-2" y="-2" width="20" height="20">
@@ -241,30 +230,4 @@
             <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet"/>
         </g>
     </g>
-</svg>    </div>
-<p id="time"></p>
-<p>
-    <span id="dstSwitch" class="clsickable">
-        <span id="dstOn" style="display: none" onclick="daylightSavingTimeOff()">- Show sun time (click me!) -</span>
-        <span id="dstOff" style="display: none" onclick="daylightSavingTimeOn()">- Show daylight saving time (click me!)   -</span>
-    </span>
-</p>
-</body>
-<script src="js/math.js"></script>
-<script src="js/time.js"></script>
-<script src="js/clockobj.js"></script>
-<script src="js/graphics.js"></script>
-<script src="js/animations.js"></script>
-<script src="js/geometry.js"></script>
-<script src ="js/main.js"></script>
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-85208085-1', 'auto');
-    ga('send', 'pageview');
-</script>
-
-</html>
+</svg>
