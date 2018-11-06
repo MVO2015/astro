@@ -9,7 +9,7 @@
 <h1>Astronomical Clock</h1>
 <p class="author">By Martin Vondráček</p>
     <div class="container" align="center">
-<svg id="wall" viewbox="-160, -160, 320, 320" width="100%" height="100%">
+<svg id="wall" viewbox="-180, -180, 360, 360" width="100%" height="100%">
     <defs>
         <filter id="blur-filter" x="-2" y="-2" width="20" height="20">
             <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
@@ -46,6 +46,16 @@
         </radialGradient>
     </defs>
     <g id="clockFace" transform="rotate(270) scale(-1, 1)">
+        <defs>
+            <mask id="holeOldTimeInner">
+                <circle id="maskCircleOldTimeOuter" cx="0" cy="0" r="0" fill="White"></circle>
+                <circle id="holeCircleOldTimeInner" cx="0" cy="0" r="0" fill="black"></circle>
+            </mask>
+        </defs>
+        <circle id="oldTimeOuterCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="brown" fill-opacity="0.5"
+                mask="url(#holeOldTimeInner)"></circle>
+        <circle id="oldTimeInnerCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="none"></circle>
+
         <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
         <circle id="equator" display="none" r="0" cx="0" cy="0" stroke="yellow" fill-opacity="1" fill="url(#gradientEquator)"/>
         <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
@@ -145,6 +155,34 @@
                     <text id="info1" display="none" x="3px">v</text>
                     <text id="info0" display="none">m</text>
                 </g>
+                <g id="oldtime" transform="rotate(90) scale(1, 1)">
+                    <g id="oldtime_numbers">
+                        <image id="oldtime1" xlink:href="svg/1.svg" />
+                        <image id="oldtime2" xlink:href="svg/2.svg" />
+                        <image id="oldtime3" xlink:href="svg/3.svg" />
+                        <image id="oldtime4" xlink:href="svg/4.svg" />
+                        <image id="oldtime5" xlink:href="svg/5.svg" />
+                        <image id="oldtime6" xlink:href="svg/6.svg" />
+                        <image id="oldtime7" xlink:href="svg/7.svg" />
+                        <image id="oldtime8" xlink:href="svg/8.svg" />
+                        <image id="oldtime9" xlink:href="svg/9.svg" />
+                        <image id="oldtime10" xlink:href="svg/10.svg" />
+                        <image id="oldtime11" xlink:href="svg/11.svg" />
+                        <image id="oldtime12" xlink:href="svg/12.svg" />
+                        <image id="oldtime13" xlink:href="svg/13.svg" />
+                        <image id="oldtime14" xlink:href="svg/14.svg" />
+                        <image id="oldtime15" xlink:href="svg/15.svg" />
+                        <image id="oldtime16" xlink:href="svg/16.svg" />
+                        <image id="oldtime17" xlink:href="svg/17.svg" />
+                        <image id="oldtime18" xlink:href="svg/18.svg" />
+                        <image id="oldtime19" xlink:href="svg/19.svg" />
+                        <image id="oldtime20" xlink:href="svg/20.svg" />
+                        <image id="oldtime21" xlink:href="svg/21.svg" />
+                        <image id="oldtime22" xlink:href="svg/21.svg" />
+                        <image id="oldtime23" xlink:href="svg/23.svg" />
+                        <image id="oldtime24" xlink:href="svg/24.svg" />
+                    </g>
+                </g>
             </g>
             <line id="sunHandle" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="5" stroke-opacity="0.7" display="none"></line>
             <line id="moonHandle" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="4" stroke-opacity="0.7" display="none"></line>
@@ -173,21 +211,21 @@
                 <path id="arcZ10"></path>
                 <path id="arcZ11"></path>
                 <g id="signs" fill="yellow" stroke="orange" color="yellow">
-                    <g id="positionSign0"><text class="zodiac-signs aries" id="sign0">&#9800;</text></g>
-                    <g id="positionSign1"><text class="zodiac-signs taurus" id="sign1">&#9801;</text></g>
-                    <g id="positionSign2"><text class="zodiac-signs gemini" id="sign2">&#9802;</text></g>
-                    <g id="positionSign3"><text class="zodiac-signs cancer" id="sign3">&#9803;</text></g>
-                    <g id="positionSign4"><text class="zodiac-signs leo" id="sign4">&#9804;</text></g>
-                    <g id="positionSign5"><text class="zodiac-signs virgo" id="sign5" text-anchor="middle">&#9805;</text></g>
-                    <g id="positionSign6"><text class="zodiac-signs libra" id="sign6">&#9806;</text></g>
-                    <g id="positionSign7"><text class="zodiac-signs scorpio" id="sign7">&#9807;</text></g>
-                    <g id="positionSign8"><text class="zodiac-signs sagittarius" id="sign8">&#9808;</text></g>
-                    <g id="positionSign9"><text class="zodiac-signs capricorn" id="sign9">&#9809;</text></g>
-                    <g id="positionSign10"><text class="zodiac-signs aquarius" id="sign10">&#9810;</text></g>
-                    <g id="positionSign11"><text class="zodiac-signs pisces" id="sign11">&#9811;</text></g>
+                    <g id="positionSign0"><g transform="rotate(20) translate(-30, 2)"><image id="sign0" xlink:href="svg/aries.svg" /></g></g>
+                    <g id="positionSign1"><g transform="rotate(20) translate(-18, 7)"><image id="sign1" xlink:href="svg/taurus.svg" /></g></g>
+                    <g id="positionSign2"><g transform="rotate(5) translate(-13, 20)"><image id="sign2" xlink:href="svg/gemini.svg" /></g></g>
+                    <g id="positionSign3"><g transform="rotate(-5) translate(-1, 30)"><image id="sign3" xlink:href="svg/cancer.svg" /></g></g>
+                    <g id="positionSign4"><g transform="rotate(-20) translate(18, 28)"><image id="sign4" xlink:href="svg/leo.svg" /></g></g>
+                    <g id="positionSign5"><g transform="rotate(-20) translate(24, 14)"><image id="sign5" xlink:href="svg/virgo.svg" /></g></g>
+                    <g id="positionSign6"><g transform="rotate(-25) translate(25, 0)"><image id="sign6" xlink:href="svg/libra.svg" /></g></g>
+                    <g id="positionSign7"><g transform="rotate(-20) translate(20, -11)"><image id="sign7" xlink:href="svg/scorpio.svg" /></g></g>
+                    <g id="positionSign8"><g transform="rotate(0) translate(15, -19)"><image id="sign8" xlink:href="svg/sagittarius.svg" /></g></g>
+                    <g id="positionSign9"><g transform="rotate(0) translate(2, -25)"><image id="sign9" xlink:href="svg/capricorn.svg" /></g></g>
+                    <g id="positionSign10"><g transform="rotate(10) translate(-16, -25)"><image id="sign10" xlink:href="svg/aquarius.svg" /></g></g>
+                    <g id="positionSign11"><g transform="rotate(20) translate(-30, -16)"><image id="sign11" xlink:href="svg/pisces.svg" /></g></g>
                 </g>
                 <g id="starPosition">
-                    <text id="starSymbol" x="-4" y="8" fill="yellow" stroke="yellow" color="yellow">#42611</text>
+                    <text id="starSymbol" x="-4" y="8" fill="yellow" stroke="yellow" color="yellow">&#42611;</text>
                 </g>
             </g>
             <g id="sunPosition">
@@ -241,7 +279,7 @@
             <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet"/>
         </g>
     </g>
-</svg>    </div>
+</svg></div>
 <p id="time"></p>
 <p>
     <span id="dstSwitch" class="clsickable">

@@ -452,6 +452,55 @@ var moonShape = {
     }
 };
 
+var oldTimeOuterCircle = {
+    id: "oldTimeOuterCircle",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function() {
+        this.r = cancriTropicus.r * 1.14;
+        this.cx = cancriTropicus.cx;
+        this.cy = cancriTropicus.cy;
+    }
+};
+
+var oldTimeInnerCircle = {
+    id: "oldTimeInnerCircle",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(oldTimeOuterCircle) {
+        this.r = oldTimeOuterCircle.r * 0.89;
+        this.cx = oldTimeOuterCircle.cx;
+        this.cy = oldTimeOuterCircle.cy;
+    }
+};
+
+var holeCircleOldTimeInner = {
+    id: "holeCircleOldTimeInner",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(oldTimeInnerCircle) {
+        this.r = oldTimeInnerCircle.r;
+        this.cx = oldTimeInnerCircle.cx;
+        this.cy = oldTimeInnerCircle.cy;
+    }
+};
+
+var maskCircleOldTimeOuter = {
+    id: "maskCircleOldTimeOuter",
+    r: null,
+    cx: null,
+    cy: null,
+    init: function(oldTimeOuterCircle) {
+        this.r = oldTimeOuterCircle.r;
+        this.cx = oldTimeOuterCircle.cx;
+        this.cy = oldTimeOuterCircle.cy;
+    }
+};
+
+
 function scale(num)
 {
     return (100 * num);
@@ -486,6 +535,12 @@ function constructAstronomicalClock() {
     // opacusProjectionB.init();
     opacusHorizontis.compute(horizontis, Opacus);
     //clickMePoint.init();
+
+    oldTimeOuterCircle.init();
+    oldTimeInnerCircle.init(oldTimeOuterCircle);
+    holeCircleOldTimeInner.init(oldTimeInnerCircle);
+    maskCircleOldTimeOuter.init(oldTimeOuterCircle);
+
     zodiacum.init();
     zodiacumOuterCircle.init();
     zodiacumInnerCircle.init(zodiacumOuterCircle);

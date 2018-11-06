@@ -15,9 +15,13 @@ function setTranslateById(id, translate) {
     element.setAttribute("style", ["transform: translate(", translate.x, "px,", translate.y,"px)"].join(""));
 }
 
-function setRotateById(id, rotation) {
+function setRotateById(id, rotation, center) {
+    var rotationCenter = "0,0";
+    if (typeof center !== 'undefined') {
+        rotationCenter = center.x + "," + center.y;
+    }
     var element = document.getElementById(id);
-    element.setAttribute("transform", ["rotate(", rotation, " 0,0)"].join("")    );
+    element.setAttribute("transform", ["rotate(", rotation, " ", rotationCenter, ")"].join("")    );
 }
 
 function drawPoint(point) {
@@ -119,6 +123,7 @@ function drawZodiacum() {
 
     var cx = scale(zodiacumOuterCircle.cx);
     var cy = scale(zodiacumOuterCircle.cy);
+    const zoodiacCenter = {x:cx, y:cy};
     var r = scale(zodiacumOuterCircle.r);
     var radius2 = scale(zodiacumInnerCircle.r);
     var pieces = zodiacumPieces;
@@ -127,7 +132,14 @@ function drawZodiacum() {
         var leftInner = scalePoint(zodiacumInnerPoints.point[i]);
         var centerPoint = scalePoint(zodiacumCenterPoints.point[i]);
         setTranslateById("positionSign" + i, centerPoint);
-        setRotateById("sign" + i, -i * 30 - 10);
+        var id = "sign" + i;
+        var sign = document.getElementById(id);
+        sign.setAttribute("x", "0");
+        sign.setAttribute("y", "0");
+        sign.setAttribute("width", "110");
+        sign.setAttribute("height", "110");
+        setRotateById(id, -i * 30 - 15, {x: 0, y: 0});
+
         // setXYById("sign" + i, -5, -5);
         var arcZ = document.getElementById("arcZ" + i.toString());
         var leftBar = ["M", leftOuter.x, leftOuter.y, "L", leftInner.x, leftInner.y].join(' ');
@@ -151,6 +163,7 @@ function drawAstronomicalClock() {
     drawClockNumbers();
     drawInfoText();
     drawZodiacum();
+    drawOldTime();
 }
 
 
@@ -172,14 +185,32 @@ function drawInfoText() {
     var r = scale(equator.r) * 1.1;
     for (var i = 0; i < 16; i++) {
         var textElement = document.getElementById("info" + i.toString());
-        // var positionElement =  document.getElementById("position" + + i.toString());
         var angle = i * 8 - 60;
         var angleRad = deg2rad(deg2sun(angle));
         var x = Math.cos(angleRad) * r;
         var y = Math.sin(angleRad) * r;
-        // positionElement.setAttribute("transform", "translate(" + x + " " + y + ")");
         textElement.setAttribute("transform", "translate(" + x + " " + y + ") rotate(" + angle + " 0,0)");
         displayInlineById("info" + i.toString());
     }
 }
 
+function drawOldTime() {
+    drawCircle(maskCircleOldTimeOuter);
+    drawCircle(holeCircleOldTimeInner);
+    drawCircle(oldTimeOuterCircle);
+    drawCircle(oldTimeInnerCircle);
+    var r = scale(cancriTropicus.r) * 1.02;
+    for (var i = 1; i < 25; i++) {
+        var imageElement = document.getElementById("oldtime" + i.toString());
+        var angle = (i - 1) * 15;
+        var angleRad = deg2rad(deg2sun(angle));
+        var x = Math.cos(angleRad) * r;
+        var y = Math.sin(angleRad) * r;
+        imageElement.setAttribute("x", "-25");
+        imageElement.setAttribute("y", "-15");
+        imageElement.setAttribute("width", "110");
+        imageElement.setAttribute("height", "110");
+        imageElement.setAttribute("transform", "translate(" + x + " " + y + ") rotate(" + angle + " 0,0)");
+        displayInlineById("oldtime" + i.toString());
+    }
+}
