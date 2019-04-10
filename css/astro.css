@@ -52,19 +52,16 @@ p {
     text-shadow: 0 0 10px #FFF;
 }
 
-/* for IE9 and IE11*/
 .container {
-    width: 100%;
-    height: 0;
-    padding-top: 35%;
-    position: relative;
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*overflow: hidden;*/
 }
 
-/* for IE9 and IE11*/
-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
+#wall {
+    /*top: 0; left: 0; height:90%; width:100%;*/
+    max-width: 100vw;
+    max-height: 80vh;
 }
 
 .zodiac-signs {
@@ -75,4 +72,45 @@ svg {
     font-weight:bold;
     font-size: 14px;
     line-height:14px;
+}
+
+.slidecontainer {
+    position: fixed;
+    width: 100%; /* Width of the outside container */
+    bottom: 0;
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: darkslateblue; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: orange; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: orange; /* Green background */
+    cursor: pointer; /* Cursor on hover */
 }

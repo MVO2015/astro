@@ -1,3 +1,21 @@
+import {deg2rad, polar2Cartesian} from "./math";
+import {
+    cancriTropicus,
+    capricorniTropicus,
+    clipCircleCancriTropicus,
+    equator, holeCircleOldTimeInner,
+    holeCircleZodiacumInner,
+    latitudoHorizontis, maskCircleOldTimeOuter,
+    maskCircleZodiacumOuter, oldTimeInnerCircle, oldTimeOuterCircle,
+    opacusHorizontis,
+    scale,
+    zodiacumCenterPoints, zodiacumEquinox, zodiacumInnerCircle,
+    zodiacumInnerPoints, zodiacumOuterCircle,
+    zodiacumOuterPoints,
+    zodiacumPieces, zodiacumSolstice
+} from "./clockobj";
+import {deg2sun} from "./time";
+
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -65,16 +83,16 @@ function drawCircleWithGradient(obj) {
     drawCircle(obj);
 }
 
-function displayInlineById(id) {
+export function displayInlineById(id) {
     var element = document.getElementById(id);
     displayInlineByElement(element);
 }
 
-function displayInlineByElement(element) {
+export function displayInlineByElement(element) {
     element.setAttribute("display", "inline");
 }
 
-function displayNoneById(id) {
+export function displayNoneById(id) {
     var element = document.getElementById(id);
     displayNoneByElement(element);
 }
@@ -83,9 +101,8 @@ function displayNoneByElement(element) {
     element.setAttribute("display", "none");
 }
 
-function rotateSvgById(id, angleDeg) {
-    var element = document.getElementById(id);
-    element.setAttribute("transform", "rotate(" + angleDeg + ")");
+export function rotateSvgById(id, angleDeg) {
+    document.getElementById(id).setAttribute("transform", "rotate(" + angleDeg + ")");
 }
 
 function drawClockAxisSystem() {
@@ -108,7 +125,7 @@ function drawClockNumbers() {
     displayInlineById("clock");
 }
 
-function rotateZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equinox, 90 ... winter solstice)
+export function rotateZodiacum(angleDeg) {   // angleDeg from autumn equinox   (0 ... equinox, 90 ... winter solstice)
     var zodiacumGroup = document.getElementById("zodiacum");
     zodiacumGroup.setAttribute("transform", "rotate(" + angleDeg + ")");
 }
@@ -151,7 +168,7 @@ function drawZodiacum() {
     }
 }
 
-function drawAstronomicalClock() {
+export function drawAstronomicalClock() {
     drawCircle(clipCircleCancriTropicus);
     // drawPoint(orbisCenter);
     // moveClickMe(0, orbis.r, "clickOrbisCenter()");
@@ -167,7 +184,7 @@ function drawAstronomicalClock() {
 }
 
 
-function describeArc(x, y, radius, startAngle, endAngle) {
+export function describeArc(x, y, radius, startAngle, endAngle) {
     var start = polar2Cartesian(x, y, radius, endAngle);
     var end = polar2Cartesian(x, y, radius, startAngle);
     var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";

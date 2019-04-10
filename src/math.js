@@ -1,13 +1,13 @@
-function deg2rad(deg) {
+export function deg2rad(deg) {
     return deg * Math.PI / 180;
 }
 
-function oppositeAngle(rad) {
+export function oppositeAngle(rad) {
     return Math.PI + rad;
 }
 
-function polar2Cartesian(centerX, centerY, radius, angleDeg) {
-    var angleRad = deg2rad(angleDeg);
+export function polar2Cartesian(centerX, centerY, radius, angleDeg) {
+    const angleRad = deg2rad(angleDeg);
 
     return {
         x: centerX + (radius * Math.cos(angleRad)),
@@ -15,13 +15,13 @@ function polar2Cartesian(centerX, centerY, radius, angleDeg) {
     };
 }
 
-function quadraticEquation(a, b, c) {
-    var d = quadraticDiscriminant(a, b, c);
+export function quadraticEquation(a, b, c) {
+    const d = quadraticDiscriminant(a, b, c);
     if (d >= 0) {
-        var a2 = 2 * a;
-        var sqrtD = Math.sqrt(d);
-        var x1 = (-b + sqrtD) / a2;
-        var x2 = (-b - sqrtD) / a2;
+        const a2 = 2 * a;
+        const sqrtD = Math.sqrt(d);
+        const x1 = (-b + sqrtD) / a2;
+        const x2 = (-b - sqrtD) / a2;
         return {x1: x1, x2: x2};
     }
 }
@@ -31,8 +31,8 @@ function quadraticDiscriminant(a, b, c) {
 }
 
 // conversion of angle above 180 deg and below -180 deg
-function normalizeAngleDeg(angleDeg) {
-    var angle = angleDeg % 360;
+export function normalizeAngleDeg(angleDeg) {
+    const angle = angleDeg % 360;
     if (angle > 180) {
         return angle - 360; // converted to negative angle (0...-180)
     }
@@ -43,8 +43,8 @@ function normalizeAngleDeg(angleDeg) {
 }
 
 // return true if angle is between -45 and 45 deg or between 135 and 225 deg.
-function isEasyForTangents(angleDeg) {
-    var normalizedAngle = normalizeAngleDeg(angleDeg);
+export function isEasyForTangents(angleDeg) {
+    const normalizedAngle = normalizeAngleDeg(angleDeg);
     if (normalizedAngle > -45 && normalizedAngle <= 45) {
         return true;
     }

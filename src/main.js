@@ -1,10 +1,38 @@
+import '../css/astro.css';
+import './math';
+import './animations';
+import './clockobj';
+import './construction';
+import './geometry';
+import './graphics';
+import './time';
+import {
+    constructAstronomicalClock,
+    moonHandle, moonShape,
+    moonSymbol,
+    scale,
+    starSymbol,
+    sunHandle,
+    sunSymbol,
+    zodiacum
+} from "./clockobj";
+import {deg2rad, isEasyForTangents, normalizeAngleDeg, quadraticEquation} from "./math";
+import * as myMath from "./math";
+import {displayInlineById, drawAstronomicalClock, rotateZodiacum} from "./graphics";
+import {astronomicalClockTime, dateToSunTimeAngle, daylightSavingTimeSwitch, sun2deg} from "./time";
+import {
+    startAnimateDaylightSavingTimeOff, startAnimateDaylightSavingTimeOn,
+    startAstronomicalClock,
+    stopAstronomicalClock
+} from "./animations";
+
 function computePositionOnEclipse(angleDeg, zodiacum) {
     var normalizedAngle = normalizeAngleDeg(angleDeg);
     var m = zodiacum.cx;
     var n = zodiacum.cy;
     var r = zodiacum.r;
     var xySystem = true;
-    if (!isEasyForTangents(normalizedAngle)) {
+    if (!myMath.isEasyForTangents(normalizedAngle)) {
         normalizedAngle = normalizeAngleDeg(normalizedAngle - 90);
         m = [n, n=-m][0];    // m = n, n = -m
         xySystem = false;
@@ -21,7 +49,7 @@ function computePositionOnEclipse(angleDeg, zodiacum) {
     if (normalizedAngle > 135 || normalizedAngle <= -135) {
         x = quadraticEquation(a, b, c).x2;
     }
-    y = tgPhi * x;
+    let y = tgPhi * x;
     if (!xySystem) {
         //noinspection JSSuspiciousNameCombination
         x = [-y, y = x][0];    // x = - y, y = x
@@ -64,12 +92,12 @@ function showDigitalTime() {
     daylightSavingTimeSwitch.draw();
 }
 
-function showAstronomicalTodayTime() {
+export function showAstronomicalTodayTime() {
     astronomicalClockTime.update();
     showAstronomicalTime();
 }
 
-function showAstronomicalTime() {
+export function showAstronomicalTime() {
     var d = astronomicalClockTime.toDate();
     var zodiacumAngleDeg = computeZodiacumAngleDeg(d);
     var sunAngleDeg = sun2deg(dateToSunTimeAngle(d));
@@ -89,13 +117,13 @@ function showAstronomicalTime() {
 
 function daylightSavingTimeOn() {
     daylightSavingTimeSwitch.makeUnclickable();
-    daylightSavingTimeOnTimer = setInterval(animateDaylightSavingTimeOn, 33);
+    startAnimateDaylightSavingTimeOn();
     daylightSavingTimeSwitch.on();
 }
 
 function daylightSavingTimeOff() {
     daylightSavingTimeSwitch.makeUnclickable();
-    daylightSavingTimeOffTimer = setInterval(animateDaylightSavingTimeOff, 33);
+    startAnimateDaylightSavingTimeOff();
     daylightSavingTimeSwitch.off();
 }
 
@@ -114,13 +142,23 @@ displayInlineById("moonPhase");
 displayInlineById("sunSymbol");
 addListener("zodiacum", zodiacWheel);
 addListener("time", sunWheel);
+
+// učesat
+var zodiacumSlider = document.getElementById("zodiacumSlider");
+zodiacumSlider.oninput = function() {
+    stopAstronomicalClock();
+    astronomicalClockTime.update();
+    astronomicalClockTime.addDays(this.value);
+    showAstronomicalTime();
+}
+
 startAstronomicalClock();
 //animateDayAround();
 // animateYearAround();
 
 function addListener(id, wheelFunction) {
     // Zodiacum (year cycle)
-    var element = document.getElementById(id);
+    const element = document.getElementById(id);
     if (element.addEventListener)
     {
         // IE9, Chrome, Safari, Opera
@@ -168,3 +206,6 @@ function apiAddMinutes(minutes) {
     astronomicalClockTime.addMinutes(minutes);
     showAstronomicalTime();
 }
+
+window.daylightSavingTimeOff = daylightSavingTimeOff;
+window.daylightSavingTimeOn = daylightSavingTimeOn;

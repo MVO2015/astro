@@ -1,3 +1,8 @@
+import {deg2rad, normalizeAngleDeg, oppositeAngle, polar2Cartesian} from "./math";
+import {generalEquationConstantsOfLine, intersectionOfCircleAndLine, intersectionOfLineAndXaxis} from "./geometry";
+import {describeArc, displayInlineByElement, displayNoneById} from "./graphics";
+import {dateToSunTimeAngle} from "./time";
+
 var OrbisDeclinationDeg = 23.5;
 var orbisDeclination = deg2rad(OrbisDeclinationDeg);
 var Latitudo = deg2rad(50);
@@ -26,7 +31,7 @@ var orbis = {
 };
 
 
-var equator = {
+export var equator = {
     id: "equator",
     r: null,
     cx: 0,
@@ -36,7 +41,7 @@ var equator = {
     }
 };
 
-var cancriTropicus = {
+export var cancriTropicus = {
     id: "cancriTropicus",
     r: null,
     cx: 0,
@@ -46,7 +51,7 @@ var cancriTropicus = {
     }
 };
 
-var clipCircleCancriTropicus = {
+export var clipCircleCancriTropicus = {
     id: "clipCircleCancriTropicus",
     r: null,
     cx: 0,
@@ -57,7 +62,7 @@ var clipCircleCancriTropicus = {
 };
 
 
-var capricorniTropicus = {
+export var capricorniTropicus = {
     id: "capricorniTropicus",
     r: null,
     cx: 0,
@@ -67,7 +72,7 @@ var capricorniTropicus = {
     }
 };
 
-var latitudoHorizontis = {
+export var latitudoHorizontis = {
     id: "latitudoHorizontis",
     r: null,
     cx: null,
@@ -80,7 +85,7 @@ var latitudoHorizontis = {
     }
 };
 
-var opacusHorizontis = {
+export var opacusHorizontis = {
     id: "opacusHorizontis",
     r: null,
     cx: null,
@@ -93,7 +98,7 @@ var opacusHorizontis = {
     }
 };
 
-var sunHandle = {
+export var sunHandle = {
     id: "sunHandle",
     x1: 0,
     y1: 0,
@@ -118,7 +123,7 @@ var sunHandle = {
     }
 };
 
-var sunSymbol = {
+export var sunSymbol = {
     id: "sunSymbol",
     angle: 0,
     r: null,
@@ -132,7 +137,7 @@ var sunSymbol = {
     }
 };
 
-var starSymbol = {
+export var starSymbol = {
     id: "starSymbol",
     x: null,
     y: null,
@@ -147,7 +152,7 @@ var starSymbol = {
     }
 };
 
-var moonHandle = {
+export var moonHandle = {
     id: "moonHandle",
     x1: 0,
     y1: 0,
@@ -169,7 +174,7 @@ var moonHandle = {
     }
 };
 
-var moonSymbol = {
+export var moonSymbol = {
     id: "moonSymbol",
     angle: 0,
     r: null,
@@ -183,7 +188,7 @@ var moonSymbol = {
     }
 };
 
-var zodiacum = {
+export var zodiacum = {
     r: null,
     cx: 0,
     cy: 0,
@@ -212,7 +217,7 @@ var zodiacum = {
     }
 };
 
-var zodiacumOuterCircle = {
+export var zodiacumOuterCircle = {
     id: "zodiacumOuterCircle",
     r: null,
     cx: null,
@@ -225,7 +230,7 @@ var zodiacumOuterCircle = {
     }
 };
 
-var zodiacumInnerCircle = {
+export var zodiacumInnerCircle = {
     id: "zodiacumInnerCircle",
     r: null,
     cx: null,
@@ -249,7 +254,7 @@ var zodiacumCentralCircle = {
     }
 };
 
-var holeCircleZodiacumInner = {
+export var holeCircleZodiacumInner = {
     id: "holeCircleZodiacumInner",
     r: null,
     cx: null,
@@ -261,7 +266,7 @@ var holeCircleZodiacumInner = {
     }
 };
 
-var maskCircleZodiacumOuter = {
+export var maskCircleZodiacumOuter = {
     id: "maskCircleZodiacumOuter",
     r: null,
     cx: null,
@@ -273,7 +278,7 @@ var maskCircleZodiacumOuter = {
     }
 };
 
-var zodiacumPieces = {
+export var zodiacumPieces = {
     top: null,
     bottom: null,
     init: function (zodiacumOuterCircle, zodiacumInnerCircle) {
@@ -316,7 +321,7 @@ var equatorPointsRotated = {
     }
 };
 
-var zodiacumOuterPoints = {
+export var zodiacumOuterPoints = {
     point: null,
     eclipsePole: {x: null, y: 0},
     cx: null,
@@ -340,7 +345,7 @@ var zodiacumOuterPoints = {
     }
 };
 
-var zodiacumInnerPoints = {
+export var zodiacumInnerPoints = {
     point: null,
     centralPoint: {x: 0, y: 0},
     cx: null,
@@ -364,7 +369,7 @@ var zodiacumInnerPoints = {
     }
 };
 
-var zodiacumCenterPoints = {
+export var zodiacumCenterPoints = {
     point: null,
     centralPoint: {x: 0, y: 0},
     cx: null,
@@ -388,7 +393,7 @@ var zodiacumCenterPoints = {
     }
 };
 
-var zodiacumEquinox = {
+export var zodiacumEquinox = {
     id:"zodiacumEquinox",
     x1: 0,
     y1: null,
@@ -400,7 +405,7 @@ var zodiacumEquinox = {
     }
 };
 
-var zodiacumSolstice = {
+export var zodiacumSolstice = {
     id:"zodiacumSolstice",
     x1: null,
     y1: 0,
@@ -412,7 +417,7 @@ var zodiacumSolstice = {
     }
 };
 
-var moonShape = {
+export var moonShape = {
     r: 6,
     init: function() {
         var dw = describeArc(0, 0, this.r, -90, 90);
@@ -452,7 +457,7 @@ var moonShape = {
     }
 };
 
-var oldTimeOuterCircle = {
+export var oldTimeOuterCircle = {
     id: "oldTimeOuterCircle",
     r: null,
     cx: null,
@@ -464,7 +469,7 @@ var oldTimeOuterCircle = {
     }
 };
 
-var oldTimeInnerCircle = {
+export var oldTimeInnerCircle = {
     id: "oldTimeInnerCircle",
     r: null,
     cx: null,
@@ -476,7 +481,7 @@ var oldTimeInnerCircle = {
     }
 };
 
-var holeCircleOldTimeInner = {
+export var holeCircleOldTimeInner = {
     id: "holeCircleOldTimeInner",
     r: null,
     cx: null,
@@ -488,7 +493,7 @@ var holeCircleOldTimeInner = {
     }
 };
 
-var maskCircleOldTimeOuter = {
+export var maskCircleOldTimeOuter = {
     id: "maskCircleOldTimeOuter",
     r: null,
     cx: null,
@@ -501,7 +506,7 @@ var maskCircleOldTimeOuter = {
 };
 
 
-function scale(num)
+export function scale(num)
 {
     return (100 * num);
 }
@@ -510,7 +515,7 @@ function projection(alpha) {
     return (2 * orbis.r * Math.tan(Math.PI / 4 + alpha/2));
 }
 
-function constructAstronomicalClock() {
+export function constructAstronomicalClock() {
     orbisCenter.compute(OrbisDiameter);
     orbis.compute(OrbisDiameter);
     // orbisAxonX.init();

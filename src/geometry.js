@@ -1,4 +1,6 @@
-function intersectionOfCircleAndLine(circle, pointA, pointB) {
+import {quadraticEquation} from "./math";
+
+export function intersectionOfCircleAndLine(circle, pointA, pointB) {
     var equationConstant = generalEquationConstantsOfLine(pointA, pointB);
     var a = equationConstant.a;
     var b = equationConstant.b;
@@ -39,7 +41,7 @@ function intersectionOfCircleAndLine(circle, pointA, pointB) {
     }
 }
 
-function generalEquationConstantsOfLine(pointA, pointB) {
+export function generalEquationConstantsOfLine(pointA, pointB) {
     // directional vector
     var sx = pointB.x - pointA.x;
     var sy = pointB.y - pointA.y;
@@ -56,6 +58,6 @@ function generalEquationConstantsOfLine(pointA, pointB) {
     return {a: a, b: b, c: c};
 }
 
-function intersectionOfLineAndXaxis(generalEquationConstants) {
+export function intersectionOfLineAndXaxis(generalEquationConstants) {
     return - generalEquationConstants.c / generalEquationConstants.a;
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="WAMP" preserveTimestamps="false">
+    <serverData>
+      <paths name="Endora">
+        <serverdata>
+          <mappings>
+            <mapping deploy="slimnet.cz/sub" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="WAMP">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/astrowp/" local="$PROJECT_DIR$/dist" web="/astrowp" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
+  </component>
+</project>

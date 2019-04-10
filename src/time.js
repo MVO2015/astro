@@ -1,4 +1,4 @@
-var astronomicalClockTime = {
+export var astronomicalClockTime = {
     number: null,
     timezone: null,
     addDays: function (days) {
@@ -39,17 +39,17 @@ var astronomicalClockTime = {
 
 // Convert angle of sun time to normal angle.
 // 0 ... Midnight (90 deg), 180 ... Noon (270 deg)
-function sun2deg(sunAngle) {
+export function sun2deg(sunAngle) {
     return (sunAngle + 90) % 360;
 }
 
 // Convert normal angle to sun time angle.
 // 90 deg (Midnight) ... 0, 270 deg (Noon) ... 180
-function deg2sun(angleDeg) {
+export function deg2sun(angleDeg) {
     return (angleDeg + 270) % 360;
 }
 
-function dateToSunTimeAngle(date) {
+export function dateToSunTimeAngle(date) {
     return (date.getUTCMinutes() + (date.getUTCHours()  + astronomicalClockTime.timezone) * 60) / 4
 }
 
@@ -70,7 +70,7 @@ Date.prototype.addHours = function(h) {
    return this;
 };
 
-var daylightSavingTimeSwitch = {
+export var daylightSavingTimeSwitch = {
     id: "dstSwitch",
     status: false,
     clickable: false,
