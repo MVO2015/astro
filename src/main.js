@@ -6,6 +6,9 @@ import './construction';
 import './geometry';
 import './graphics';
 import './time';
+import {setBackgroundPositionX} from "./zoodiac-paintings";
+
+'./zoodiac-paintings';
 import {
     constructAstronomicalClock,
     moonHandle, moonShape,
@@ -16,7 +19,7 @@ import {
     sunSymbol,
     zodiacum
 } from "./clockobj";
-import {deg2rad, isEasyForTangents, normalizeAngleDeg, quadraticEquation} from "./math";
+import {deg2rad, normalizeAngleDeg, quadraticEquation} from "./math";
 import * as myMath from "./math";
 import {displayInlineById, drawAstronomicalClock, rotateZodiacum} from "./graphics";
 import {astronomicalClockTime, dateToSunTimeAngle, daylightSavingTimeSwitch, sun2deg} from "./time";
@@ -25,6 +28,9 @@ import {
     startAstronomicalClock,
     stopAstronomicalClock
 } from "./animations";
+
+var lastTouchMoveX;
+var lastTouchMoveY;
 
 function computePositionOnEclipse(angleDeg, zodiacum) {
     var normalizedAngle = normalizeAngleDeg(angleDeg);
@@ -113,6 +119,7 @@ export function showAstronomicalTime() {
     moonShape.compute(sunAngleDeg, moonAngleDeg);
     moonSymbol.showAt(moon.x, moon.y, moonAngleDeg + 90);
     showDigitalTime();
+    setBackgroundPositionX(normalizeAngleDeg(dateToSunTimeAngle(d)-zodiacumAngleDeg) + 180);
 }
 
 function daylightSavingTimeOn() {
@@ -140,8 +147,18 @@ showAstronomicalTodayTime();
 displayInlineById("zodiacum");
 displayInlineById("moonPhase");
 displayInlineById("sunSymbol");
-addListener("zodiacum", zodiacWheel);
-addListener("time", sunWheel);
+
+// Listeners
+addWheelListener("zodiacum", zodiacWheel);
+addWheelListener("time", sunWheel);
+addTouchMove("container", touchMove);
+window.addEventListener('resize', () => {showAstronomicalTime()});
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        pressedEsc();
+    }
+});
+
 
 // učesat
 var zodiacumSlider = document.getElementById("zodiacumSlider");
@@ -156,7 +173,7 @@ startAstronomicalClock();
 //animateDayAround();
 // animateYearAround();
 
-function addListener(id, wheelFunction) {
+function addWheelListener(id, wheelFunction) {
     // Zodiacum (year cycle)
     const element = document.getElementById(id);
     if (element.addEventListener)
@@ -173,6 +190,13 @@ function addListener(id, wheelFunction) {
     }
 }
 
+function addTouchMove(id, touchMoveFunction) {
+    // Zodiacum (year cycle)
+    const element = document.getElementById(id);
+    if (element.addEventListener) {
+        element.addEventListener("touchmove", touchMoveFunction, false);
+    }
+}
 
 function zodiacWheel(e)
 {
@@ -190,8 +214,41 @@ function sunWheel(e)
     apiAddMinutes(- delta * 20)
 }
 
-function pressedEsc(event) {
-    var x = event.which || event.keyCode;
+function touchMove(e)
+{
+    e.preventDefault();
+    let x = e.touches[0].clientX;
+    let y = e.touches[0].clientY;
+    let deltaDays = 0;
+    let deltaMinutes = 0;
+    let deltaX = x - lastTouchMoveX;
+    let deltaY = y - lastTouchMoveY;
+    const minimalStep = 1;
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (x < lastTouchMoveX - minimalStep) {
+            deltaDays = -1;
+        }
+        if (x > lastTouchMoveX + minimalStep) {
+            deltaDays = 1;
+        }
+    } else {
+
+        if (y < lastTouchMoveY - minimalStep) {
+            deltaMinutes = -1;
+        }
+        if (y > lastTouchMoveY + minimalStep) {
+            deltaMinutes = 1;
+        }
+    }
+
+    lastTouchMoveX = x;
+    lastTouchMoveY = y;
+
+    apiAddDays(deltaDays);
+    apiAddMinutes(- deltaMinutes * 10)
+}
+
+function pressedEsc() {
     startAstronomicalClock();
 }
 
@@ -209,3 +266,4 @@ function apiAddMinutes(minutes) {
 
 window.daylightSavingTimeOff = daylightSavingTimeOff;
 window.daylightSavingTimeOn = daylightSavingTimeOn;
+

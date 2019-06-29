@@ -28,6 +28,9 @@ export var astronomicalClockTime = {
         var jan = new Date(this.toDate().getFullYear(), 0, 1);
         var jul = new Date(this.toDate().getFullYear(), 6, 1);
         return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    },
+    getDays: function() {
+        return this.number / 24 / 3600000;
     }
 };
 

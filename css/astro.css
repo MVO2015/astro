@@ -25,18 +25,19 @@ body {
     font-family: sans-serif;
 }
 
-h1 {
-    text-align: center;
+#text h1 {
+    text-align: left;
     text-shadow:
         -1px -1px 0 #000,
          1px -1px 0 #000,
         -1px  1px 0 #000,
          1px  1px 0 #000,
         0 0 20px #3FF;
+    font-size: 20px;
 }
 
-p {
-    text-align: center;
+#text p {
+    text-align: left;
 }
 
 .clickable {
@@ -48,15 +49,19 @@ p {
 }
 
 .author {
-    font-family: serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 20px;
+    padding-left: 20px;
     text-shadow: 0 0 10px #FFF;
 }
 
 .container {
-    /*padding: 0;*/
-    /*margin: 0;*/
-    /*overflow: hidden;*/
-}
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-x: 200%;    /* first moment out of the view */
+    }
 
 #wall {
     /*top: 0; left: 0; height:90%; width:100%;*/
@@ -113,4 +118,26 @@ p {
     height: 25px; /* Slider handle height */
     background: orange; /* Green background */
     cursor: pointer; /* Cursor on hover */
+}
+
+#text {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 20px;
+}
+
+#date {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+}
+
+#dst-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }

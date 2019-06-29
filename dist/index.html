@@ -5,8 +5,8 @@
     <!--<link rel="stylesheet" href="./astro.css"/>-->
     <title>Astro</title>
 </head>
-<body onkeypress="pressedEsc(event)">
-<div class="container" align="center">
+<body>
+<div id="container" class="container" align="center">
 <svg id="wall" viewbox="-180, -180, 360, 360">
     <defs>
         <filter id="blur-filter" x="-2" y="-2" width="20" height="20">
@@ -50,16 +50,16 @@
                 <circle id="holeCircleOldTimeInner" cx="0" cy="0" r="0" fill="black"></circle>
             </mask>
         </defs>
-        <circle id="oldTimeOuterCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="brown" fill-opacity="0.5"
+        <circle id="oldTimeOuterCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="gray" fill-opacity="0.7"
                 mask="url(#holeOldTimeInner)"></circle>
         <circle id="oldTimeInnerCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="none"></circle>
 
-        <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
-        <circle id="equator" display="none" r="0" cx="0" cy="0" stroke="yellow" fill-opacity="1" fill="url(#gradientEquator)"/>
-        <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
+        <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="0.6" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
+        <circle id="equator" display="none" r="0" cx="0" cy="0" stroke="yellow" fill-opacity="0.6" fill="url(#gradientEquator)"/>
+        <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
         <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="#111111" stroke="#222222" fill-opacity="1"/>
         <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="url(#gradientCapricorniTropicus)" stroke="yellow" fill-opacity="1"/>
-        <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white"/>
+        <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white" fill-opacity="1"/>
 
         <g id="clock" transform="rotate(-90) scale(-1, 1)" display="none" fill="#880" stroke="yellow">
             <g id="numbers" transform="rotate(0)">
@@ -279,11 +279,13 @@
     </g>
 </svg>
 </div>
-<div style="margin-bottom: 40px">
+<div id="text">
     <h1>Astronomical Clock</h1>
-    <p class="author">By Martin Vondráček</p>
+    <p class="author">Martin Vondráček © 2017 - 2019</p>
+</div>
+<div id="date">
     <p id="time"></p>
-    <p>
+    <p id="dst-container">
         <span id="dstSwitch" class="clickable">
             <span id="dstOn" style="display: none" onclick="daylightSavingTimeOff()">- Show sun time (click me!) -</span>
             <span id="dstOff" style="display: none" onclick="daylightSavingTimeOn()">- Show daylight saving time (click me!)   -</span>
