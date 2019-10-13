@@ -3,6 +3,43 @@ import {generalEquationConstantsOfLine, intersectionOfCircleAndLine, intersectio
 import {describeArc, displayInlineByElement, displayNoneById} from "./graphics";
 import {dateToSunTimeAngle} from "./time";
 
+require('../img/1.svg');
+require('../img/2.svg');
+require('../img/3.svg');
+require('../img/4.svg');
+require('../img/5.svg');
+require('../img/6.svg');
+require('../img/7.svg');
+require('../img/8.svg');
+require('../img/9.svg');
+require('../img/10.svg');
+require('../img/11.svg');
+require('../img/12.svg');
+require('../img/13.svg');
+require('../img/14.svg');
+require('../img/15.svg');
+require('../img/16.svg');
+require('../img/17.svg');
+require('../img/18.svg');
+require('../img/19.svg');
+require('../img/20.svg');
+require('../img/21.svg');
+require('../img/23.svg');
+require('../img/24.svg');
+
+require('../img/aquarius.svg');
+require('../img/aries.svg');
+require('../img/cancer.svg');
+require('../img/capricorn.svg');
+require('../img/gemini.svg');
+require('../img/leo.svg');
+require('../img/libra.svg');
+require('../img/pisces.svg');
+require('../img/sagittarius.svg');
+require('../img/scorpio.svg');
+require('../img/taurus.svg');
+require('../img/virgo.svg');
+
 var OrbisDeclinationDeg = 23.5;
 var orbisDeclination = deg2rad(OrbisDeclinationDeg);
 var Latitudo = deg2rad(50);

@@ -60,13 +60,80 @@ body {
 .container {
     background-repeat: no-repeat;
     background-position: center;
-    background-position-x: 200%;    /* first moment out of the view */
     }
 
 #wall {
-    /*top: 0; left: 0; height:90%; width:100%;*/
+    /* top: 0; left: 0; height:90%; width:100%;*/
     max-width: 100vw;
     max-height: 80vh;
+    /* for MS IE 11: */
+    min-height: 80vh;
+    overflow: hidden;
+}
+
+#intro {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: black;
+    opacity: 0.8;
+    text-align: center;
+    border-radius: 10%;
+    padding: 1em;
+}
+
+.intro-container {
+    height: 200px;
+    font-size: calc(1em + 1vh);
+    /*position: relative;*/
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#intro div {
+    padding: 15px;
+    /*background-color: red;*/
+}
+
+#intro div.icon {
+    padding: 15px;
+    /*background-color: blue;*/
+    vertical-align: center;
+}
+
+.button-ok {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    cursor: pointer;
+    border-radius: 2px;
+    border-color: white;
+    border-width: 2px;
+}
+
+.circle {
+    position: absolute;
+    top: -10px;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: white;
+    border-width: 4px;
+    width: 10px;
+    opacity: 0;
+    background-color: transparent;
 }
 
 .zodiac-signs {
@@ -140,4 +207,16 @@ body {
     bottom: 0;
     padding-right: 20px;
     padding-bottom: 20px;
+}
+
+#background-zodiac {
+    position: fixed;
+    height: 100vh;
+    z-index: -1;
+}
+
+#zodiac-paintings {
+    position: absolute;
+    bottom: 0;
+    transition: opacity 5s;
 }
