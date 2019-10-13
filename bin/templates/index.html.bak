@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" href="./astro.css"/>-->
+    <title>Astro</title>
+</head>
+<body>
+<div id="background-zodiac">
+    <img id="zodiac-paintings" src="./img/background-zodiac.png" alt="" style="opacity: 0">
+</div>
+<div id="container" class="container" align="center">
+    <!--INCLUDE clock.img -->
+</div>
+<div id="text">
+    <h1>Astronomical Clock</h1>
+    <p class="author">Martin Vondráček © 2017 - 2019</p>
+</div>
+<div id="date">
+    <p id="time"></p>
+    <p id="dst-container">
+        <span id="dstSwitch" class="clickable">
+            <span id="dstOn" style="display: none" onclick="daylightSavingTimeOff()">- Show sun time (click me!) -</span>
+            <span id="dstOff" style="display: none" onclick="daylightSavingTimeOn()">- Show daylight saving time (click me!)   -</span>
+        </span>
+    </p>
+</div>
+<div class="slidecontainer">
+    <input type="range" min="-182" max="182" value="0" class="slider" id="zodiacumSlider">
+</div>
+
+<script language="JavaScript" type="text/javascript" src ="main.js"></script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-85208085-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</body>
+</html>

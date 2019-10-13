@@ -6,30 +6,33 @@
     <title>Astro</title>
 </head>
 <body>
+<div id="background-zodiac">
+    <img id="zodiac-paintings" src="./img/background-zodiac.png" alt="" style="opacity: 0">
+</div>
 <div id="container" class="container" align="center">
 <svg id="wall" viewbox="-180, -180, 360, 360">
     <defs>
         <filter id="blur-filter" x="-2" y="-2" width="20" height="20">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1" ></feGaussianBlur>
         </filter>
         <clipPath id="clipPathCancriTropicus">
             <circle id="clipCircleCancriTropicus" cx="0" cy="0" r="0"></circle>
         </clipPath>
         <radialGradient id="gradientCancriTropicus" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
-            <stop offset="50%" stop-color="cyan" />
-            <stop offset="100%" stop-color="#37F" />
+            <stop offset="50%" stop-color="cyan"></stop>
+            <stop offset="100%" stop-color="#37F"></stop>
         </radialGradient>
         <radialGradient id="gradientEquator" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
-            <stop offset="60%" stop-color="#FDF" />
-            <stop offset="100%" stop-color="cyan" />
+            <stop offset="60%" stop-color="#FDF"></stop>
+            <stop offset="100%" stop-color="cyan"></stop>
         </radialGradient>
         <radialGradient id="gradientCapricorniTropicus" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
-            <stop offset="80%" stop-color="#008" />
-            <stop offset="100%" stop-color="#37F" />
+            <stop offset="80%" stop-color="#008"></stop>
+            <stop offset="100%" stop-color="#37F"></stop>
         </radialGradient>
         <radialGradient id="gradientLatitudoHorizontis" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="0">
-            <stop offset="80%" stop-color="#A73" />
-            <stop offset="100%" stop-color="beige" />
+            <stop offset="80%" stop-color="#A73"></stop>
+            <stop offset="100%" stop-color="beige"></stop>
         </radialGradient>
         <radialGradient id="gradientSunSymbol" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="5">
             <stop offset="10%" stop-color="yellow">
@@ -50,16 +53,16 @@
                 <circle id="holeCircleOldTimeInner" cx="0" cy="0" r="0" fill="black"></circle>
             </mask>
         </defs>
-        <circle id="oldTimeOuterCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="gray" fill-opacity="0.7"
+        <circle id="oldTimeOuterCircle" display="none" r="0" cx="0" cy="0" stroke="yellow" stroke-width="2" fill="gray" fill-opacity="0.7"
                 mask="url(#holeOldTimeInner)"></circle>
-        <circle id="oldTimeInnerCircle" display="none" r="0" cx="0" cy="0" stroke="none" stroke-width="2" fill="none"></circle>
+        <circle id="oldTimeInnerCircle" display="none" r="0" cx="0" cy="0" stroke="yellow" stroke-width="1" fill="none"></circle>
 
-        <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="0.6" fill="url(#gradientCancriTropicus)" stroke="yellow"/>
-        <circle id="equator" display="none" r="0" cx="0" cy="0" stroke="yellow" fill-opacity="0.6" fill="url(#gradientEquator)"/>
-        <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"/>
-        <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="#111111" stroke="#222222" fill-opacity="1"/>
-        <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="url(#gradientCapricorniTropicus)" stroke="yellow" fill-opacity="1"/>
-        <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white" fill-opacity="1"/>
+        <circle id="cancriTropicus" display="none" r="0" cx="0" cy="0" fill-opacity="0.6" fill="url(#gradientCancriTropicus)" stroke="yellow"></circle>
+        <circle id="equator" display="none" r="0" cx="0" cy="0" stroke="yellow" fill-opacity="0.6" fill="url(#gradientEquator)"></circle>
+        <circle id="latitudoHorizontis" display="none" r="0" cx="0" cy="0" fill-opacity="1" fill="url(#gradientLatitudoHorizontis)" stroke="red" clip-path="url(#clipPathCancriTropicus)"></circle>
+        <circle id="opacusHorizontis" display="none" r="0" cx="0" cy="0" fill="#111111" stroke="#222222" fill-opacity="1"></circle>
+        <circle id="capricorniTropicus" display="none" r="0" cx="0" cy="0" fill="url(#gradientCapricorniTropicus)" stroke="yellow" fill-opacity="1"></circle>
+        <circle id="orbis" display="none" r="0" cx="0" cy="0" stroke="blue" fill="white" fill-opacity="1"></circle>
 
         <g id="clock" transform="rotate(-90) scale(-1, 1)" display="none" fill="#880" stroke="yellow">
             <g id="numbers" transform="rotate(0)">
@@ -155,30 +158,30 @@
                 </g>
                 <g id="oldtime" transform="rotate(90) scale(1, 1)">
                     <g id="oldtime_numbers">
-                        <image id="oldtime1" xlink:href="img/1.svg" />
-                        <image id="oldtime2" xlink:href="img/2.svg" />
-                        <image id="oldtime3" xlink:href="img/3.svg" />
-                        <image id="oldtime4" xlink:href="img/4.svg" />
-                        <image id="oldtime5" xlink:href="img/5.svg" />
-                        <image id="oldtime6" xlink:href="img/6.svg" />
-                        <image id="oldtime7" xlink:href="img/7.svg" />
-                        <image id="oldtime8" xlink:href="img/8.svg" />
-                        <image id="oldtime9" xlink:href="img/9.svg" />
-                        <image id="oldtime10" xlink:href="img/10.svg" />
-                        <image id="oldtime11" xlink:href="img/11.svg" />
-                        <image id="oldtime12" xlink:href="img/12.svg" />
-                        <image id="oldtime13" xlink:href="img/13.svg" />
-                        <image id="oldtime14" xlink:href="img/14.svg" />
-                        <image id="oldtime15" xlink:href="img/15.svg" />
-                        <image id="oldtime16" xlink:href="img/16.svg" />
-                        <image id="oldtime17" xlink:href="img/17.svg" />
-                        <image id="oldtime18" xlink:href="img/18.svg" />
-                        <image id="oldtime19" xlink:href="img/19.svg" />
-                        <image id="oldtime20" xlink:href="img/20.svg" />
-                        <image id="oldtime21" xlink:href="img/21.svg" />
-                        <image id="oldtime22" xlink:href="img/21.svg" />
-                        <image id="oldtime23" xlink:href="img/23.svg" />
-                        <image id="oldtime24" xlink:href="img/24.svg" />
+                        <image id="oldtime1" href="img/1.svg"></image>
+                        <image id="oldtime2" href="img/2.svg"></image>
+                        <image id="oldtime3" href="img/3.svg"></image>
+                        <image id="oldtime4" href="img/4.svg"></image>
+                        <image id="oldtime5" href="img/5.svg"></image>
+                        <image id="oldtime6" href="img/6.svg"></image>
+                        <image id="oldtime7" href="img/7.svg"></image>
+                        <image id="oldtime8" href="img/8.svg"></image>
+                        <image id="oldtime9" href="img/9.svg"></image>
+                        <image id="oldtime10" href="img/10.svg"></image>
+                        <image id="oldtime11" href="img/11.svg"></image>
+                        <image id="oldtime12" href="img/12.svg"></image>
+                        <image id="oldtime13" href="img/13.svg"></image>
+                        <image id="oldtime14" href="img/14.svg"></image>
+                        <image id="oldtime15" href="img/15.svg"></image>
+                        <image id="oldtime16" href="img/16.svg"></image>
+                        <image id="oldtime17" href="img/17.svg"></image>
+                        <image id="oldtime18" href="img/18.svg"></image>
+                        <image id="oldtime19" href="img/19.svg"></image>
+                        <image id="oldtime20" href="img/20.svg"></image>
+                        <image id="oldtime21" href="img/21.svg"></image>
+                        <image id="oldtime22" href="img/21.svg"></image>
+                        <image id="oldtime23" href="img/23.svg"></image>
+                        <image id="oldtime24" href="img/24.svg"></image>
                     </g>
                 </g>
             </g>
@@ -209,18 +212,18 @@
                 <path id="arcZ10"></path>
                 <path id="arcZ11"></path>
                 <g id="signs" fill="yellow" stroke="orange" color="yellow">
-                    <g id="positionSign0"><g transform="rotate(20) translate(-30, 2)"><image id="sign0" xlink:href="img/aries.svg" /></g></g>
-                    <g id="positionSign1"><g transform="rotate(20) translate(-18, 7)"><image id="sign1" xlink:href="img/taurus.svg" /></g></g>
-                    <g id="positionSign2"><g transform="rotate(5) translate(-13, 20)"><image id="sign2" xlink:href="img/gemini.svg" /></g></g>
-                    <g id="positionSign3"><g transform="rotate(-5) translate(-1, 30)"><image id="sign3" xlink:href="img/cancer.svg" /></g></g>
-                    <g id="positionSign4"><g transform="rotate(-20) translate(18, 28)"><image id="sign4" xlink:href="img/leo.svg" /></g></g>
-                    <g id="positionSign5"><g transform="rotate(-20) translate(24, 14)"><image id="sign5" xlink:href="img/virgo.svg" /></g></g>
-                    <g id="positionSign6"><g transform="rotate(-25) translate(25, 0)"><image id="sign6" xlink:href="img/libra.svg" /></g></g>
-                    <g id="positionSign7"><g transform="rotate(-20) translate(20, -11)"><image id="sign7" xlink:href="img/scorpio.svg" /></g></g>
-                    <g id="positionSign8"><g transform="rotate(0) translate(15, -19)"><image id="sign8" xlink:href="img/sagittarius.svg" /></g></g>
-                    <g id="positionSign9"><g transform="rotate(0) translate(2, -25)"><image id="sign9" xlink:href="img/capricorn.svg" /></g></g>
-                    <g id="positionSign10"><g transform="rotate(10) translate(-16, -25)"><image id="sign10" xlink:href="img/aquarius.svg" /></g></g>
-                    <g id="positionSign11"><g transform="rotate(20) translate(-30, -16)"><image id="sign11" xlink:href="img/pisces.svg" /></g></g>
+                    <g id="positionSign0"><g transform="rotate(20) translate(-30, 2)"><image id="sign0" href="img/aries.svg"></image></g></g>
+                    <g id="positionSign1"><g transform="rotate(20) translate(-18, 7)"><image id="sign1" href="img/taurus.svg"></image></g></g>
+                    <g id="positionSign2"><g transform="rotate(5) translate(-13, 20)"><image id="sign2" href="img/gemini.svg"></image></g></g>
+                    <g id="positionSign3"><g transform="rotate(-5) translate(-1, 30)"><image id="sign3" href="img/cancer.svg"></image></g></g>
+                    <g id="positionSign4"><g transform="rotate(-20) translate(18, 28)"><image id="sign4" href="img/leo.svg"></image></g></g>
+                    <g id="positionSign5"><g transform="rotate(-20) translate(24, 14)"><image id="sign5" href="img/virgo.svg"></image></g></g>
+                    <g id="positionSign6"><g transform="rotate(-25) translate(25, 0)"><image id="sign6" href="img/libra.svg"></image></g></g>
+                    <g id="positionSign7"><g transform="rotate(-20) translate(20, -11)"><image id="sign7" href="img/scorpio.svg"></image></g></g>
+                    <g id="positionSign8"><g transform="rotate(0) translate(15, -19)"><image id="sign8" href="img/sagittarius.svg"></image></g></g>
+                    <g id="positionSign9"><g transform="rotate(0) translate(2, -25)"><image id="sign9" href="img/capricorn.svg"></image></g></g>
+                    <g id="positionSign10"><g transform="rotate(10) translate(-16, -25)"><image id="sign10" href="img/aquarius.svg"></image></g></g>
+                    <g id="positionSign11"><g transform="rotate(20) translate(-30, -16)"><image id="sign11" href="img/pisces.svg"></image></g></g>
                 </g>
                 <g id="starPosition">
                     <text id="starSymbol" x="-4" y="8" fill="yellow" stroke="yellow" color="yellow">&#42611;</text>
@@ -253,28 +256,28 @@
         </g>
 
         <g id="design" opacity="1">
-            <line id="orbisEquator" display="none" x1="0" y1="0" x2="0" y2="0" stroke="violet" stroke-width="2"/>
-            <line id="orbisCancriTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="green" stroke-width="2"/>
-            <line id="orbisCapricorniTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="2"/>
-            <line id="orbisLatitudo" display="none" x1="0" y1="0" x2="0" y2="0" stroke="red" stroke-width="2"/>
-            <line id="orbisOpacus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="2"/>
-            <line id="orbisAxonX" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="orbisAxonY" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"/>
-            <circle id="orbisCenter" display="none" r="0" cx="0" cy="0" fill="lightgrey"/>
-            <line id="planum" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="grey"/>
-            <line id="equatorProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="cancriTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="capricorniTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="latitudoProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="latitudoProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="opacusProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="opacusProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"/>
-            <line id="axonX" display="none" x1="0" y1="0" x2="0" y2="0" />
-            <line id="axonY" display="none" x1="0" y1="0" x2="0" y2="0" />
+            <line id="orbisEquator" display="none" x1="0" y1="0" x2="0" y2="0" stroke="violet" stroke-width="2"></line>
+            <line id="orbisCancriTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="green" stroke-width="2"></line>
+            <line id="orbisCapricorniTropicus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="orange" stroke-width="2"></line>
+            <line id="orbisLatitudo" display="none" x1="0" y1="0" x2="0" y2="0" stroke="red" stroke-width="2"></line>
+            <line id="orbisOpacus" display="none" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="2"></line>
+            <line id="orbisAxonX" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="orbisAxonY" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="lightgrey"></line>
+            <circle id="orbisCenter" display="none" r="0" cx="0" cy="0" fill="lightgrey"></circle>
+            <line id="planum" display="none" x1="0" y1="0" x2="0" y2="0"  stroke="grey"></line>
+            <line id="equatorProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="cancriTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="capricorniTropicusProjection" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="latitudoProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="latitudoProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="opacusProjectionA" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="opacusProjectionB" display="none" x1="0" y1="0" x2="0" y2="0" stroke="lightgrey"></line>
+            <line id="axonX" display="none" x1="0" y1="0" x2="0" y2="0"></line>
+            <line id="axonY" display="none" x1="0" y1="0" x2="0" y2="0"></line>
         </g>
         <g id="clickMe" display="none">
-            <circle id="clickMeFlash" display="inline" r="10" cx="0" cy="0"/>
-            <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet"/>
+            <circle id="clickMeFlash" display="inline" r="10" cx="0" cy="0"></circle>
+            <circle id="clickMePoint" display="none" r="0" cx="0" cy="0" fill="violet"></circle>
         </g>
     </g>
 </svg>
@@ -296,8 +299,6 @@
     <input type="range" min="-182" max="182" value="0" class="slider" id="zodiacumSlider">
 </div>
 
-
-</body>
 <script language="JavaScript" type="text/javascript" src ="main.js"></script>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -309,4 +310,5 @@
     ga('send', 'pageview');
 </script>
 
+</body>
 </html>
